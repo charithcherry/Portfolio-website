@@ -2,6 +2,10 @@
 
 :root{
     --primary-color:#0478ed;
+    --secondary-color:#1c3fa8;
+    --dark-color:#002240;
+    --light-color:#f4f4f4;
+
 }
 *{
     box-sizing: border-box;
@@ -153,3 +157,6 @@ font-size: 16px;
     grid-row: 1 / span 2;
 }  
 
+.cloud.grid{
+    grid-template-columns: 4fr 3fr;
+}

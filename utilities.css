@@ -1,3 +1,10 @@
+:root{
+    --primary-color:#0478ed;
+    --secondary-color:#1c3fa8;
+    --dark-color:#002240;
+    --light-color:#f4f4f4;
+
+}
 .container{
     max-width: 1100px;
     margin:0 auto;
@@ -123,3 +130,48 @@
     text-align: center;
 }
 .iconify { width: 40px; height: 40px; }
+
+.bg-primary,.btn-primary{
+
+    background-color: var(--primary-color);
+    color: #fff;
+}
+.bg-secondary,.btn-secondary{
+
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+.bg-dark,
+.btn-dark{
+
+    background-color:var(--dark-color);
+    color: #fff;
+}
+.bg-light,.btn-light{
+
+    background-color: var(--light-color);
+    color: #333;
+}
+.bg-transparent,.btn-transparent{
+
+    background-color: transparent;
+    color: #002240;
+}
+
+
+.lead{
+    font-size: 20px;
+}
+.sm{
+    font-size: 1rem;
+}
+
+.md{
+    font-size: 2rem;
+}
+.lg{
+    font-size: 3rem;
+}
+.xl{
+    font-size: 4rem;
+}
