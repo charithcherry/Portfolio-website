@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experience - Charith Purushotham</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+  <style>
+    .card {
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    /* Ensure tech stack stays at the bottom */
+    .content-container {
+      flex-grow: 1; /* Take up available space */
+    }
+    .tech-stack {
+      margin-top: auto; /* Pushes tech stack to the bottom */
+    }
+    /* Adjust grid gap to reduce spacing between cards */
+    .grid-container {
+      gap: 2rem; /* Reduced gap from 4 to 2 */
+    }
+    /* Add a transition to the content */
+    .content {
+      transition: max-height 0.5s ease-in-out;
+      overflow: hidden;
+      max-height: 0;
+    }
+    .content.open {
+      max-height: 500px; /* Adjust max height as per content */
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <div id="header-container"></div>
+
+  <main class="container mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold mb-8 text-center">Experience</h2>
+
+    <!-- Phamax Experience -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+      <div class="card bg-white p-4 rounded-lg shadow-lg">
+        <div class="flex flex-col mb-4">
+          <h3 class="text-xl font-semibold">Associate Software Development Engineer</h3>
+          <p class="text-lg font-medium text-gray-800">Phamax, Bengaluru</p>
+          <p class="text-sm text-gray-600">September 2022 - July 2024</p>
+        </div>
+
+        <div class="content-container">
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+              Ariya Product
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6">
+                <li>Collaborated on the system architecture for the digital assistant "Ariya," now a Microsoft-certified SaaS on the MS Teams store. Contributed to design, boosting subscriptions by 5% and client engagement by 7%, demonstrated by a higher client demo rate.</li>
+                <li>Implemented GPT features with OpenAI and Azure, enhancing data summarization and insights. Dockerized the solution, resulting in a 25% resource efficiency increase and reducing deployment time by 50% (from 15 minutes to 7 minutes).</li>
+                <li>Managed user and group administration on Azure, deployed Docker containers for efficient application deployment, and implemented automated logging and monitoring systems for improved user experience.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+              Medinfo Chatbot Project
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6">
+                <li>Collaborated on the content processing system architecture, which handles data from the client's IRMS to the SFTP data container.</li>
+                <li>Implemented a custom Q&A system for user queries and an application logging system to record conversation transcripts. The logging system increased user engagement with the chatbot by 5% due to regular feedback from monitoring the transcripts.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+              Santen Data Engineering Project
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6">
+                <li>Led a data engineering project for Santen using Databricks and Azure, halving processing time from 30 to 12-15 minutes and improving data accuracy by implementing checkpoints for data evaluation.</li>
+                <li>Implemented a medallion architecture, enhancing Tableau performance by offloading heavy processing to Databricks.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-stack">
+          <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
+          <p class="text-gray-700">Node.js | React.js | Microsoft Bot Framework | Flask | Microsoft Azure | Docker | Databricks</p>
+        </div>
+      </div>
+
+      <!-- Fittlyf Experience -->
+      <div class="card bg-white p-4 rounded-lg shadow-lg">
+        <div class="flex flex-col mb-4">
+          <h3 class="text-xl font-semibold">Data Science Intern</h3>
+          <p class="text-lg font-medium text-gray-800">Fittlyf, Bengaluru</p>
+          <p class="text-sm text-gray-600">April 2022 - August 2022</p>
+        </div>
+
+        <div class="content-container">
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+              A/B Testing Frameworks
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6">
+                <li>Developed a Multi-Arm Bandit framework for an in-house reporting tool, optimizing A/B test traffic and reducing turnaround time by 40%. Implemented Group Sequential Sampling to adjust significance thresholds, accelerating decision-making and cutting turnaround time by 46%. Automated logging of metrics and report generation enhanced overall efficiency.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+              AI Based Fitness Tool (MVP)
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6">
+                <li>Developed an MVP AI-based solution in the computer vision domain, using human pose estimation (Blazepose model) and deep learning, to help physiotherapists monitor and report the status of exercise routines for their patients.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-stack">
+          <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
+          <p class="text-gray-700">Python | Jupyter Notebook | OpenCV | Flask | Tableau | Excel | BigQuery</p>
+        </div>
+      </div>
+
+      <!-- Trawello Healthcare Experience -->
+      <div class="card bg-white p-4 rounded-lg shadow-lg">
+        <div class="flex flex-col mb-4">
+          <h3 class="text-xl font-semibold">Data Science Intern</h3>
+          <p class="text-lg font-medium text-gray-800">Trawello Healthcare, Bengaluru</p>
+          <p class="text-sm text-gray-600">March 2021 - October 2021</p>
+        </div>
+
+        <div class="content-container">
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+              Student Health Dashboard
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6">
+                <li>Developed a streamlit-based Reporting Framework, which dealt with the Startup’s data, which majorly consisted of student healthcare data. This Framework involved data analysis, data visualization, and ML prediction.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-stack">
+          <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
+          <p class="text-gray-700">Python | Streamlit | ML Model Analysis</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+
+</body>
+</html>

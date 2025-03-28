@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Charith Purushotham</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+  <style>
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    .tech-button {
+      background-color: #f1f5f9;
+      color: #334155;
+      padding: 0.25rem 0.75rem;
+      margin-right: 0.5rem;
+      margin-top: 0.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      display: inline-block;
+    }
+    .tech-button:hover {
+      background-color: #e2e8f0;
+    }
+    .button-container {
+      margin-top: 1rem;
+    }
+    .project-heading {
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+    .project-heading a {
+      color: #3b82f6;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .project-heading a:hover {
+      color: #2563eb;
+    }
+    .section-heading {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <div id="header-container"></div>
+
+  <main class="container mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold mb-8 text-center">Portfolio</h2>
+
+    <!-- Project Categories Section -->
+    <section class="mb-12">
+     
+        <div class="flex justify-center items-center space-x-6">
+            <button onclick="scrollToSection('deep-learning-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Deep Learning & OpenCV Projects</button>
+            <button onclick="scrollToSection('ml-eda-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Machine Learning & EDA Projects</button>
+            <button onclick="scrollToSection('software-dev-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Software Development Projects</button>
+            <button onclick="scrollToSection('Achievements')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Achievements</button>
+            <button onclick="scrollToSection('Extracurricular')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Extracurricular Activities</button>
+        </div>
+        
+    </section>
+
+    <!-- Deep Learning & OpenCV Projects Section -->
+    <section id="deep-learning-section" class="mb-12">
+      <h3 class="text-2xl font-semibold mb-6">Deep Learning & OpenCV Projects</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Human Pose Estimation Project -->
+        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+          <div class="project-heading">
+            <h4>Human Pose Estimation in Fitness Tracking and Guidance</h4>
+            <div class="mt-2 text-sm">AI-based tool for real-time exercise monitoring using BlazePose, Yoga pose classification, and automated data reporting.</div>
+          </div>
+          <div class="mt-4">
+            <span class="tech-button">OpenCV</span>
+            <span class="tech-button">Deep Learning</span>
+            <span class="tech-button">MediaPipe</span>
+            <span class="tech-button">Node.js</span>
+            <span class="tech-button">HTML</span>
+            <span class="tech-button">CSS</span>
+          </div>
+          <div class="button-container">
+            <a href="https://www.ijfmr.com/research-paper.php?id=9614" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Research Paper</a>
+            <a href="#" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 ml-4">View Project</a>
+          </div>
+        </div>
+
+        <!-- Contour Tracking and Detection of Heart Chamber -->
+        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+          <div class="project-heading">
+            <h4>Contour Tracking and Detection of Heart Chamber</h4>
+            <div class="mt-2 text-sm">Developed methods for detecting blood chambers in echo video frames using U-Net segmentation technique in a hackathon.</div>
+          </div>
+          <div class="mt-4">
+            <span class="tech-button">OpenCV</span>
+            <span class="tech-button">Deep Learning (DeepGaze)</span>
+            <span class="tech-button">PyDICOM</span>
+            <span class="tech-button">Python</span>
+          </div>
+          <div class="button-container">
+            <a href="https://www.irjmets.com/uploadedfiles/paper//issue_7_july_2023/43370/final/fin_irjmets1690189183.pdf" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Research Paper</a>
+            <a href="#" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 ml-4">View Project</a>
+          </div>
+        </div>
+
+        <!-- RePostureAI -->
+        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+          <div class="project-heading">
+            <h4>RePostureAI</h4>
+            <div class="mt-2 text-sm">An AI-powered app that corrects posture in real-time, tracks reps, and ensures safe, effective workouts for injury-free fitness.</div>
+          </div>
+          <div class="mt-4">
+            <span class="tech-button">Python</span>
+            <span class="tech-button">OpenCV</span>
+            <span class="tech-button">Mediapipe</span>
+            <span class="tech-button">Streamlit</span>
+            <span class="tech-button">Gemini AI</span>
+          </div>
+          <div class="button-container">
+            <a href="https://github.com/srurora/RepostureAI" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Machine Learning & EDA Projects Section -->
+    <section id="ml-eda-section" class="mb-12">
+      <h3 class="text-2xl font-semibold mb-6">Machine Learning & EDA Projects</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- LinkedIn Job Market Analysis -->
+        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+          <div class="project-heading">
+            <h4>LinkedIn Job Market Analysis and Recommendation System</h4>
+            <div class="mt-2 text-sm">Developed a forecasting tool using LinkedIn data and ML models (ARIMA, clustering) to uncover job trends and salary insights.</div>
+          </div>
+          <div class="mt-4">
+            <span class="tech-button">Python</span>
+            <span class="tech-button">Machine Learning</span>
+            <span class="tech-button">Scikit-learn</span>
+            <span class="tech-button">Matplotlib</span>
+            <span class="tech-button">Seaborn</span>
+          </div>
+          <div class="button-container">
+            <a href="https://github.com/charithcherry/Linkedin-Job-Market-Analysis-using-ML" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View GitHub</a>
+          </div>
+        </div>
+
+        <!-- Document Classification System -->
+        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+          <div class="project-heading">
+            <h4>Document Classification System in Apache Spark for Big Data</h4>
+            <div class="mt-2 text-sm">Developed a document classification system using PySpark to handle big data and optimize document processing for multi-class classification.</div>
+          </div>
+          <div class="mt-4">
+            <span class="tech-button">PySpark</span>
+            <span class="tech-button">Article API</span>
+            <span class="tech-button">Machine Learning</span>
+          </div>
+          <div class="button-container">
+            <a href="https://github.com/charithcherry/Spark-Programs-Projects/tree/master/Document-Classification-System-in-Apache-Spark-for-Big-Data" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Software Development Projects Section -->
+    <section id="software-dev-section" class="mb-12">
+      <h3 class="text-2xl font-semibold mb-6">Software Development Projects</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Chat Application -->
+        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+          <div class="project-heading">
+            <h4>Chat Application</h4>
+            <div class="mt-2 text-sm">A simple chat application using React Chat Engine with real-time messaging and authentication features.</div>
+          </div>
+          <div class="mt-4">
+            <span class="tech-button">React.js</span>
+            <span class="tech-button">React Chat Engine</span>
+          </div>
+          <div class="button-container">
+            <a href="#" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View Project</a>
+          </div>
+        </div>
+
+        <!-- Full-Stack E-Commerce Application -->
+        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+          <div class="project-heading">
+            <h4>Full-Stack E-Commerce Application</h4>
+            <div class="mt-2 text-sm">Developed a scalable, responsive web application using React.js, Node.js, Express.js, and MongoDB with secure payment gateway integration.</div>
+          </div>
+          <div class="mt-4">
+            <span class="tech-button">Node.js</span>
+            <span class="tech-button">Express.js</span>
+            <span class="tech-button">React.js</span>
+            <span class="tech-button">Tailwind CSS</span>
+            <span class="tech-button">MongoDB</span>
+            <span class="tech-button">React-Redux</span>
+            <span class="tech-button">Redis</span>
+          </div>
+          <div class="button-container">
+            <a href="#" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View Project</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section class="mb-12" id="Achievements">
+      <h3 class="text-2xl font-semibold mb-6" >Achievements</h3>
+      <div class="space-y-4">
+        <div class="card bg-white p-6 rounded-lg shadow-lg">
+          <h4 class="text-lg font-semibold">Best Project of the Year (Computer Science Category)</h4>
+          <p class="mt-2 text-sm">Awarded for the project "Human pose estimation in fitness tracking and guidance" at VTU, Belagavi, August 2022, supported by KSCST.</p>
+        </div>
+
+        <div class="card bg-white p-6 rounded-lg shadow-lg">
+          <h4 class="text-lg font-semibold">3rd Place, T9-MediHack 2025 (24hr Hackathon)</h4>
+          <p class="mt-2 text-sm">Awarded for "RePosture AI" project in the AI track. A tool for posture correction using computer vision and real-time feedback.</p>
+        </div>
+
+        <div class="card bg-white p-6 rounded-lg shadow-lg">
+          <h4 class="text-lg font-semibold">7th Place, AWS Jam Hackathon</h4>
+          <p class="mt-2 text-sm">Placed 7th in the AWS Jam Hackathon, solving 9/13 security challenges using AWS services, including Lambda, CloudTrail, and SageMaker.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Extracurricular Section -->
+    <section class="mb-12" id="Extracurricular">
+      <h3 class="text-2xl font-semibold mb-6">Extracurricular</h3>
+      <div class="space-y-4">
+        <div class="card bg-white p-6 rounded-lg shadow-lg">
+          <h4 class="text-lg font-semibold">Co-Founder, Data Science and AI-ML Student Club</h4>
+          <p class="mt-2 text-sm">Lead Layers Club to promote knowledge sharing, networking, and skill development in Data Science and AI-ML.</p>
+        </div>
+
+        <div class="card bg-white p-6 rounded-lg shadow-lg">
+          <h4 class="text-lg font-semibold">Technical/Data Consultant, Data Buffs</h4>
+          <p class="mt-2 text-sm">Currently working on data extraction, backend development, and statistical analysis to provide data-driven insights at Data Buffs.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+  <script>
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  </script>
+
+</body>
+</html>

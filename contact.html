@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Charith Purushotham</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div id="header-container"></div>
+
+  <main class="container mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold mb-8">Contact Me</h2>
+    <form action="https://formsubmit.co/charithcherry1100@gmail.com" method="POST" class="space-y-6">
+      <div>
+        <label for="name" class="block text-sm font-medium">Name</label>
+        <input type="text" id="name" name="name" class="w-full mt-1 p-2 border rounded-lg" placeholder="Your Name" required>
+      </div>
+      <div>
+        <label for="email" class="block text-sm font-medium">Email</label>
+        <input type="email" id="email" name="email" class="w-full mt-1 p-2 border rounded-lg" placeholder="Your Email" required>
+      </div>
+      <div>
+        <label for="message" class="block text-sm font-medium">Message</label>
+        <textarea id="message" name="message" class="w-full mt-1 p-2 border rounded-lg" rows="6" placeholder="Your Message" required></textarea>
+      </div>
+      <!-- Hidden input to prevent email from being exposed to the user -->
+      <input type="hidden" name="_next" value="https://your-website.com/thank-you">
+      <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700">Send Message</button>
+    </form>
+  </main>
+
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+</body>
+</html>
