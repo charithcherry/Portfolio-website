@@ -56,13 +56,30 @@
     <!-- Project Categories Section -->
     <section class="mb-12">
      
-        <div class="flex justify-center items-center space-x-6">
-            <button onclick="scrollToSection('deep-learning-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Deep Learning & OpenCV Projects</button>
-            <button onclick="scrollToSection('ml-eda-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Machine Learning & EDA Projects</button>
-            <button onclick="scrollToSection('software-dev-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Software Development Projects</button>
-            <button onclick="scrollToSection('Achievements')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Achievements</button>
-            <button onclick="scrollToSection('Extracurricular')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Extracurricular Activities</button>
+      <div x-data="{ open: false }" class="relative">
+        <!-- Desktop Version (visible on medium and larger screens) -->
+        <div class="hidden md:flex justify-center items-center space-x-6">
+          <button onclick="scrollToSection('deep-learning-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Deep Learning & OpenCV Projects</button>
+          <button onclick="scrollToSection('ml-eda-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Machine Learning & EDA Projects</button>
+          <button onclick="scrollToSection('software-dev-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Software Development Projects</button>
+          <button onclick="scrollToSection('Achievements')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Achievements</button>
+          <button onclick="scrollToSection('Extracurricular')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Extracurricular Activities</button>
         </div>
+      
+        <!-- Mobile Version (visible on small screens) -->
+        <div class="md:hidden">
+          <button @click="open = !open" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 w-full text-center">
+            Portfolio Sections
+          </button>
+          <div x-show="open" @click.away="open = false" x-transition class="absolute left-0 mt-2 w-full bg-white shadow-lg rounded-lg">
+            <button onclick="scrollToSection('deep-learning-section')" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-100">Deep Learning & OpenCV Projects</button>
+            <button onclick="scrollToSection('ml-eda-section')" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-100">Machine Learning & EDA Projects</button>
+            <button onclick="scrollToSection('software-dev-section')" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-100">Software Development Projects</button>
+            <button onclick="scrollToSection('Achievements')" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-100">Achievements</button>
+            <button onclick="scrollToSection('Extracurricular')" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-100">Extracurricular Activities</button>
+          </div>
+        </div>
+      </div>
         
     </section>
 
@@ -249,12 +266,27 @@
   </main>
 
   <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-container').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading header:', error));
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-container').innerHTML = data;
+
+          // Ensure the menu button works after loading the header
+          const menuToggle = document.getElementById("menu-toggle");
+          const menu = document.getElementById("menu");
+
+          if (menuToggle && menu) {
+            menuToggle.addEventListener("click", function () {
+              menu.classList.toggle("hidden");
+              menu.classList.toggle("flex");
+              menu.classList.toggle("flex-col");
+              menu.classList.toggle("items-center");
+            });
+          }
+        })
+        .catch(error => console.error("Error loading header:", error));
+    });
   </script>
   <script>
     function scrollToSection(sectionId) {

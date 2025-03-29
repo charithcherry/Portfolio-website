@@ -166,12 +166,27 @@
   </main>
 
   <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-container').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading header:', error));
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-container').innerHTML = data;
+
+          // Ensure the menu button works after loading the header
+          const menuToggle = document.getElementById("menu-toggle");
+          const menu = document.getElementById("menu");
+
+          if (menuToggle && menu) {
+            menuToggle.addEventListener("click", function () {
+              menu.classList.toggle("hidden");
+              menu.classList.toggle("flex");
+              menu.classList.toggle("flex-col");
+              menu.classList.toggle("items-center");
+            });
+          }
+        })
+        .catch(error => console.error("Error loading header:", error));
+    });
   </script>
 
 </body>

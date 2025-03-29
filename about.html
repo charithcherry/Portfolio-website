@@ -6,6 +6,21 @@
   <title>About Me - Charith Purushotham</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+
+  <style>
+    @media screen and (min-width: 768px) {
+      .portfolio-image {
+        width: 256px;
+        height: 125px;
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+    .flex-card {
+      width: 48%; /* Equal width for each card */
+    }
+  }
+  </style>
 </head>
 <body class="bg-white text-gray-900">
 
@@ -13,34 +28,36 @@
   <div id="header-container"></div>
 
   <main class="container mx-auto px-4 py-16">
-    <div class="flex items-center">
+    <div class="flex flex-col md:flex-row items-center">
       <!-- About Me Text -->
-      <div class="flex-1 pr-8">
-        <h2 class="text-3xl font-bold mb-8">About Me</h2>
-        <p class="text-lg leading-relaxed mb-8">
+      <div class="flex-1 pr-8 mb-8 md:mb-0">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 md:mb-8">About Me</h2>
+        <p class="text-sm md:text-lg leading-relaxed mb-4 md:mb-8 text-justify">
           I am a passionate data scientist and software developer currently pursuing my Master of Science in Computer Science at the University of Colorado Boulder. With expertise in Machine Learning, Deep Learning, and Artificial Intelligence, I am dedicated to applying cutting-edge data science techniques to solve real-world problems. I am currently focused on research projects that enhance model generalization and improve performance in environments with minimal labeled data, particularly through data augmentation and zero-shot learning approaches. My goal is to contribute to the growing field of AI by developing innovative solutions that push the boundaries of what machine learning can achieve.
         </p>
-        <p class="text-lg leading-relaxed mb-8">
+        <p class="text-sm md:text-lg leading-relaxed mb-4 md:mb-8 text-justify">
           In addition to my academic work, I have hands-on experience in developing AI-driven applications and data engineering solutions. I have worked on optimizing A/B testing frameworks, integrating real-time analytics, and developing human pose estimation solutions for fitness applications. I have also led projects focused on improving data processing times and optimizing system performance using advanced tools like Azure, Databricks, and Spark. These experiences have allowed me to apply AI in practical, impactful ways, and I am excited to continue leveraging my skills to drive innovative solutions in technology.
         </p>
       </div>
       <!-- Profile Picture -->
-      <div>
-        <img src="portfolio_image.png" alt="Charith Purushotham" class="border-4 border-gray-300 shadow-lg" style="width: 250px; height: 550px;">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <img src="portfolio_image.png" alt="Charith Purushotham" 
+             style="border: 4px solid #e5e7eb; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 160px; height: auto; margin: 0 auto;">
+      </div>      
     </div>
-    </div>
+    <br>
 
     <!-- Education Section as Flex Cards -->
-    <h3 class="text-2xl font-bold mb-4">Academic Qualification</h3>
-    <div class="flex space-x-8 mb-8">
-      <div class="flex-1 p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
-        <h4 class="text-xl font-semibold mb-2">University of Colorado Boulder</h4>
+    <h3 class="text-xl md:text-2xl font-bold mb-4">Academic Qualification</h3>
+    <div class="flex flex-col md:flex-row md:space-x-8 mb-8">
+      <div class="flex-card p-6 border rounded-lg shadow-lg hover:shadow-2xl transition mb-4 md:mb-0">
+        <h4 class="text-lg md:text-xl font-semibold mb-2">University of Colorado Boulder</h4>
         <p><strong>Master of Science (Research), Computer Science</strong></p>
         <p class="text-gray-600">CGPA: 3.82/4.00</p>
         <p class="text-gray-600">Aug 2024 – May 2026(Expected)</p>
       </div>
-      <div class="flex-1 p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
-        <h4 class="text-xl font-semibold mb-2">Dayananda Sagar College of Engineering</h4>
+      <div class="flex-card p-6 border rounded-lg shadow-lg hover:shadow-2xl transition mb-4 md:mb-0">
+        <h4 class="text-lg md:text-xl font-semibold mb-2">Dayananda Sagar College of Engineering</h4>
         <p><strong>Bachelor of Engineering, Computer Science</strong></p>
         <p class="text-gray-600">CGPA: 9.68/10.00</p>
         <p class="text-gray-600">Aug 2018 – Jun 2022</p>
@@ -48,10 +65,10 @@
     </div>
 
     <!-- Technical Skills Section -->
-    <h3 class="text-2xl font-bold mt-8 mb-4">Technical Skills</h3>
+    <h3 class="text-xl md:text-2xl font-bold mt-8 mb-4">Technical Skills</h3>
 
     <div class="mb-8">
-      <h4 class="text-xl font-semibold mb-2">Programming and Development</h4>
+      <h4 class="text-lg md:text-xl font-semibold mb-2">Programming and Development</h4>
       <div class="flex flex-wrap gap-4 mb-4">
         <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">C</button>
         <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Java</button>
@@ -67,7 +84,7 @@
     </div>
 
     <div class="mb-8">
-      <h4 class="text-xl font-semibold mb-2">Cloud and Operating Systems</h4>
+      <h4 class="text-lg md:text-xl font-semibold mb-2">Cloud and Operating Systems</h4>
       <div class="flex flex-wrap gap-4 mb-4">
         <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Microsoft Azure</button>
         <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">AWS</button>
@@ -77,7 +94,7 @@
     </div>
 
     <div class="mb-8">
-      <h4 class="text-xl font-semibold mb-2">Data and Machine Learning</h4>
+      <h4 class="text-lg md:text-xl font-semibold mb-2">Data and Machine Learning</h4>
       <div class="flex flex-wrap gap-4 mb-4">
         <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">Excel</button>
         <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">Tableau</button>
@@ -94,8 +111,8 @@
     </div>
 
     <div class="mb-8">
-      <h4 class="text-xl font-semibold mb-2">Project Management and Other Technical Skills</h4>
-      <div class="flex flex-wrap gap-4 mb-4">
+      <h4 class="text-lg md:text-xl font-semibold mb-2">Project Management and Other Technical Skills</h4>
+      <div class="flex flex-wrap gap-4 mb-4 ">
         <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Azure boards</button>
         <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">OOP</button>
         <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">System Design</button>
@@ -106,17 +123,32 @@
     </div>
 
     <!-- Hobbies Section -->
-    <h3 class="text-2xl font-bold mt-8 mb-4">Hobbies</h3>
-    <p class="text-lg">In my free time, I enjoy gyming, playing football (soccer), cricket, and biking. These activities help me stay active and keep my mind sharp.</p>
+    <h3 class="text-xl md:text-2xl font-bold mt-8 mb-4">Hobbies</h3>
+    <p class="text-sm md:text-lg">In my free time, I enjoy gyming, playing football (soccer), cricket, and biking. These activities help me stay active and keep my mind sharp.</p>
   </main>
 
   <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-container').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading header:', error));
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-container').innerHTML = data;
+
+          // Ensure the menu button works after loading the header
+          const menuToggle = document.getElementById("menu-toggle");
+          const menu = document.getElementById("menu");
+
+          if (menuToggle && menu) {
+            menuToggle.addEventListener("click", function () {
+              menu.classList.toggle("hidden");
+              menu.classList.toggle("flex");
+              menu.classList.toggle("flex-col");
+              menu.classList.toggle("items-center");
+            });
+          }
+        })
+        .catch(error => console.error("Error loading header:", error));
+    });
   </script>
 
 </body>

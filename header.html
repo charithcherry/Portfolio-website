@@ -1,14 +1,33 @@
-<header class="sticky top-0 bg-white shadow z-50 p-4">
-    <div class="container mx-auto flex items-center justify-between">
-      <h1 class="text-3xl font-bold">Charith Purushotham</h1>
-      <nav>
-        <ul class="flex space-x-4">
-          <li><a href="index.html" class="hover:underline">Home</a></li>
-          <li><a href="about.html" class="hover:underline">About Me</a></li>
-          <li><a href="portfolio.html" class="hover:underline">Portfolio</a></li>
-          <li><a href="experience.html" class="hover:underline">Experience</a></li>
-          <li><a href="contact.html" class="hover:underline">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+<header class="sticky top-0 bg-white shadow-md z-50 p-4">
+  <div class="container mx-auto flex items-center justify-between">
+    <h1 class="text-2xl sm:text-3xl font-bold">Charith Purushotham</h1>
+
+    <!-- Hamburger Button (Only on Mobile) -->
+    <button id="menu-toggle" class="sm:hidden text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- Navigation Menu -->
+    <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white shadow sm:shadow-none sm:bg-transparent p-4 sm:p-0 z-50">
+      <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
+        <li><a href="index.html" class="block p-2 hover:text-blue-600">Home</a></li>
+        <li><a href="about.html" class="block p-2 hover:text-blue-600">About Me</a></li>
+        <li><a href="portfolio.html" class="block p-2 hover:text-blue-600">Portfolio</a></li>
+        <li><a href="experience.html" class="block p-2 hover:text-blue-600">Experience</a></li>
+        <li><a href="contact.html" class="block p-2 hover:text-blue-600">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  document.getElementById('menu-toggle').addEventListener('click', function () {
+    const menu = document.getElementById('menu');
+    menu.classList.toggle('hidden');
+    menu.classList.toggle('flex');
+    menu.classList.toggle('flex-col');
+    menu.classList.toggle('items-center');
+  });
+</script>
