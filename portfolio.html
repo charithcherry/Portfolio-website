@@ -15,44 +15,108 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
   <style>
+    /* Card animations */
     .card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
     .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     }
+    .dark .card:hover {
+      box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+    }
+
+    /* Tech badges */
     .tech-button {
-      background-color: #f1f5f9;
-      color: #334155;
-      padding: 0.25rem 0.75rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.375rem 0.875rem;
       margin-right: 0.5rem;
       margin-top: 0.5rem;
-      border-radius: 0.375rem;
-      font-size: 0.875rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
       display: inline-block;
+      transition: all 0.3s ease;
     }
     .tech-button:hover {
-      background-color: #e2e8f0;
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
+    .dark .tech-button {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    }
+
+    /* Floating animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(3deg); }
+    }
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    /* Fade in animation */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .fade-in {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    /* Section headers */
+    .section-header {
+      position: relative;
+      display: inline-block;
+    }
+    .section-header::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60%;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      border-radius: 2px;
+    }
+    .dark .section-header::after {
+      background: linear-gradient(90deg, #8b5cf6 0%, #6366f1 100%);
+    }
+
+    /* Project card icon */
+    .project-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .dark .project-icon {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    }
+
+    /* Button styling */
     .button-container {
-      margin-top: 1rem;
+      margin-top: auto;
+      padding-top: 1rem;
     }
     .project-heading {
       font-weight: 600;
       font-size: 1.125rem;
-    }
-    .project-heading a {
-      color: #3b82f6;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-    .project-heading a:hover {
-      color: #2563eb;
-    }
-    .section-heading {
-      cursor: pointer;
+      margin-bottom: 0.5rem;
     }
   </style>
 </head>
@@ -94,11 +158,40 @@
     </div>
   </header>
 
-  <main class="container mx-auto px-4 py-16">
-    <h2 class="text-3xl font-bold mb-8 text-center dark:text-white">Portfolio</h2>
+  <main class="relative overflow-hidden">
+    <!-- Floating background elements -->
+    <div class="absolute top-20 right-20 w-72 h-72 bg-blue-200 dark:bg-purple-900 rounded-full opacity-20 floating blur-3xl"></div>
+    <div class="absolute bottom-40 left-20 w-96 h-96 bg-purple-200 dark:bg-blue-900 rounded-full opacity-20 floating blur-3xl" style="animation-delay: 2s;"></div>
 
-    <!-- Project Categories Section -->
-    <section class="mb-12">
+    <div class="container mx-auto px-4 py-16 relative z-10">
+      <!-- Hero Section -->
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+          My Portfolio
+        </h2>
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto">
+          Showcasing innovative projects in Machine Learning, Deep Learning, and Software Development
+        </p>
+
+        <!-- Stats -->
+        <div class="flex flex-wrap justify-center gap-8 mt-8">
+          <div class="text-center">
+            <div class="text-4xl font-bold text-blue-600 dark:text-blue-400">7+</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Projects</div>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-bold text-purple-600 dark:text-purple-400">4+</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Achievements</div>
+          </div>
+          <div class="text-center">
+            <div class="text-4xl font-bold text-pink-600 dark:text-pink-400">3+</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Tech Stacks</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Categories Section -->
+      <section class="mb-12">
      
       <div x-data="{ open: false }" class="relative">
         <!-- Desktop Version (visible on medium and larger screens) -->
@@ -128,8 +221,18 @@
     </section>
 
     <!-- Deep Learning & OpenCV Projects Section -->
-    <section id="deep-learning-section" class="mb-12">
-      <h3 class="text-2xl font-semibold mb-6 dark:text-white">Deep Learning & OpenCV Projects</h3>
+    <section id="deep-learning-section" class="mb-16 fade-in">
+      <div class="flex items-center mb-8">
+        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold section-header dark:text-white">Deep Learning & OpenCV Projects</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">5 innovative AI/ML projects</p>
+        </div>
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Reinforcement Learning Dialogue Summarization -->
         <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
@@ -224,8 +327,18 @@
     </section>
 
     <!-- Machine Learning & EDA Projects Section -->
-    <section id="ml-eda-section" class="mb-12">
-      <h3 class="text-2xl font-semibold mb-6 dark:text-white">Machine Learning & EDA Projects</h3>
+    <section id="ml-eda-section" class="mb-16 fade-in">
+      <div class="flex items-center mb-8">
+        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold section-header dark:text-white">Machine Learning & EDA Projects</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">2 data analysis projects</p>
+        </div>
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- LinkedIn Job Market Analysis -->
         <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
@@ -264,8 +377,18 @@
     </section>
 
     <!-- Software Development Projects Section -->
-    <section id="software-dev-section" class="mb-12">
-      <h3 class="text-2xl font-semibold mb-6 dark:text-white">Software Development Projects</h3>
+    <section id="software-dev-section" class="mb-16 fade-in">
+      <div class="flex items-center mb-8">
+        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold section-header dark:text-white">Software Development Projects</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">2 full-stack applications</p>
+        </div>
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Chat Application -->
         <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
@@ -305,8 +428,18 @@
     </section>
 
     <!-- Achievements Section -->
-    <section class="mb-12" id="Achievements">
-      <h3 class="text-2xl font-semibold mb-6" >Achievements & Publications</h3>
+    <section class="mb-16 fade-in" id="Achievements">
+      <div class="flex items-center mb-8">
+        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold section-header dark:text-white">Achievements & Publications</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Recognition and awards</p>
+        </div>
+      </div>
       <div class="space-y-4">
         <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
           <h4 class="text-lg font-semibold dark:text-white">Research Publication: Nuclear Fuel Characterization Using Machine Learning</h4>
@@ -331,8 +464,18 @@
     </section>
 
     <!-- Extracurricular Section -->
-    <section class="mb-12" id="Extracurricular">
-      <h3 class="text-2xl font-semibold mb-6 dark:text-white">Extracurricular</h3>
+    <section class="mb-16 fade-in" id="Extracurricular">
+      <div class="flex items-center mb-8">
+        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold section-header dark:text-white">Extracurricular Activities</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Leadership and community involvement</p>
+        </div>
+      </div>
       <div class="space-y-4">
         <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
           <h4 class="text-lg font-semibold dark:text-white">Co-Founder, Data Science and AI-ML Student Club</h4>
@@ -345,7 +488,7 @@
         </div>
       </div>
     </section>
-
+    </div>
   </main>
 
   <script>

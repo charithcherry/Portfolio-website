@@ -33,6 +33,12 @@
       animation: fadeInUp 0.6s ease-out forwards;
     }
 
+    /* Float animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(3deg); }
+    }
+
     /* Progress bar animation */
     @keyframes progressBar {
       from { width: 0; }
@@ -96,201 +102,353 @@
     </div>
   </header>
 
-  <main class="container mx-auto px-4 py-16">
-    <div class="flex flex-col md:flex-row items-center">
-      <!-- About Me Text -->
-      <div class="flex-1 pr-8 mb-8 md:mb-0">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4 md:mb-8">About Me</h2>
-        <p class="text-sm md:text-lg leading-relaxed mb-4 md:mb-8 text-justify">
-          I am a passionate data scientist and software developer currently pursuing my Master of Science in Computer Science at the University of Colorado Boulder. With expertise in Machine Learning, Deep Learning, and Artificial Intelligence, I am dedicated to applying cutting-edge data science techniques to solve real-world problems. I am currently focused on research projects that enhance model generalization and improve performance in environments with minimal labeled data, particularly through data augmentation and zero-shot learning approaches. My goal is to contribute to the growing field of AI by developing innovative solutions that push the boundaries of what machine learning can achieve.
-        </p>
-        <p class="text-sm md:text-lg leading-relaxed mb-4 md:mb-8 text-justify">
-          In addition to my academic work, I have hands-on experience in developing AI-driven applications and data engineering solutions. I have worked on optimizing A/B testing frameworks, integrating real-time analytics, and developing human pose estimation solutions for fitness applications. I have also led projects focused on improving data processing times and optimizing system performance using advanced tools like Azure, Databricks, and Spark. These experiences have allowed me to apply AI in practical, impactful ways, and I am excited to continue leveraging my skills to drive innovative solutions in technology.
-        </p>
-      </div>
-      <!-- Profile Picture -->
-      <div style="text-align: center; margin-bottom: 1rem;">
-        <img src="portfolio_image.png" alt="Charith Purushotham" 
-             style="border: 4px solid #e5e7eb; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 160px; height: auto; margin: 0 auto;">
-      </div>      
-    </div>
-    <br>
+  <main class="container mx-auto px-4 py-16 relative overflow-hidden">
+    <!-- Floating background elements -->
+    <div class="absolute top-10 right-10 w-64 h-64 bg-blue-200 dark:bg-purple-900 rounded-full opacity-20 blur-3xl" style="animation: float 6s ease-in-out infinite;"></div>
+    <div class="absolute bottom-20 left-10 w-80 h-80 bg-purple-200 dark:bg-blue-900 rounded-full opacity-20 blur-3xl" style="animation: float 6s ease-in-out infinite; animation-delay: 2s;"></div>
 
-    <!-- Education Section as Flex Cards -->
-    <h3 class="text-xl md:text-2xl font-bold mb-4 dark:text-white">Academic Qualification</h3>
-    <div class="flex flex-col md:flex-row md:space-x-8 mb-8">
-      <div class="flex-card p-6 border dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-2xl transition mb-4 md:mb-0">
-        <h4 class="text-lg md:text-xl font-semibold mb-2 dark:text-white">University of Colorado Boulder</h4>
-        <p class="dark:text-gray-300"><strong>Master of Science (Research), Computer Science</strong></p>
-        <p class="text-gray-600 dark:text-gray-400">CGPA: 3.9/4.00</p>
-        <p class="text-gray-600 dark:text-gray-400">Courses: Deep Learning, NLP, Systems for Machine Learning, Computer Vision</p>
-        <p class="text-gray-600 dark:text-gray-400">Aug 2024 – May 2026(Expected)</p>
+    <div class="relative z-10">
+      <!-- Hero Section -->
+      <div class="text-center mb-12 fade-in">
+        <h1 class="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+          About Me
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400">Get to know me better</p>
       </div>
-      <div class="flex-card p-6 border dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-2xl transition mb-4 md:mb-0">
-        <h4 class="text-lg md:text-xl font-semibold mb-2 dark:text-white">Dayananda Sagar College of Engineering</h4>
-        <p class="dark:text-gray-300"><strong>Bachelor of Engineering, Computer Science</strong></p>
-        <p class="text-gray-600 dark:text-gray-400">CGPA: 9.68/10.00</p>
-        <p class="text-gray-600 dark:text-gray-400">Courses: AI/ML, DSA, DBMS, OOP, OS, Network Systems, Big Data Technology</p>
-        <p class="text-gray-600 dark:text-gray-400">Aug 2018 – Jun 2022</p>
+
+      <!-- About Me Card -->
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 md:p-10 mb-12 border-l-4 border-blue-500 dark:border-purple-500 fade-in">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+          <!-- Profile Picture -->
+          <div class="flex-shrink-0">
+            <div class="relative">
+              <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-75"></div>
+              <img src="portfolio_image.png" alt="Charith Purushotham"
+                   class="relative rounded-full w-40 h-40 md:w-48 md:h-48 object-cover border-4 border-white dark:border-gray-800 shadow-xl">
+            </div>
+            <div class="text-center mt-4">
+              <h3 class="text-xl font-bold dark:text-white">Charith Purushotham</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Data Scientist & ML Engineer</p>
+            </div>
+          </div>
+
+          <!-- About Text -->
+          <div class="flex-1">
+            <div class="space-y-6">
+              <div>
+                <div class="flex items-center mb-3">
+                  <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                    </svg>
+                  </div>
+                  <h4 class="text-lg font-semibold dark:text-white">Academic Focus</h4>
+                </div>
+                <p class="text-sm md:text-base leading-relaxed text-gray-700 dark:text-gray-300">
+                  I am a passionate data scientist and software developer currently pursuing my Master of Science in Computer Science at the University of Colorado Boulder. With expertise in Machine Learning, Deep Learning, and Artificial Intelligence, I am dedicated to applying cutting-edge data science techniques to solve real-world problems. I am currently focused on research projects that enhance model generalization and improve performance in environments with minimal labeled data, particularly through data augmentation and zero-shot learning approaches.
+                </p>
+              </div>
+
+              <div>
+                <div class="flex items-center mb-3">
+                  <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                      <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/>
+                    </svg>
+                  </div>
+                  <h4 class="text-lg font-semibold dark:text-white">Professional Experience</h4>
+                </div>
+                <p class="text-sm md:text-base leading-relaxed text-gray-700 dark:text-gray-300">
+                  In addition to my academic work, I have hands-on experience in developing AI-driven applications and data engineering solutions. I have worked on optimizing A/B testing frameworks, integrating real-time analytics, and developing human pose estimation solutions for fitness applications. I have also led projects focused on improving data processing times and optimizing system performance using advanced tools like Azure, Databricks, and Spark.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Education Section -->
+    <div class="mb-12 fade-in">
+      <div class="flex items-center mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold dark:text-white">Academic Qualifications</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Educational background and achievements</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- CU Boulder Card -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-l-4 border-blue-500 dark:border-purple-500">
+          <div class="flex items-start mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+              <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-xl font-bold text-gray-900 dark:text-white">University of Colorado Boulder</h4>
+              <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">Master of Science</p>
+            </div>
+          </div>
+
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-blue-600 dark:text-purple-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-sm text-gray-700 dark:text-gray-300"><strong>Computer Science</strong></span>
+            </div>
+
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong class="text-green-600 dark:text-green-400">3.9/4.0</strong></span>
+            </div>
+
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-sm text-gray-700 dark:text-gray-300">Aug 2024 – May 2026 (Expected)</span>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-blue-200 dark:border-gray-700">
+            <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">KEY COURSES</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Deep Learning</span>
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">NLP</span>
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Systems for ML</span>
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Computer Vision</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bachelor's Card -->
+        <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-l-4 border-purple-500 dark:border-pink-500">
+          <div class="flex items-start mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+              <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-xl font-bold text-gray-900 dark:text-white">Dayananda Sagar College of Engineering</h4>
+              <p class="text-sm text-purple-600 dark:text-pink-400 font-semibold">Bachelor of Engineering</p>
+            </div>
+          </div>
+
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-purple-600 dark:text-pink-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-sm text-gray-700 dark:text-gray-300"><strong>Computer Science</strong></span>
+            </div>
+
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong class="text-green-600 dark:text-green-400">9.68/10.0</strong></span>
+            </div>
+
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-purple-600 dark:text-pink-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-sm text-gray-700 dark:text-gray-300">Aug 2018 – Jun 2022</span>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-purple-200 dark:border-gray-700">
+            <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">KEY COURSES</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">AI/ML</span>
+              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">DSA</span>
+              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">DBMS</span>
+              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">OOP</span>
+              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">OS</span>
+              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">Big Data</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Technical Skills Section -->
-    <h3 class="text-xl md:text-2xl font-bold mt-8 mb-4 dark:text-white">Technical Skills</h3>
+    <h3 class="text-xl md:text-2xl font-bold mt-8 mb-6 dark:text-white">Technical Skills</h3>
 
-    <div class="mb-8">
-      <h4 class="text-lg md:text-xl font-semibold mb-4 dark:text-gray-200">Programming and Development</h4>
-      <div class="space-y-4">
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">Python</span>
-            <span class="text-sm font-medium text-blue-600 dark:text-blue-400">95%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full" style="--progress-width: 95%"></div>
-          </div>
-        </div>
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">Java</span>
-            <span class="text-sm font-medium text-blue-600 dark:text-blue-400">85%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full" style="--progress-width: 85%"></div>
-          </div>
-        </div>
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">React.js & Node.js</span>
-            <span class="text-sm font-medium text-blue-600 dark:text-blue-400">88%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full" style="--progress-width: 88%"></div>
-          </div>
-        </div>
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">C, Flask, REST APIs, MySQL, MongoDB, Git</span>
-            <span class="text-sm font-medium text-blue-600 dark:text-blue-400">80%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full" style="--progress-width: 80%"></div>
-          </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Programming and Development -->
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-blue-500 dark:border-blue-400 hover:shadow-xl transition-shadow">
+        <h4 class="text-lg font-semibold mb-4 text-blue-700 dark:text-blue-400 flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"/>
+          </svg>
+          Programming & Development
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Python</span>
+          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Java</span>
+          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">React.js</span>
+          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Node.js</span>
+          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">C</span>
+          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Flask</span>
+          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">REST APIs</span>
+          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">MySQL</span>
+          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">MongoDB</span>
+          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Git</span>
         </div>
       </div>
-    </div>
 
-    <div class="mb-8">
-      <h4 class="text-lg md:text-xl font-semibold mb-4 dark:text-gray-200">Cloud and Infrastructure</h4>
-      <div class="space-y-4">
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">Microsoft Azure</span>
-            <span class="text-sm font-medium text-green-600 dark:text-green-400">90%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-green-600 dark:bg-green-500 h-2.5 rounded-full" style="--progress-width: 90%"></div>
-          </div>
-        </div>
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">AWS</span>
-            <span class="text-sm font-medium text-green-600 dark:text-green-400">85%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-green-600 dark:bg-green-500 h-2.5 rounded-full" style="--progress-width: 85%"></div>
-          </div>
-        </div>
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">Docker, CI/CD, Kafka</span>
-            <span class="text-sm font-medium text-green-600 dark:text-green-400">82%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-green-600 dark:bg-green-500 h-2.5 rounded-full" style="--progress-width: 82%"></div>
-          </div>
-        </div>
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">GCP, Snowflake, Azure Boards</span>
-            <span class="text-sm font-medium text-green-600 dark:text-green-400">75%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-green-600 dark:bg-green-500 h-2.5 rounded-full" style="--progress-width: 75%"></div>
-          </div>
+      <!-- Cloud and Infrastructure -->
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-green-500 dark:border-green-400 hover:shadow-xl transition-shadow">
+        <h4 class="text-lg font-semibold mb-4 text-green-700 dark:text-green-400 flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M5.5 16a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 16h-8z"/>
+          </svg>
+          Cloud & Infrastructure
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Microsoft Azure</span>
+          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">AWS</span>
+          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Docker</span>
+          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">CI/CD</span>
+          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Kafka</span>
+          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">GCP</span>
+          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Snowflake</span>
+          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Azure Boards</span>
         </div>
       </div>
-    </div>
 
-    <div class="mb-8">
-      <h4 class="text-lg md:text-xl font-semibold mb-4 dark:text-gray-200">Data and Machine Learning</h4>
-      <div class="space-y-4">
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">PyTorch & TensorFlow</span>
-            <span class="text-sm font-medium text-purple-600 dark:text-purple-400">92%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-purple-600 dark:bg-purple-500 h-2.5 rounded-full" style="--progress-width: 92%"></div>
-          </div>
-        </div>
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">Scikit-learn & OpenCV</span>
-            <span class="text-sm font-medium text-purple-600 dark:text-purple-400">90%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-purple-600 dark:bg-purple-500 h-2.5 rounded-full" style="--progress-width: 90%"></div>
-          </div>
-        </div>
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">Databricks, RAG, LlamaIndex</span>
-            <span class="text-sm font-medium text-purple-600 dark:text-purple-400">85%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-purple-600 dark:bg-purple-500 h-2.5 rounded-full" style="--progress-width: 85%"></div>
-          </div>
-        </div>
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">HuggingFace, Tableau</span>
-            <span class="text-sm font-medium text-purple-600 dark:text-purple-400">80%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-purple-600 dark:bg-purple-500 h-2.5 rounded-full" style="--progress-width: 80%"></div>
-          </div>
+      <!-- Data and Machine Learning -->
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-purple-500 dark:border-purple-400 hover:shadow-xl transition-shadow">
+        <h4 class="text-lg font-semibold mb-4 text-purple-700 dark:text-purple-400 flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"/>
+            <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"/>
+            <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"/>
+          </svg>
+          Data & Machine Learning
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">PyTorch</span>
+          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">TensorFlow</span>
+          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Scikit-learn</span>
+          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">OpenCV</span>
+          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Databricks</span>
+          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">RAG</span>
+          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">LlamaIndex</span>
+          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">HuggingFace</span>
+          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Tableau</span>
         </div>
       </div>
-    </div>
 
-    <div class="mb-8">
-      <h4 class="text-lg md:text-xl font-semibold mb-4 dark:text-gray-200">Software and Project Tools</h4>
-      <div class="space-y-4">
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">OOP & System Design</span>
-            <span class="text-sm font-medium text-red-600 dark:text-red-400">88%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-red-600 dark:bg-red-500 h-2.5 rounded-full" style="--progress-width: 88%"></div>
-          </div>
-        </div>
-        <div class="skill-item">
-          <div class="flex justify-between mb-1">
-            <span class="text-sm font-medium dark:text-gray-300">Jira, Postman, Bot Framework</span>
-            <span class="text-sm font-medium text-red-600 dark:text-red-400">82%</span>
-          </div>
-          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-            <div class="progress-bar bg-red-600 dark:bg-red-500 h-2.5 rounded-full" style="--progress-width: 82%"></div>
-          </div>
+      <!-- Software and Project Tools -->
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-red-500 dark:border-red-400 hover:shadow-xl transition-shadow">
+        <h4 class="text-lg font-semibold mb-4 text-red-700 dark:text-red-400 flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+          </svg>
+          Software & Tools
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">OOP</span>
+          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">System Design</span>
+          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Jira</span>
+          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Postman</span>
+          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Bot Framework</span>
         </div>
       </div>
     </div>
 
     <!-- Hobbies Section -->
-    <h3 class="text-xl md:text-2xl font-bold mt-8 mb-4 dark:text-white">Hobbies</h3>
-    <p class="text-sm md:text-lg dark:text-gray-300">In my free time, I enjoy gyming, playing football (soccer), cricket, and biking. These activities help me stay active and keep my mind sharp.</p>
+    <div class="mt-12 fade-in">
+      <div class="flex items-center mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-orange-600 rounded-lg flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold dark:text-white">Hobbies & Interests</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">What I love to do in my free time</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Gym Card -->
+        <div class="bg-gradient-to-br from-red-50 to-orange-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-red-500 dark:border-red-400">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zM13 3a1 1 0 00-1 1v3a1 1 0 001 1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3zm1 2v1h1V5h-1z" clip-rule="evenodd"/>
+                <path d="M11 4a1 1 0 10-2 0v1a1 1 0 002 0V4zM10 7a1 1 0 011 1v1h2a1 1 0 110 2h-3a1 1 0 01-1-1V8a1 1 0 011-1zM16 9a1 1 0 100 2 1 1 0 000-2zM9 13a1 1 0 011-1h1a1 1 0 110 2v2a1 1 0 11-2 0v-3zM7 11a1 1 0 100-2H4a1 1 0 100 2h3zM17 13a1 1 0 01-1 1h-2a1 1 0 110-2h2a1 1 0 011 1zM16 17a1 1 0 100-2h-3a1 1 0 100 2h3z"/>
+              </svg>
+            </div>
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Gym</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Staying fit and building strength</p>
+          </div>
+        </div>
+
+        <!-- Football Card -->
+        <div class="bg-gradient-to-br from-green-50 to-teal-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-green-500 dark:border-green-400">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"/>
+              </svg>
+            </div>
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Football</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Team spirit and strategy</p>
+          </div>
+        </div>
+
+        <!-- Cricket Card -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-blue-500 dark:border-blue-400">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Cricket</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Passion for the gentleman's game</p>
+          </div>
+        </div>
+
+        <!-- Biking Card -->
+        <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-purple-500 dark:border-purple-400">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                <path d="M3 4a1 1 0 00-1 1v2.5a.5.5 0 001 0V5a1 1 0 011-1h2.586l-1.293 1.293a1 1 0 101.414 1.414L8.414 5H12a1 1 0 01.707.293l2.586 2.586a1 1 0 11-1.414 1.414L12.586 8H11a1 1 0 00-.707.293L9 9.586a1 1 0 11-1.414-1.414L8.879 7H4a1 1 0 01-1-1z"/>
+              </svg>
+            </div>
+            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Biking</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Exploring and adventure</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl border-l-4 border-blue-500 dark:border-purple-500">
+        <p class="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+          <span class="font-semibold text-blue-600 dark:text-blue-400">Staying Active:</span> These activities help me maintain a healthy work-life balance, keep my mind sharp, and build discipline that translates into my professional work. Whether it's the strategic thinking in cricket, the teamwork in football, or the endurance in gym and biking, each hobby contributes to my personal growth.
+        </p>
+      </div>
+    </div>
+    </div>
   </main>
 
   <script>
