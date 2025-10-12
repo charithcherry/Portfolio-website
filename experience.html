@@ -1,94 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Experience - Charith Purushotham</title>
+  <script>
+    // Dark mode initialization
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
   <style>
-    .card {
-      display: flex;
-      flex-direction: column;
+    /* Timeline styles */
+    .timeline {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 100%);
+    }
+
+    @media (max-width: 768px) {
+      .timeline::before {
+        left: 30px;
+      }
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+    .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+    .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+    .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      background: white;
+      border: 4px solid #3b82f6;
+      border-radius: 50%;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .dark .timeline-dot {
+      background: #1f2937;
+      border-color: #8b5cf6;
+    }
+
+    .timeline-dot:hover {
+      transform: translateX(-50%) scale(1.3);
+    }
+
+    @media (max-width: 768px) {
+      .timeline-dot {
+        left: 30px;
+      }
+    }
+
+    .timeline-content {
+      width: calc(50% - 40px);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .card:hover {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+    .timeline-content:hover {
+      transform: translateY(-5px);
     }
-    /* Ensure tech stack stays at the bottom */
-    .content-container {
-      flex-grow: 1; /* Take up available space */
+
+    .timeline-item:nth-child(odd) .timeline-content {
+      margin-left: auto;
+      padding-left: 40px;
     }
-    .tech-stack {
-      margin-top: auto; /* Pushes tech stack to the bottom */
+
+    .timeline-item:nth-child(even) .timeline-content {
+      margin-right: auto;
+      padding-right: 40px;
     }
-    /* Adjust grid gap to reduce spacing between cards */
-    .grid-container {
-      gap: 2rem; /* Reduced gap from 4 to 2 */
+
+    @media (max-width: 768px) {
+      .timeline-content {
+        width: calc(100% - 80px);
+        margin-left: 60px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
     }
-    /* Add a transition to the content */
+
     .content {
       transition: max-height 0.5s ease-in-out;
       overflow: hidden;
       max-height: 0;
     }
     .content.open {
-      max-height: 500px; /* Adjust max height as per content */
+      max-height: 1000px;
     }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-  <div id="header-container"></div>
+  <!-- Header -->
+  <header class="sticky top-0 bg-white dark:bg-gray-900 shadow-md z-50 p-4 transition-colors duration-300">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Charith Purushotham</h1>
+
+      <div class="flex items-center gap-4">
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
+          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <!-- Hamburger Button (Only on Mobile) -->
+        <button id="menu-toggle" class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white dark:bg-gray-800 shadow sm:shadow-none sm:bg-transparent dark:sm:bg-transparent p-4 sm:p-0 z-50 transition-colors duration-300">
+        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
+          <li><a href="index.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Home</a></li>
+          <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
+          <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
+          <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
+          <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <main class="container mx-auto px-4 py-16">
-    <h2 class="text-3xl font-bold mb-8 text-center">Experience</h2>
+    <h2 class="text-3xl font-bold mb-12 text-center dark:text-white">Experience Timeline</h2>
 
-    <!-- Owl AI Experience -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-      <div class="card bg-white p-4 rounded-lg shadow-lg">
-        <div class="flex flex-col mb-4">
-          <h3 class="text-xl font-semibold">Machine Learning Engineer Intern</h3>
-          <p class="text-lg font-medium text-gray-800">Owl AI, Boulder, CO</p>
-          <p class="text-sm text-gray-600">September 2025 - Present</p>
-        </div>
+    <!-- Timeline Container -->
+    <div class="timeline">
+      <!-- Owl AI Experience -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-blue-500 dark:border-purple-500">
+          <div class="flex flex-col mb-4">
+            <h3 class="text-xl font-semibold dark:text-white">Machine Learning Engineer Intern</h3>
+            <p class="text-lg font-medium text-gray-800 dark:text-gray-200">Owl AI, Boulder, CO</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">September 2025 - Present</p>
+          </div>
 
-        <div class="content-container">
           <div x-data="{ open: false }" class="mb-4">
-            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
               Sports Analytics Pipeline Development
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
-              <ul class="list-disc pl-6">
+              <ul class="list-disc pl-6 dark:text-gray-300">
                 <li>Developing a sports analytics pipeline leveraging fine-tuned YOLO, HRNet, RTMPose, and 3D pose estimation models for motion understanding.</li>
                 <li>Engineering GPU-optimized inference pipelines with quantization (TensorRT), caching, and prefetching techniques, reducing end-to-end latency by 50% (18→9s).</li>
                 <li>Curating domain-specific sports datasets and employing GenAI agents (Roo, Claude) for automated data labeling, validation, and preprocessing.</li>
               </ul>
             </div>
           </div>
-        </div>
 
-        <div class="tech-stack">
-          <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
-          <p class="text-gray-700">Python | PyTorch | YOLO | HRNet | RTMPose | TensorRT | GenAI | Computer Vision</p>
+          <div class="tech-stack mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <h4 class="text-lg font-semibold mb-2 dark:text-white">Tech Stack</h4>
+            <p class="text-gray-700 dark:text-gray-300">Python | PyTorch | YOLO | HRNet | RTMPose | TensorRT | GenAI | Computer Vision</p>
+          </div>
         </div>
       </div>
 
       <!-- Idaho National Laboratory Experience -->
-      <div class="card bg-white p-4 rounded-lg shadow-lg">
-        <div class="flex flex-col mb-4">
-          <h3 class="text-xl font-semibold">Machine Learning Engineer Intern</h3>
-          <p class="text-lg font-medium text-gray-800">Idaho National Laboratory, Idaho Falls, ID</p>
-          <p class="text-sm text-gray-600">June 2025 - August 2025</p>
-        </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-blue-500 dark:border-purple-500">
+          <div class="flex flex-col mb-4">
+            <h3 class="text-xl font-semibold dark:text-white">Machine Learning Engineer Intern</h3>
+            <p class="text-lg font-medium text-gray-800 dark:text-gray-200">Idaho National Laboratory, Idaho Falls, ID</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">June 2025 - August 2025</p>
+          </div>
 
-        <div class="content-container">
           <div x-data="{ open: false }" class="mb-4">
-            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
               Nuclear Materials Segmentation Research
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
-              <ul class="list-disc pl-6">
+              <ul class="list-disc pl-6 dark:text-gray-300">
                 <li>Contributed to an LDRD-funded project developing and fine-tuning deep learning models (SAM/SAM2, YOLOv9, ResUNet, DenseNet, ResDense-UNet) for semantic segmentation of pores and cracks in post-irradiated nuclear materials using FIB, SEM, TEM, and X-ray CT data.</li>
                 <li>Utilized HPC infrastructure for large-scale training and image characterization, enabling predictive modeling of radiation-induced material degradation.</li>
                 <li>Analyzed how data quality factors (resolution, contrast, noise, artifacts) affect segmentation accuracy and applied saliency maps with attention mechanisms (CBAM vs. bottleneck self-attention) across microscopy modalities.</li>
@@ -98,42 +226,42 @@
           </div>
 
           <div x-data="{ open: false }" class="mb-4">
-            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
               Publication
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
-              <ul class="list-disc pl-6">
+              <ul class="list-disc pl-6 dark:text-gray-300">
                 <li>Co-authored: "Bridging Multimodal Microscopy for Advanced Characterization on Nuclear Fuel Using Machine Learning", published in Frontiers in Mechanical Engineering – Digital Manufacturing, Vol. 11, 2025, demonstrating a transfer-learning deep-learning framework outperforming four state-of-the-art models for cross-scale defect segmentation.</li>
               </ul>
               <div class="mt-2">
-                <a href="https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2025.1619834/abstract" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700" target="_blank">View Publication</a>
+                <a href="https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2025.1619834/abstract" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700" target="_blank">View Publication</a>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="tech-stack">
-          <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
-          <p class="text-gray-700">Python | PyTorch | SAM/SAM2 | YOLOv9 | ResUNet | DenseNet | Random Forest | XGBoost | HPC</p>
+          <div class="tech-stack mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <h4 class="text-lg font-semibold mb-2 dark:text-white">Tech Stack</h4>
+            <p class="text-gray-700 dark:text-gray-300">Python | PyTorch | SAM/SAM2 | YOLOv9 | ResUNet | DenseNet | Random Forest | XGBoost | HPC</p>
+          </div>
         </div>
       </div>
 
-    <!-- Phamax Experience -->
+      <!-- Phamax Experience -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-blue-500 dark:border-purple-500">
+          <div class="flex flex-col mb-4">
+            <h3 class="text-xl font-semibold dark:text-white">Associate Software Development Engineer</h3>
+            <p class="text-lg font-medium text-gray-800 dark:text-gray-200">Phamax, Bengaluru</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">September 2022 - July 2024</p>
+          </div>
 
-      <div class="card bg-white p-4 rounded-lg shadow-lg">
-        <div class="flex flex-col mb-4">
-          <h3 class="text-xl font-semibold">Associate Software Development Engineer</h3>
-          <p class="text-lg font-medium text-gray-800">Phamax, Bengaluru</p>
-          <p class="text-sm text-gray-600">September 2022 - July 2024</p>
-        </div>
-
-        <div class="content-container">
           <div x-data="{ open: false }" class="mb-4">
-            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
               Ariya Product
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
-              <ul class="list-disc pl-6">
+              <ul class="list-disc pl-6 dark:text-gray-300">
                 <li>Collaborated on the system architecture for the digital assistant "Ariya," now a Microsoft-certified SaaS on the MS Teams store. Contributed to design, boosting subscriptions by 5% and client engagement by 7%, demonstrated by a higher client demo rate.</li>
                 <li>Implemented GPT features with OpenAI and Azure, enhancing data summarization and insights. Dockerized the solution, resulting in a 25% resource efficiency increase and reducing deployment time by 50% (from 15 minutes to 7 minutes).</li>
                 <li>Managed user and group administration on Azure, deployed Docker containers for efficient application deployment, and implemented automated logging and monitoring systems for improved user experience.</li>
@@ -142,11 +270,11 @@
           </div>
 
           <div x-data="{ open: false }" class="mb-4">
-            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
               Medinfo Chatbot Project
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
-              <ul class="list-disc pl-6">
+              <ul class="list-disc pl-6 dark:text-gray-300">
                 <li>Collaborated on the content processing system architecture, which handles data from the client's IRMS to the SFTP data container.</li>
                 <li>Implemented a custom Q&A system for user queries and an application logging system to record conversation transcripts. The logging system increased user engagement with the chatbot by 5% due to regular feedback from monitoring the transcripts.</li>
               </ul>
@@ -154,11 +282,11 @@
           </div>
 
           <div x-data="{ open: false }" class="mb-4">
-            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
               Santen Data Engineering Project
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
-              <ul class="list-disc pl-6">
+              <ul class="list-disc pl-6 dark:text-gray-300">
                 <li>Led a data engineering project for Santen using Databricks and Azure, halving processing time from 30 to 12-15 minutes and improving data accuracy by implementing checkpoints for data evaluation.</li>
                 <li>Implemented a medallion architecture, enhancing Tableau performance by offloading heavy processing to Databricks.</li>
               </ul>
@@ -166,113 +294,134 @@
           </div>
 
           <div x-data="{ open: false }" class="mb-4">
-            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
               AWS RAG and ADR Detection Projects
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
-              <ul class="list-disc pl-6">
+              <ul class="list-disc pl-6 dark:text-gray-300">
                 <li>Designed a Retrieval-Augmented Generation (RAG) pipeline using AWS Bedrock for pharma document summarization.</li>
                 <li>Deployed an Adverse Drug Reaction (ADR) detection model on Amazon SageMaker for enhanced drug safety monitoring.</li>
               </ul>
             </div>
           </div>
-        </div>
 
-        <div class="tech-stack">
-          <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
-          <p class="text-gray-700">Node.js | React.js | Microsoft Bot Framework | Flask | Microsoft Azure | Docker | Databricks | AWS Bedrock | Amazon SageMaker</p>
+          <div class="tech-stack mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <h4 class="text-lg font-semibold mb-2 dark:text-white">Tech Stack</h4>
+            <p class="text-gray-700 dark:text-gray-300">Node.js | React.js | Microsoft Bot Framework | Flask | Microsoft Azure | Docker | Databricks | AWS Bedrock | Amazon SageMaker</p>
+          </div>
         </div>
       </div>
 
       <!-- Fittlyf Experience -->
-      <div class="card bg-white p-4 rounded-lg shadow-lg">
-        <div class="flex flex-col mb-4">
-          <h3 class="text-xl font-semibold">Data Science Intern</h3>
-          <p class="text-lg font-medium text-gray-800">Fittlyf, Bengaluru</p>
-          <p class="text-sm text-gray-600">April 2022 - August 2022</p>
-        </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-blue-500 dark:border-purple-500">
+          <div class="flex flex-col mb-4">
+            <h3 class="text-xl font-semibold dark:text-white">Data Science Intern</h3>
+            <p class="text-lg font-medium text-gray-800 dark:text-gray-200">Fittlyf, Bengaluru</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">April 2022 - August 2022</p>
+          </div>
 
-        <div class="content-container">
           <div x-data="{ open: false }" class="mb-4">
-            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
               A/B Testing Frameworks
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
-              <ul class="list-disc pl-6">
+              <ul class="list-disc pl-6 dark:text-gray-300">
                 <li>Developed a Multi-Arm Bandit framework for an in-house reporting tool, optimizing A/B test traffic and reducing turnaround time by 40%. Implemented Group Sequential Sampling to adjust significance thresholds, accelerating decision-making and cutting turnaround time by 46%. Automated logging of metrics and report generation enhanced overall efficiency.</li>
               </ul>
             </div>
           </div>
 
           <div x-data="{ open: false }" class="mb-4">
-            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
               AI Based Fitness Tool (MVP)
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
-              <ul class="list-disc pl-6">
+              <ul class="list-disc pl-6 dark:text-gray-300">
                 <li>Developed an MVP AI-based solution in the computer vision domain, using human pose estimation (Blazepose model) and deep learning, to help physiotherapists monitor and report the status of exercise routines for their patients.</li>
               </ul>
             </div>
           </div>
-        </div>
 
-        <div class="tech-stack">
-          <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
-          <p class="text-gray-700">Python | Jupyter Notebook | OpenCV | Flask | Tableau | Excel | BigQuery</p>
+          <div class="tech-stack mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <h4 class="text-lg font-semibold mb-2 dark:text-white">Tech Stack</h4>
+            <p class="text-gray-700 dark:text-gray-300">Python | Jupyter Notebook | OpenCV | Flask | Tableau | Excel | BigQuery</p>
+          </div>
         </div>
       </div>
 
       <!-- Trawello Healthcare Experience -->
-      <div class="card bg-white p-4 rounded-lg shadow-lg">
-        <div class="flex flex-col mb-4">
-          <h3 class="text-xl font-semibold">Data Science Intern</h3>
-          <p class="text-lg font-medium text-gray-800">Trawello Healthcare, Bengaluru</p>
-          <p class="text-sm text-gray-600">March 2021 - October 2021</p>
-        </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-blue-500 dark:border-purple-500">
+          <div class="flex flex-col mb-4">
+            <h3 class="text-xl font-semibold dark:text-white">Data Science Intern</h3>
+            <p class="text-lg font-medium text-gray-800 dark:text-gray-200">Trawello Healthcare, Bengaluru</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">March 2021 - October 2021</p>
+          </div>
 
-        <div class="content-container">
           <div x-data="{ open: false }" class="mb-4">
-            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
               Student Health Dashboard
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
-              <ul class="list-disc pl-6">
-                <li>Developed a streamlit-based Reporting Framework, which dealt with the Startup’s data, which majorly consisted of student healthcare data. This Framework involved data analysis, data visualization, and ML prediction.</li>
+              <ul class="list-disc pl-6 dark:text-gray-300">
+                <li>Developed a streamlit-based Reporting Framework, which dealt with the Startup's data, which majorly consisted of student healthcare data. This Framework involved data analysis, data visualization, and ML prediction.</li>
               </ul>
             </div>
           </div>
-        </div>
 
-        <div class="tech-stack">
-          <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
-          <p class="text-gray-700">Python | Streamlit | ML Model Analysis</p>
+          <div class="tech-stack mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <h4 class="text-lg font-semibold mb-2 dark:text-white">Tech Stack</h4>
+            <p class="text-gray-700 dark:text-gray-300">Python | Streamlit | ML Model Analysis</p>
+          </div>
         </div>
       </div>
+
     </div>
   </main>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch('header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('header-container').innerHTML = data;
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-          // Ensure the menu button works after loading the header
-          const menuToggle = document.getElementById("menu-toggle");
-          const menu = document.getElementById("menu");
+    // Show correct icon on page load
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      themeToggleLightIcon.classList.remove('hidden');
+    } else {
+      themeToggleDarkIcon.classList.remove('hidden');
+    }
 
-          if (menuToggle && menu) {
-            menuToggle.addEventListener("click", function () {
-              menu.classList.toggle("hidden");
-              menu.classList.toggle("flex");
-              menu.classList.toggle("flex-col");
-              menu.classList.toggle("items-center");
-            });
-          }
-        })
-        .catch(error => console.error("Error loading header:", error));
+    themeToggleBtn.addEventListener('click', function() {
+      // Toggle icons
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+
+      // Toggle dark mode
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
     });
+
+    // Menu toggle functionality
+    const menuToggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+
+    if (menuToggle && menu) {
+      menuToggle.addEventListener("click", function () {
+        menu.classList.toggle("hidden");
+        menu.classList.toggle("flex");
+        menu.classList.toggle("flex-col");
+        menu.classList.toggle("items-center");
+      });
+    }
   </script>
 
 </body>

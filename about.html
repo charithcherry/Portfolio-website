@@ -1,13 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Me - Charith Purushotham</title>
+  <script>
+    // Dark mode initialization
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 
   <style>
+    /* Fade-in animation */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    /* Progress bar animation */
+    @keyframes progressBar {
+      from { width: 0; }
+      to { width: var(--progress-width); }
+    }
+
+    .progress-bar {
+      animation: progressBar 1.5s ease-out forwards;
+    }
+
     @media screen and (min-width: 768px) {
       .portfolio-image {
         width: 256px;
@@ -16,16 +51,50 @@
     }
 
     @media screen and (min-width: 768px) {
-    .flex-card {
-      width: 48%; /* Equal width for each card */
+      .flex-card {
+        width: 48%; /* Equal width for each card */
+      }
     }
-  }
   </style>
 </head>
-<body class="bg-white text-gray-900">
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-  <!-- Header Container -->
-  <div id="header-container"></div>
+  <!-- Header -->
+  <header class="sticky top-0 bg-white dark:bg-gray-900 shadow-md z-50 p-4 transition-colors duration-300">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Charith Purushotham</h1>
+
+      <div class="flex items-center gap-4">
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
+          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <!-- Hamburger Button (Only on Mobile) -->
+        <button id="menu-toggle" class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white dark:bg-gray-800 shadow sm:shadow-none sm:bg-transparent dark:sm:bg-transparent p-4 sm:p-0 z-50 transition-colors duration-300">
+        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
+          <li><a href="index.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Home</a></li>
+          <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
+          <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
+          <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
+          <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <main class="container mx-auto px-4 py-16">
     <div class="flex flex-col md:flex-row items-center">
@@ -48,111 +117,247 @@
     <br>
 
     <!-- Education Section as Flex Cards -->
-    <h3 class="text-xl md:text-2xl font-bold mb-4">Academic Qualification</h3>
+    <h3 class="text-xl md:text-2xl font-bold mb-4 dark:text-white">Academic Qualification</h3>
     <div class="flex flex-col md:flex-row md:space-x-8 mb-8">
-      <div class="flex-card p-6 border rounded-lg shadow-lg hover:shadow-2xl transition mb-4 md:mb-0">
-        <h4 class="text-lg md:text-xl font-semibold mb-2">University of Colorado Boulder</h4>
-        <p><strong>Master of Science (Research), Computer Science</strong></p>
-        <p class="text-gray-600">CGPA: 3.9/4.00</p>
-        <p class="text-gray-600">Courses: Deep Learning, NLP, Systems for Machine Learning, Computer Vision</p>
-        <p class="text-gray-600">Aug 2024 – May 2026(Expected)</p>
+      <div class="flex-card p-6 border dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-2xl transition mb-4 md:mb-0">
+        <h4 class="text-lg md:text-xl font-semibold mb-2 dark:text-white">University of Colorado Boulder</h4>
+        <p class="dark:text-gray-300"><strong>Master of Science (Research), Computer Science</strong></p>
+        <p class="text-gray-600 dark:text-gray-400">CGPA: 3.9/4.00</p>
+        <p class="text-gray-600 dark:text-gray-400">Courses: Deep Learning, NLP, Systems for Machine Learning, Computer Vision</p>
+        <p class="text-gray-600 dark:text-gray-400">Aug 2024 – May 2026(Expected)</p>
       </div>
-      <div class="flex-card p-6 border rounded-lg shadow-lg hover:shadow-2xl transition mb-4 md:mb-0">
-        <h4 class="text-lg md:text-xl font-semibold mb-2">Dayananda Sagar College of Engineering</h4>
-        <p><strong>Bachelor of Engineering, Computer Science</strong></p>
-        <p class="text-gray-600">CGPA: 9.68/10.00</p>
-        <p class="text-gray-600">Courses: AI/ML, DSA, DBMS, OOP, OS, Network Systems, Big Data Technology</p>
-        <p class="text-gray-600">Aug 2018 – Jun 2022</p>
+      <div class="flex-card p-6 border dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-2xl transition mb-4 md:mb-0">
+        <h4 class="text-lg md:text-xl font-semibold mb-2 dark:text-white">Dayananda Sagar College of Engineering</h4>
+        <p class="dark:text-gray-300"><strong>Bachelor of Engineering, Computer Science</strong></p>
+        <p class="text-gray-600 dark:text-gray-400">CGPA: 9.68/10.00</p>
+        <p class="text-gray-600 dark:text-gray-400">Courses: AI/ML, DSA, DBMS, OOP, OS, Network Systems, Big Data Technology</p>
+        <p class="text-gray-600 dark:text-gray-400">Aug 2018 – Jun 2022</p>
       </div>
     </div>
 
     <!-- Technical Skills Section -->
-    <h3 class="text-xl md:text-2xl font-bold mt-8 mb-4">Technical Skills</h3>
+    <h3 class="text-xl md:text-2xl font-bold mt-8 mb-4 dark:text-white">Technical Skills</h3>
 
     <div class="mb-8">
-      <h4 class="text-lg md:text-xl font-semibold mb-2">Programming and Development</h4>
-      <div class="flex flex-wrap gap-4 mb-4">
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">C</button>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Java</button>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Python</button>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Flask</button>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">React.js</button>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Node.js</button>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">REST APIs</button>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">MySQL</button>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">MongoDB</button>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Git</button>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">GitHub</button>
+      <h4 class="text-lg md:text-xl font-semibold mb-4 dark:text-gray-200">Programming and Development</h4>
+      <div class="space-y-4">
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">Python</span>
+            <span class="text-sm font-medium text-blue-600 dark:text-blue-400">95%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full" style="--progress-width: 95%"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">Java</span>
+            <span class="text-sm font-medium text-blue-600 dark:text-blue-400">85%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full" style="--progress-width: 85%"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">React.js & Node.js</span>
+            <span class="text-sm font-medium text-blue-600 dark:text-blue-400">88%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full" style="--progress-width: 88%"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">C, Flask, REST APIs, MySQL, MongoDB, Git</span>
+            <span class="text-sm font-medium text-blue-600 dark:text-blue-400">80%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full" style="--progress-width: 80%"></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="mb-8">
-      <h4 class="text-lg md:text-xl font-semibold mb-2">Cloud and Infrastructure</h4>
-      <div class="flex flex-wrap gap-4 mb-4">
-        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Microsoft Azure</button>
-        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">AWS</button>
-        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">GCP</button>
-        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Docker</button>
-        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">CI/CD</button>
-        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Kafka</button>
-        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Snowflake</button>
-        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Azure Boards</button>
+      <h4 class="text-lg md:text-xl font-semibold mb-4 dark:text-gray-200">Cloud and Infrastructure</h4>
+      <div class="space-y-4">
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">Microsoft Azure</span>
+            <span class="text-sm font-medium text-green-600 dark:text-green-400">90%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-green-600 dark:bg-green-500 h-2.5 rounded-full" style="--progress-width: 90%"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">AWS</span>
+            <span class="text-sm font-medium text-green-600 dark:text-green-400">85%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-green-600 dark:bg-green-500 h-2.5 rounded-full" style="--progress-width: 85%"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">Docker, CI/CD, Kafka</span>
+            <span class="text-sm font-medium text-green-600 dark:text-green-400">82%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-green-600 dark:bg-green-500 h-2.5 rounded-full" style="--progress-width: 82%"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">GCP, Snowflake, Azure Boards</span>
+            <span class="text-sm font-medium text-green-600 dark:text-green-400">75%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-green-600 dark:bg-green-500 h-2.5 rounded-full" style="--progress-width: 75%"></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="mb-8">
-      <h4 class="text-lg md:text-xl font-semibold mb-2">Data and Machine Learning</h4>
-      <div class="flex flex-wrap gap-4 mb-4">
-        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">PyTorch</button>
-        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">TensorFlow</button>
-        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">Scikit-learn</button>
-        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">OpenCV</button>
-        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">Databricks</button>
-        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">RAG</button>
-        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">LlamaIndex</button>
-        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">HuggingFace</button>
-        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">Tableau</button>
+      <h4 class="text-lg md:text-xl font-semibold mb-4 dark:text-gray-200">Data and Machine Learning</h4>
+      <div class="space-y-4">
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">PyTorch & TensorFlow</span>
+            <span class="text-sm font-medium text-purple-600 dark:text-purple-400">92%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-purple-600 dark:bg-purple-500 h-2.5 rounded-full" style="--progress-width: 92%"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">Scikit-learn & OpenCV</span>
+            <span class="text-sm font-medium text-purple-600 dark:text-purple-400">90%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-purple-600 dark:bg-purple-500 h-2.5 rounded-full" style="--progress-width: 90%"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">Databricks, RAG, LlamaIndex</span>
+            <span class="text-sm font-medium text-purple-600 dark:text-purple-400">85%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-purple-600 dark:bg-purple-500 h-2.5 rounded-full" style="--progress-width: 85%"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">HuggingFace, Tableau</span>
+            <span class="text-sm font-medium text-purple-600 dark:text-purple-400">80%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-purple-600 dark:bg-purple-500 h-2.5 rounded-full" style="--progress-width: 80%"></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="mb-8">
-      <h4 class="text-lg md:text-xl font-semibold mb-2">Software and Project Tools</h4>
-      <div class="flex flex-wrap gap-4 mb-4 ">
-        <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">OOP</button>
-        <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">System Design</button>
-        <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Jira</button>
-        <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Postman</button>
-        <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">Bot Framework</button>
+      <h4 class="text-lg md:text-xl font-semibold mb-4 dark:text-gray-200">Software and Project Tools</h4>
+      <div class="space-y-4">
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">OOP & System Design</span>
+            <span class="text-sm font-medium text-red-600 dark:text-red-400">88%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-red-600 dark:bg-red-500 h-2.5 rounded-full" style="--progress-width: 88%"></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium dark:text-gray-300">Jira, Postman, Bot Framework</span>
+            <span class="text-sm font-medium text-red-600 dark:text-red-400">82%</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="progress-bar bg-red-600 dark:bg-red-500 h-2.5 rounded-full" style="--progress-width: 82%"></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Hobbies Section -->
-    <h3 class="text-xl md:text-2xl font-bold mt-8 mb-4">Hobbies</h3>
-    <p class="text-sm md:text-lg">In my free time, I enjoy gyming, playing football (soccer), cricket, and biking. These activities help me stay active and keep my mind sharp.</p>
+    <h3 class="text-xl md:text-2xl font-bold mt-8 mb-4 dark:text-white">Hobbies</h3>
+    <p class="text-sm md:text-lg dark:text-gray-300">In my free time, I enjoy gyming, playing football (soccer), cricket, and biking. These activities help me stay active and keep my mind sharp.</p>
   </main>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch('header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('header-container').innerHTML = data;
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
 
-          // Ensure the menu button works after loading the header
-          const menuToggle = document.getElementById("menu-toggle");
-          const menu = document.getElementById("menu");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('fade-in');
+          }, index * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
 
-          if (menuToggle && menu) {
-            menuToggle.addEventListener("click", function () {
-              menu.classList.toggle("hidden");
-              menu.classList.toggle("flex");
-              menu.classList.toggle("flex-col");
-              menu.classList.toggle("items-center");
-            });
-          }
-        })
-        .catch(error => console.error("Error loading header:", error));
+    // Observe all skill items and sections
+    document.addEventListener('DOMContentLoaded', () => {
+      const elements = document.querySelectorAll('.skill-item, .flex-card, h3');
+      elements.forEach(el => observer.observe(el));
     });
+  </script>
+
+  <script>
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+    // Show correct icon on page load
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      themeToggleLightIcon.classList.remove('hidden');
+    } else {
+      themeToggleDarkIcon.classList.remove('hidden');
+    }
+
+    themeToggleBtn.addEventListener('click', function() {
+      // Toggle icons
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+
+      // Toggle dark mode
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
+    });
+
+    // Menu toggle functionality
+    const menuToggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+
+    if (menuToggle && menu) {
+      menuToggle.addEventListener("click", function () {
+        menu.classList.toggle("hidden");
+        menu.classList.toggle("flex");
+        menu.classList.toggle("flex-col");
+        menu.classList.toggle("items-center");
+      });
+    }
   </script>
 
 </body>

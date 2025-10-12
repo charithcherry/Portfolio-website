@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Charith Purushotham Portfolio</title>
+  <script>
+    // Dark mode initialization (must be before body renders)
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     .typing {
@@ -14,55 +22,137 @@
       width: 0;
       animation: typing 3s steps(30) forwards, blink 0.75s step-end infinite;
     }
-    
+
+    .dark .typing {
+      border-right-color: #fff;
+    }
+
     @keyframes typing {
       from { width: 0; }
       to { width: 100%; }
     }
-    
+
     @keyframes blink {
       50% { border-color: transparent; }
     }
+
+    /* Hero gradient background */
+    .hero-gradient {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .dark .hero-gradient {
+      background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+    }
+
+    /* Floating animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-  <!-- Include header -->
-  <div id="header-container"></div>
+  <!-- Header -->
+  <header class="sticky top-0 bg-white dark:bg-gray-900 shadow-md z-50 p-4 transition-colors duration-300">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Charith Purushotham</h1>
 
-  <main class="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 text-center">
-    <h2 class="text-2xl sm:text-4xl font-bold w-auto mb-4">
-      <span class="typing">Hello, I'm Charith Purushotham</span>
-    </h2>
-    <p class="text-lg sm:text-xl mt-2 sm:mt-4 max-w-md">
-      Data Scientist | Machine Learning Engineer | Software Developer
-    </p>
-    <a href="portfolio.html" class="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-bold rounded-lg hover:bg-blue-700 transition duration-300">
-      Explore My Work
-    </a>
+      <div class="flex items-center gap-4">
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
+          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <!-- Hamburger Button (Only on Mobile) -->
+        <button id="menu-toggle" class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white dark:bg-gray-800 shadow sm:shadow-none sm:bg-transparent dark:sm:bg-transparent p-4 sm:p-0 z-50 transition-colors duration-300">
+        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
+          <li><a href="index.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Home</a></li>
+          <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
+          <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
+          <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
+          <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="hero-gradient flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 text-center relative overflow-hidden">
+    <!-- Animated circles in background -->
+    <div class="absolute top-20 left-10 w-32 h-32 bg-white dark:bg-gray-700 rounded-full opacity-10 floating"></div>
+    <div class="absolute bottom-20 right-10 w-48 h-48 bg-white dark:bg-gray-700 rounded-full opacity-10 floating" style="animation-delay: 1s;"></div>
+
+    <div class="relative z-10">
+      <h2 class="text-2xl sm:text-4xl md:text-5xl font-bold w-auto mb-4 text-white">
+        <span class="typing">Hello, I'm Charith Purushotham</span>
+      </h2>
+      <p class="text-lg sm:text-xl md:text-2xl mt-2 sm:mt-4 max-w-2xl text-white opacity-90">
+        Data Scientist | Machine Learning Engineer | Software Developer
+      </p>
+      <a href="portfolio.html" class="inline-block mt-8 px-8 py-4 bg-white text-purple-700 dark:bg-gray-800 dark:text-white text-lg font-bold rounded-lg hover:scale-105 transform transition duration-300 shadow-lg">
+        Explore My Work
+      </a>
+    </div>
   </main>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch('header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('header-container').innerHTML = data;
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-          const menuToggle = document.getElementById("menu-toggle");
-          const menu = document.getElementById("menu");
+    // Show correct icon on page load
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      themeToggleLightIcon.classList.remove('hidden');
+    } else {
+      themeToggleDarkIcon.classList.remove('hidden');
+    }
 
-          if (menuToggle && menu) {
-            menuToggle.addEventListener("click", function () {
-              menu.classList.toggle("hidden");
-              menu.classList.toggle("flex");
-              menu.classList.toggle("flex-col");
-              menu.classList.toggle("items-center");
-            });
-          }
-        })
-        .catch(error => console.error("Error loading header:", error));
+    themeToggleBtn.addEventListener('click', function() {
+      // Toggle icons
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+
+      // Toggle dark mode
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
     });
+
+    // Menu toggle functionality
+    const menuToggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+
+    if (menuToggle && menu) {
+      menuToggle.addEventListener("click", function () {
+        menu.classList.toggle("hidden");
+        menu.classList.toggle("flex");
+        menu.classList.toggle("flex-col");
+        menu.classList.toggle("items-center");
+      });
+    }
   </script>
 </body>
 </html>

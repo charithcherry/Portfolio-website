@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio - Charith Purushotham</title>
+  <script>
+    // Dark mode initialization
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
   <style>
@@ -48,11 +56,46 @@
     }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <div id="header-container"></div>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+  <!-- Header -->
+  <header class="sticky top-0 bg-white dark:bg-gray-900 shadow-md z-50 p-4 transition-colors duration-300">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Charith Purushotham</h1>
+
+      <div class="flex items-center gap-4">
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
+          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <!-- Hamburger Button (Only on Mobile) -->
+        <button id="menu-toggle" class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white dark:bg-gray-800 shadow sm:shadow-none sm:bg-transparent dark:sm:bg-transparent p-4 sm:p-0 z-50 transition-colors duration-300">
+        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
+          <li><a href="index.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Home</a></li>
+          <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
+          <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
+          <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
+          <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
   <main class="container mx-auto px-4 py-16">
-    <h2 class="text-3xl font-bold mb-8 text-center">Portfolio</h2>
+    <h2 class="text-3xl font-bold mb-8 text-center dark:text-white">Portfolio</h2>
 
     <!-- Project Categories Section -->
     <section class="mb-12">
@@ -60,24 +103,24 @@
       <div x-data="{ open: false }" class="relative">
         <!-- Desktop Version (visible on medium and larger screens) -->
         <div class="hidden md:flex justify-center items-center space-x-6">
-          <button onclick="scrollToSection('deep-learning-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Deep Learning & OpenCV Projects</button>
-          <button onclick="scrollToSection('ml-eda-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Machine Learning & EDA Projects</button>
-          <button onclick="scrollToSection('software-dev-section')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Software Development Projects</button>
-          <button onclick="scrollToSection('Achievements')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Achievements</button>
-          <button onclick="scrollToSection('Extracurricular')" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Extracurricular Activities</button>
+          <button onclick="scrollToSection('deep-learning-section')" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Deep Learning & OpenCV Projects</button>
+          <button onclick="scrollToSection('ml-eda-section')" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Machine Learning & EDA Projects</button>
+          <button onclick="scrollToSection('software-dev-section')" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Software Development Projects</button>
+          <button onclick="scrollToSection('Achievements')" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Achievements</button>
+          <button onclick="scrollToSection('Extracurricular')" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Extracurricular Activities</button>
         </div>
-      
+
         <!-- Mobile Version (visible on small screens) -->
         <div class="md:hidden">
-          <button @click="open = !open" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 w-full text-center">
+          <button @click="open = !open" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700 w-full text-center">
             Portfolio Sections
           </button>
-          <div x-show="open" @click.away="open = false" x-transition class="absolute left-0 mt-2 w-full bg-white shadow-lg rounded-lg">
-            <button onclick="scrollToSection('deep-learning-section')" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-100">Deep Learning & OpenCV Projects</button>
-            <button onclick="scrollToSection('ml-eda-section')" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-100">Machine Learning & EDA Projects</button>
-            <button onclick="scrollToSection('software-dev-section')" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-100">Software Development Projects</button>
-            <button onclick="scrollToSection('Achievements')" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-100">Achievements</button>
-            <button onclick="scrollToSection('Extracurricular')" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-100">Extracurricular Activities</button>
+          <div x-show="open" @click.away="open = false" x-transition class="absolute left-0 mt-2 w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg z-10">
+            <button onclick="scrollToSection('deep-learning-section')" class="block w-full text-left px-4 py-2 text-blue-600 dark:text-purple-400 hover:bg-blue-100 dark:hover:bg-gray-700">Deep Learning & OpenCV Projects</button>
+            <button onclick="scrollToSection('ml-eda-section')" class="block w-full text-left px-4 py-2 text-blue-600 dark:text-purple-400 hover:bg-blue-100 dark:hover:bg-gray-700">Machine Learning & EDA Projects</button>
+            <button onclick="scrollToSection('software-dev-section')" class="block w-full text-left px-4 py-2 text-blue-600 dark:text-purple-400 hover:bg-blue-100 dark:hover:bg-gray-700">Software Development Projects</button>
+            <button onclick="scrollToSection('Achievements')" class="block w-full text-left px-4 py-2 text-blue-600 dark:text-purple-400 hover:bg-blue-100 dark:hover:bg-gray-700">Achievements</button>
+            <button onclick="scrollToSection('Extracurricular')" class="block w-full text-left px-4 py-2 text-blue-600 dark:text-purple-400 hover:bg-blue-100 dark:hover:bg-gray-700">Extracurricular Activities</button>
           </div>
         </div>
       </div>
@@ -86,10 +129,10 @@
 
     <!-- Deep Learning & OpenCV Projects Section -->
     <section id="deep-learning-section" class="mb-12">
-      <h3 class="text-2xl font-semibold mb-6">Deep Learning & OpenCV Projects</h3>
+      <h3 class="text-2xl font-semibold mb-6 dark:text-white">Deep Learning & OpenCV Projects</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Reinforcement Learning Dialogue Summarization -->
-        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
             <h4>Reinforcement Learning-Based Dialogue Summarization</h4>
             <div class="mt-2 text-sm">Developed a lightweight LSTM-based attention model for dialogue summarization on the SAMSum dataset, integrating a modular RL wrapper (SCST, PPO) that improved BLEU by +5.42% over baseline without pretrained transformers.</div>
@@ -101,12 +144,12 @@
             <span class="tech-button">NLP</span>
           </div>
           <div class="button-container">
-            <a href="https://github.com/charithcherry/RL-Training-Text-Summarization" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View GitHub</a>
+            <a href="https://github.com/charithcherry/RL-Training-Text-Summarization" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
           </div>
         </div>
 
         <!-- Multimodal Zero-Shot Learning -->
-        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
             <h4>Multimodal Zero-Shot Learning for Unseen Concepts</h4>
             <div class="mt-2 text-sm">Designed a knowledge graph-based GCN model integrating CLIP text embeddings with semantic predicate-level relationships to classify images without labeled data. Incorporated attention-based edge features and custom prototype refinement loss.</div>
@@ -118,12 +161,12 @@
             <span class="tech-button">Knowledge Graphs</span>
           </div>
           <div class="button-container">
-            <a href="https://github.com/charithcherry/CLIP-KG-ZSL" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View GitHub</a>
+            <a href="https://github.com/charithcherry/CLIP-KG-ZSL" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
           </div>
         </div>
 
         <!-- Human Pose Estimation Project -->
-        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
             <h4>Human Pose Estimation in Fitness Tracking and Guidance</h4>
             <div class="mt-2 text-sm">AI-based tool for real-time exercise monitoring using BlazePose, Yoga pose classification, and automated data reporting.</div>
@@ -137,13 +180,13 @@
             <span class="tech-button">CSS</span>
           </div>
           <div class="button-container">
-            <a href="https://www.ijfmr.com/research-paper.php?id=9614" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Research Paper</a>
+            <a href="https://www.ijfmr.com/research-paper.php?id=9614" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Research Paper</a>
             <a href="https://github.com/charithcherry/Physical-Aptitude-Monitor" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 ml-4">View Project</a>
           </div>
         </div>
 
         <!-- Contour Tracking and Detection of Heart Chamber -->
-        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
             <h4>Contour Tracking and Detection of Heart Chamber</h4>
             <div class="mt-2 text-sm">Developed methods for detecting blood chambers in echo video frames using U-Net segmentation technique in a hackathon.</div>
@@ -155,13 +198,13 @@
             <span class="tech-button">Python</span>
           </div>
           <div class="button-container">
-            <a href="https://www.irjmets.com/uploadedfiles/paper//issue_7_july_2023/43370/final/fin_irjmets1690189183.pdf" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Research Paper</a>
+            <a href="https://www.irjmets.com/uploadedfiles/paper//issue_7_july_2023/43370/final/fin_irjmets1690189183.pdf" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Research Paper</a>
             <a href="https://github.com/charithcherry/AI-Guided-Automatic-Tracking-and-Detection-Contouring-of-Chambers-of-the-Heart-in-Echocardiogram-Vid/tree/Unet" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 ml-4">View Project</a>
           </div>
         </div>
 
         <!-- RePostureAI -->
-        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
             <h4>RePostureAI</h4>
             <div class="mt-2 text-sm">An AI-powered app that corrects posture in real-time, tracks reps, and ensures safe, effective workouts for injury-free fitness.</div>
@@ -174,7 +217,7 @@
             <span class="tech-button">Gemini AI</span>
           </div>
           <div class="button-container">
-            <a href="https://github.com/srurora/RepostureAI" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View GitHub</a>
+            <a href="https://github.com/srurora/RepostureAI" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
           </div>
         </div>
       </div>
@@ -182,10 +225,10 @@
 
     <!-- Machine Learning & EDA Projects Section -->
     <section id="ml-eda-section" class="mb-12">
-      <h3 class="text-2xl font-semibold mb-6">Machine Learning & EDA Projects</h3>
+      <h3 class="text-2xl font-semibold mb-6 dark:text-white">Machine Learning & EDA Projects</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- LinkedIn Job Market Analysis -->
-        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
             <h4>LinkedIn Job Market Analysis and Recommendation System</h4>
             <div class="mt-2 text-sm">Developed a forecasting tool using LinkedIn data and ML models (ARIMA, clustering) to uncover job trends and salary insights.</div>
@@ -198,12 +241,12 @@
             <span class="tech-button">Seaborn</span>
           </div>
           <div class="button-container">
-            <a href="https://github.com/charithcherry/Linkedin-Job-Market-Analysis-using-ML" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View GitHub</a>
+            <a href="https://github.com/charithcherry/Linkedin-Job-Market-Analysis-using-ML" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
           </div>
         </div>
 
         <!-- Document Classification System -->
-        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
             <h4>Document Classification System in Apache Spark for Big Data</h4>
             <div class="mt-2 text-sm">Developed a document classification system using PySpark to handle big data and optimize document processing for multi-class classification.</div>
@@ -214,7 +257,7 @@
             <span class="tech-button">Machine Learning</span>
           </div>
           <div class="button-container">
-            <a href="https://github.com/charithcherry/Spark-Programs-Projects/tree/master/Document-Classification-System-in-Apache-Spark-for-Big-Data" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View GitHub</a>
+            <a href="https://github.com/charithcherry/Spark-Programs-Projects/tree/master/Document-Classification-System-in-Apache-Spark-for-Big-Data" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
           </div>
         </div>
       </div>
@@ -222,10 +265,10 @@
 
     <!-- Software Development Projects Section -->
     <section id="software-dev-section" class="mb-12">
-      <h3 class="text-2xl font-semibold mb-6">Software Development Projects</h3>
+      <h3 class="text-2xl font-semibold mb-6 dark:text-white">Software Development Projects</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Chat Application -->
-        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
             <h4>Chat Application</h4>
             <div class="mt-2 text-sm">A simple chat application using React Chat Engine with real-time messaging and authentication features.</div>
@@ -235,12 +278,12 @@
             <span class="tech-button">React Chat Engine</span>
           </div>
           <div class="button-container">
-            <a href="https://github.com/charithcherry/Chat-App" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View Project</a>
+            <a href="https://github.com/charithcherry/Chat-App" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View Project</a>
           </div>
         </div>
 
         <!-- Full-Stack E-Commerce Application -->
-        <div class="card bg-white p-6 rounded-lg shadow-lg flex flex-col">
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
             <h4>Full-Stack E-Commerce Application</h4>
             <div class="mt-2 text-sm">Developed a scalable, responsive web application using React.js, Node.js, Express.js, and MongoDB with secure payment gateway integration.</div>
@@ -255,7 +298,7 @@
             <span class="tech-button">Redis</span>
           </div>
           <div class="button-container">
-            <a href="https://github.com/charithcherry/Full-Stack-E-COM/tree/dev_frontend" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">View Project</a>
+            <a href="https://github.com/charithcherry/Full-Stack-E-COM/tree/dev_frontend" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View Project</a>
           </div>
         </div>
       </div>
@@ -265,23 +308,23 @@
     <section class="mb-12" id="Achievements">
       <h3 class="text-2xl font-semibold mb-6" >Achievements & Publications</h3>
       <div class="space-y-4">
-        <div class="card bg-white p-6 rounded-lg shadow-lg">
-          <h4 class="text-lg font-semibold">Research Publication: Nuclear Fuel Characterization Using Machine Learning</h4>
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
+          <h4 class="text-lg font-semibold dark:text-white">Research Publication: Nuclear Fuel Characterization Using Machine Learning</h4>
           <p class="mt-2 text-sm">Co-authored "Bridging Multimodal Microscopy for Advanced Characterization on Nuclear Fuel Using Machine Learning", published in <strong>Frontiers in Mechanical Engineering – Digital Manufacturing, Vol. 11, 2025</strong>. Demonstrated a transfer-learning deep-learning framework outperforming four state-of-the-art models for cross-scale defect segmentation in nuclear materials.</p>
         </div>
 
-        <div class="card bg-white p-6 rounded-lg shadow-lg">
-          <h4 class="text-lg font-semibold">Best Project of the Year (Computer Science Category)</h4>
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
+          <h4 class="text-lg font-semibold dark:text-white">Best Project of the Year (Computer Science Category)</h4>
           <p class="mt-2 text-sm">Awarded for the project "Human pose estimation in fitness tracking and guidance" at VTU, Belagavi, August 2022, supported by KSCST.</p>
         </div>
 
-        <div class="card bg-white p-6 rounded-lg shadow-lg">
-          <h4 class="text-lg font-semibold">3rd Place, T9-MediHack 2025 (24hr Hackathon)</h4>
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
+          <h4 class="text-lg font-semibold dark:text-white">3rd Place, T9-MediHack 2025 (24hr Hackathon)</h4>
           <p class="mt-2 text-sm">Awarded for "RePosture AI" project in the AI track. A tool for posture correction using computer vision and real-time feedback.</p>
         </div>
 
-        <div class="card bg-white p-6 rounded-lg shadow-lg">
-          <h4 class="text-lg font-semibold">7th Place, AWS Jam Hackathon</h4>
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
+          <h4 class="text-lg font-semibold dark:text-white">7th Place, AWS Jam Hackathon</h4>
           <p class="mt-2 text-sm">Placed 7th in the AWS Jam Hackathon, solving 9/13 security challenges using AWS services, including Lambda, CloudTrail, and SageMaker.</p>
         </div>
       </div>
@@ -289,15 +332,15 @@
 
     <!-- Extracurricular Section -->
     <section class="mb-12" id="Extracurricular">
-      <h3 class="text-2xl font-semibold mb-6">Extracurricular</h3>
+      <h3 class="text-2xl font-semibold mb-6 dark:text-white">Extracurricular</h3>
       <div class="space-y-4">
-        <div class="card bg-white p-6 rounded-lg shadow-lg">
-          <h4 class="text-lg font-semibold">Co-Founder, Data Science and AI-ML Student Club</h4>
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
+          <h4 class="text-lg font-semibold dark:text-white">Co-Founder, Data Science and AI-ML Student Club</h4>
           <p class="mt-2 text-sm">Lead Layers Club to promote knowledge sharing, networking, and skill development in Data Science and AI-ML.</p>
         </div>
 
-        <div class="card bg-white p-6 rounded-lg shadow-lg">
-          <h4 class="text-lg font-semibold">Technical/Data Consultant, Data Buffs</h4>
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
+          <h4 class="text-lg font-semibold dark:text-white">Technical/Data Consultant, Data Buffs</h4>
           <p class="mt-2 text-sm">Currently working on data extraction, backend development, and statistical analysis to provide data-driven insights at Data Buffs.</p>
         </div>
       </div>
@@ -306,29 +349,47 @@
   </main>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch('header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('header-container').innerHTML = data;
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-          // Ensure the menu button works after loading the header
-          const menuToggle = document.getElementById("menu-toggle");
-          const menu = document.getElementById("menu");
+    // Show correct icon on page load
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      themeToggleLightIcon.classList.remove('hidden');
+    } else {
+      themeToggleDarkIcon.classList.remove('hidden');
+    }
 
-          if (menuToggle && menu) {
-            menuToggle.addEventListener("click", function () {
-              menu.classList.toggle("hidden");
-              menu.classList.toggle("flex");
-              menu.classList.toggle("flex-col");
-              menu.classList.toggle("items-center");
-            });
-          }
-        })
-        .catch(error => console.error("Error loading header:", error));
+    themeToggleBtn.addEventListener('click', function() {
+      // Toggle icons
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+
+      // Toggle dark mode
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
     });
-  </script>
-  <script>
+
+    // Menu toggle functionality
+    const menuToggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+
+    if (menuToggle && menu) {
+      menuToggle.addEventListener("click", function () {
+        menu.classList.toggle("hidden");
+        menu.classList.toggle("flex");
+        menu.classList.toggle("flex-col");
+        menu.classList.toggle("items-center");
+      });
+    }
+
+    // Smooth scroll function
     function scrollToSection(sectionId) {
       const section = document.getElementById(sectionId);
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
