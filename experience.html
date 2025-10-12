@@ -44,8 +44,82 @@
   <main class="container mx-auto px-4 py-16">
     <h2 class="text-3xl font-bold mb-8 text-center">Experience</h2>
 
-    <!-- Phamax Experience -->
+    <!-- Owl AI Experience -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+      <div class="card bg-white p-4 rounded-lg shadow-lg">
+        <div class="flex flex-col mb-4">
+          <h3 class="text-xl font-semibold">Machine Learning Engineer Intern</h3>
+          <p class="text-lg font-medium text-gray-800">Owl AI, Boulder, CO</p>
+          <p class="text-sm text-gray-600">September 2025 - Present</p>
+        </div>
+
+        <div class="content-container">
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+              Sports Analytics Pipeline Development
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6">
+                <li>Developing a sports analytics pipeline leveraging fine-tuned YOLO, HRNet, RTMPose, and 3D pose estimation models for motion understanding.</li>
+                <li>Engineering GPU-optimized inference pipelines with quantization (TensorRT), caching, and prefetching techniques, reducing end-to-end latency by 50% (18→9s).</li>
+                <li>Curating domain-specific sports datasets and employing GenAI agents (Roo, Claude) for automated data labeling, validation, and preprocessing.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-stack">
+          <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
+          <p class="text-gray-700">Python | PyTorch | YOLO | HRNet | RTMPose | TensorRT | GenAI | Computer Vision</p>
+        </div>
+      </div>
+
+      <!-- Idaho National Laboratory Experience -->
+      <div class="card bg-white p-4 rounded-lg shadow-lg">
+        <div class="flex flex-col mb-4">
+          <h3 class="text-xl font-semibold">Machine Learning Engineer Intern</h3>
+          <p class="text-lg font-medium text-gray-800">Idaho National Laboratory, Idaho Falls, ID</p>
+          <p class="text-sm text-gray-600">June 2025 - August 2025</p>
+        </div>
+
+        <div class="content-container">
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+              Nuclear Materials Segmentation Research
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6">
+                <li>Contributed to an LDRD-funded project developing and fine-tuning deep learning models (SAM/SAM2, YOLOv9, ResUNet, DenseNet, ResDense-UNet) for semantic segmentation of pores and cracks in post-irradiated nuclear materials using FIB, SEM, TEM, and X-ray CT data.</li>
+                <li>Utilized HPC infrastructure for large-scale training and image characterization, enabling predictive modeling of radiation-induced material degradation.</li>
+                <li>Analyzed how data quality factors (resolution, contrast, noise, artifacts) affect segmentation accuracy and applied saliency maps with attention mechanisms (CBAM vs. bottleneck self-attention) across microscopy modalities.</li>
+                <li>Supported a parallel study on size effects in nuclear materials, leveraging Random Forest and XGBoost to compare temperature sensitivity and impact energy between sub-sized and full-sized specimens.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+              Publication
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6">
+                <li>Co-authored: "Bridging Multimodal Microscopy for Advanced Characterization on Nuclear Fuel Using Machine Learning", published in Frontiers in Mechanical Engineering – Digital Manufacturing, Vol. 11, 2025, demonstrating a transfer-learning deep-learning framework outperforming four state-of-the-art models for cross-scale defect segmentation.</li>
+              </ul>
+              <div class="mt-2">
+                <a href="https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2025.1619834/abstract" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700" target="_blank">View Publication</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-stack">
+          <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
+          <p class="text-gray-700">Python | PyTorch | SAM/SAM2 | YOLOv9 | ResUNet | DenseNet | Random Forest | XGBoost | HPC</p>
+        </div>
+      </div>
+
+    <!-- Phamax Experience -->
+
       <div class="card bg-white p-4 rounded-lg shadow-lg">
         <div class="flex flex-col mb-4">
           <h3 class="text-xl font-semibold">Associate Software Development Engineer</h3>
@@ -90,11 +164,23 @@
               </ul>
             </div>
           </div>
+
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 hover:text-blue-800 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-all">
+              AWS RAG and ADR Detection Projects
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6">
+                <li>Designed a Retrieval-Augmented Generation (RAG) pipeline using AWS Bedrock for pharma document summarization.</li>
+                <li>Deployed an Adverse Drug Reaction (ADR) detection model on Amazon SageMaker for enhanced drug safety monitoring.</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <div class="tech-stack">
           <h4 class="text-lg font-semibold mt-8">Tech Stack</h4>
-          <p class="text-gray-700">Node.js | React.js | Microsoft Bot Framework | Flask | Microsoft Azure | Docker | Databricks</p>
+          <p class="text-gray-700">Node.js | React.js | Microsoft Bot Framework | Flask | Microsoft Azure | Docker | Databricks | AWS Bedrock | Amazon SageMaker</p>
         </div>
       </div>
 
