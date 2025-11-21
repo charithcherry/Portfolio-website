@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,108 +13,269 @@
       document.documentElement.classList.remove('dark');
     }
   </script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;700;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
   <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      cursor: none;
+      /* Hide default cursor for custom one */
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* Custom Cursor */
+    .cursor-dot,
+    .cursor-outline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #8b5cf6;
+      /* Violet-500 */
+    }
+
+    .cursor-outline {
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(139, 92, 246, 0.5);
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+
+    body.dark .cursor-dot {
+      background-color: #a78bfa;
+      /* Violet-400 */
+    }
+
+    body.dark .cursor-outline {
+      border-color: rgba(167, 139, 250, 0.5);
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .dark .glass {
+      background: rgba(17, 24, 39, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
     .typing {
       display: inline-block;
       overflow: hidden;
-      border-right: 3px solid #333;
+      border-right: 3px solid #8b5cf6;
       white-space: nowrap;
       width: 0;
       animation: typing 3s steps(30) forwards, blink 0.75s step-end infinite;
     }
 
-    .dark .typing {
-      border-right-color: #fff;
-    }
-
     @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
+      from {
+        width: 0;
+      }
+
+      to {
+        width: 100%;
+      }
     }
 
     @keyframes blink {
-      50% { border-color: transparent; }
+      50% {
+        border-color: transparent;
+      }
     }
 
     /* Hero gradient background */
     .hero-gradient {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+      position: relative;
     }
 
     .dark .hero-gradient {
-      background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+      background: radial-gradient(circle at 50% 50%, #1f2937 0%, #111827 100%);
     }
 
     /* Floating animation */
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
     }
 
     .floating {
-      animation: float 3s ease-in-out infinite;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-delayed {
+      animation: float 8s ease-in-out infinite;
+      animation-delay: 2s;
     }
   </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+<body
+  class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 overflow-x-hidden">
+  <div class="cursor-dot hidden md:block"></div>
+  <div class="cursor-outline hidden md:block"></div>
 
   <!-- Header -->
-  <header class="sticky top-0 bg-white dark:bg-gray-900 shadow-md z-50 p-4 transition-colors duration-300">
-    <div class="container mx-auto flex items-center justify-between">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Charith Purushotham</h1>
-
+  <header class="fixed w-full top-0 z-50 transition-all duration-300 glass shadow-sm">
+    <div class="container mx-auto flex items-center justify-between p-4">
+      <h1
+        class="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500 dark:from-purple-400 dark:to-blue-300">
+        Charith Purushotham</h1>
       <div class="flex items-center gap-4">
         <!-- Dark Mode Toggle -->
-        <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
-          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <button id="theme-toggle"
+          class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 focus:outline-none transform hover:scale-110 transition-transform duration-200"><svg
+            id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-          </svg>
-          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-          </svg>
-        </button>
-
-        <!-- Hamburger Button (Only on Mobile) -->
-        <button id="menu-toggle" class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          </svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+              fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg></button>
+        <!-- Hamburger Button (Only on Mobile) --><button id="menu-toggle"
+          class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
+          </svg></button>
       </div>
-
       <!-- Navigation Menu -->
-      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white dark:bg-gray-800 shadow sm:shadow-none sm:bg-transparent dark:sm:bg-transparent p-4 sm:p-0 z-50 transition-colors duration-300">
-        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
-          <li><a href="index.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Home</a></li>
-          <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
-          <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
-          <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
-          <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
+      <nav id="menu"
+        class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white/90 dark:bg-gray-900/90 backdrop-blur-md sm:bg-transparent dark:sm:bg-transparent shadow-lg sm:shadow-none p-4 sm:p-0 z-40 transition-all duration-300 rounded-b-xl sm:rounded-none">
+        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-8">
+          <li><a href="index.html" class="relative group block p-2 text-gray-900 dark:text-gray-100 font-medium">Home
+              <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 transition-all duration-300 group-hover:w-full"></span></a>
+          </li>
+          <li><a href="about.html" class="relative group block p-2 text-gray-900 dark:text-gray-100 font-medium">About
+              Me <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 transition-all duration-300 group-hover:w-full"></span></a>
+          </li>
+          <li><a href="portfolio.html"
+              class="relative group block p-2 text-gray-900 dark:text-gray-100 font-medium">Portfolio <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 transition-all duration-300 group-hover:w-full"></span></a>
+          </li>
+          <li><a href="experience.html"
+              class="relative group block p-2 text-gray-900 dark:text-gray-100 font-medium">Experience <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 transition-all duration-300 group-hover:w-full"></span></a>
+          </li>
+          <li><a href="contact.html"
+              class="relative group block p-2 text-gray-900 dark:text-gray-100 font-medium">Contact <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 transition-all duration-300 group-hover:w-full"></span></a>
+          </li>
         </ul>
       </nav>
     </div>
   </header>
-
-  <main class="hero-gradient flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 text-center relative overflow-hidden">
+  <main
+    class="hero-gradient flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 text-center relative overflow-hidden pt-16">
     <!-- Animated circles in background -->
-    <div class="absolute top-20 left-10 w-32 h-32 bg-white dark:bg-gray-700 rounded-full opacity-10 floating"></div>
-    <div class="absolute bottom-20 right-10 w-48 h-48 bg-white dark:bg-gray-700 rounded-full opacity-10 floating" style="animation-delay: 1s;"></div>
-
-    <div class="relative z-10">
-      <h2 class="text-2xl sm:text-4xl md:text-5xl font-bold w-auto mb-4 text-white">
-        <span class="typing">Hello, I'm Charith Purushotham</span>
-      </h2>
-      <p class="text-lg sm:text-xl md:text-2xl mt-2 sm:mt-4 max-w-2xl text-white opacity-90">
-        Data Scientist | Machine Learning Engineer | Software Developer
-      </p>
-      <a href="portfolio.html" class="inline-block mt-8 px-8 py-4 bg-white text-purple-700 dark:bg-gray-800 dark:text-white text-lg font-bold rounded-lg hover:scale-105 transform transition duration-300 shadow-lg">
-        Explore My Work
-      </a>
+    <div
+      class="absolute top-20 left-10 w-32 h-32 bg-purple-300 dark:bg-purple-900 rounded-full opacity-20 blur-xl floating">
     </div>
+    <div
+      class="absolute bottom-20 right-10 w-48 h-48 bg-blue-300 dark:bg-blue-900 rounded-full opacity-20 blur-xl floating-delayed">
+    </div>
+    <div
+      class="absolute top-1/2 left-1/4 w-24 h-24 bg-pink-300 dark:bg-pink-900 rounded-full opacity-20 blur-xl floating"
+      style="animation-delay: 1s;"></div>
+    <div class="relative z-10 max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
+      <div
+        class="mb-6 inline-block px-4 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 backdrop-blur-sm text-purple-700 dark:text-purple-300 text-sm font-medium tracking-wide">
+        Welcome to my portfolio </div>
+      <h2 class="text-4xl sm:text-6xl md:text-7xl font-extrabold mb-6 tracking-tight text-gray-900 dark:text-white">
+        Hello,
+        I'm <br class="sm:hidden" />
+        <span
+          class="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500 dark:from-purple-400 dark:to-blue-300 typing">Charith
+          Purushotham</span>
+      </h2>
+      <p class="text-lg sm:text-xl md:text-2xl mt-4 max-w-2xl mx-auto text-gray-600 dark:text-gray-300 leading-relaxed"
+        data-aos="fade-up" data-aos-delay="200">Data Scientist | Machine Learning Engineer | Software Developer </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10" data-aos="fade-up" data-aos-delay="400"><a
+          href="portfolio.html"
+          class="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-lg font-bold rounded-full hover:shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-1 transition duration-300">Explore
+          My Work </a><a href="contact.html"
+          class="px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 text-lg font-bold rounded-full hover:shadow-lg hover:bg-gray-50 dark:hover:bg-gray-700 transform hover:-translate-y-1 transition duration-300">Contact
+          Me </a></div>
+    </div>
+    <!-- Scroll Down Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce"><svg
+        class="w-6 h-6 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg></div>
   </main>
 
+  <!-- AOS Animation Library -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
+    // Initialize AOS
+    AOS.init({
+      once: true,
+      offset: 50,
+      duration: 800,
+      easing: 'ease-out-cubic',
+    });
+
+    // Custom Cursor Logic
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-outline');
+
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+
+      // Using transform for better performance
+      cursorDot.style.transform = `translate(${posX}px, ${posY}px) translate(-50%, -50%)`;
+
+      cursorOutline.animate({
+        transform: `translate(${posX}px, ${posY}px) translate(-50%, -50%)`
+      }, {
+        duration: 500,
+        fill: "forwards"
+      });
+    });
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
@@ -126,7 +288,7 @@
       themeToggleDarkIcon.classList.remove('hidden');
     }
 
-    themeToggleBtn.addEventListener('click', function() {
+    themeToggleBtn.addEventListener('click', function () {
       // Toggle icons
       themeToggleDarkIcon.classList.toggle('hidden');
       themeToggleLightIcon.classList.toggle('hidden');
@@ -151,8 +313,16 @@
         menu.classList.toggle("flex");
         menu.classList.toggle("flex-col");
         menu.classList.toggle("items-center");
+
+        // Add glass effect to mobile menu when open
+        if (!menu.classList.contains("hidden")) {
+          menu.classList.add("glass");
+        } else {
+          menu.classList.remove("glass");
+        }
       });
     }
   </script>
 </body>
+
 </html>

@@ -1,179 +1,435 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Me - Charith Purushotham</title>
   <script>
-    // Dark mode initialization
     if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;700;900&display=swap"
+    rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-
   <style>
-    /* Fade-in animation */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    body {
+      font-family: 'Inter', sans-serif;
+      cursor: none;
     }
 
-    .fade-in {
-      opacity: 0;
-      animation: fadeInUp 0.6s ease-out forwards;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Outfit', sans-serif;
     }
 
-    /* Float animation */
+    .cursor-dot,
+    .cursor-outline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #8b5cf6;
+    }
+
+    .cursor-outline {
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(139, 92, 246, 0.5);
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+
+    body.dark .cursor-dot {
+      background-color: #a78bfa;
+    }
+
+    body.dark .cursor-outline {
+      border-color: rgba(167, 139, 250, 0.5);
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .dark .glass {
+      background: rgba(17, 24, 39, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
     @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(3deg); }
-    }
 
-    /* Progress bar animation */
-    @keyframes progressBar {
-      from { width: 0; }
-      to { width: var(--progress-width); }
-    }
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
 
-    .progress-bar {
-      animation: progressBar 1.5s ease-out forwards;
-    }
-
-    @media screen and (min-width: 768px) {
-      .portfolio-image {
-        width: 256px;
-        height: 125px;
+      50% {
+        transform: translateY(-20px);
       }
     }
 
-    @media screen and (min-width: 768px) {
-      .flex-card {
-        width: 48%; /* Equal width for each card */
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes progressBar {
+      from {
+        width: 0;
+      }
+
+      to {
+        width: var(--progress-width);
       }
     }
   </style>
 </head>
-<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
-  <!-- Header -->
-  <header class="sticky top-0 bg-white dark:bg-gray-900 shadow-md z-50 p-4 transition-colors duration-300">
-    <div class="container mx-auto flex items-center justify-between">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Charith Purushotham</h1>
+<body
+  class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 overflow-x-hidden">
+  <div class="cursor-dot hidden md:block"></div>
+  <div class="cursor-outline hidden md:block"></div>
 
+  <header class="fixed w-full top-0 z-50 glass transition-all duration-300">
+    <div class="container mx-auto flex items-center justify-between p-4">
+      <h1
+        class="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+        Charith Purushotham</h1>
       <div class="flex items-center gap-4">
-        <!-- Dark Mode Toggle -->
-        <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
-          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <button id="theme-toggle"
+          class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none transition-transform hover:scale-110"><svg
+            id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-          </svg>
-          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-          </svg>
-        </button>
-
-        <!-- Hamburger Button (Only on Mobile) -->
-        <button id="menu-toggle" class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          </svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+              fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg></button><button id="menu-toggle"
+          class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
+          </svg></button>
       </div>
-
-      <!-- Navigation Menu -->
-      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white dark:bg-gray-800 shadow sm:shadow-none sm:bg-transparent dark:sm:bg-transparent p-4 sm:p-0 z-50 transition-colors duration-300">
-        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
-          <li><a href="index.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Home</a></li>
-          <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
-          <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
-          <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
-          <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
+      <nav id="menu"
+        class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white dark:bg-gray-800 shadow sm:shadow-none sm:bg-transparent dark:sm:bg-transparent p-4 sm:p-0 z-50 transition-colors duration-300">
+        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-8">
+          <li><a href="index.html"
+              class="block text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 font-medium border-b-2 border-transparent hover:border-blue-600 transition-all">Home</a>
+          </li>
+          <li><a href="about.html"
+              class="block text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 font-medium border-b-2 border-transparent hover:border-blue-600 transition-all">About
+              Me</a></li>
+          <li><a href="portfolio.html"
+              class="block text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 font-medium border-b-2 border-transparent hover:border-blue-600 transition-all">Portfolio</a>
+          </li>
+          <li><a href="experience.html"
+              class="block text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 font-medium border-b-2 border-transparent hover:border-blue-600 transition-all">Experience</a>
+          </li>
+          <li><a href="contact.html"
+              class="block text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 font-medium border-b-2 border-transparent hover:border-blue-600 transition-all">Contact</a>
+          </li>
         </ul>
       </nav>
     </div>
   </header>
-
-  <main class="container mx-auto px-4 py-16 relative overflow-hidden">
-    <!-- Floating background elements -->
-    <div class="absolute top-10 right-10 w-64 h-64 bg-blue-200 dark:bg-purple-900 rounded-full opacity-20 blur-3xl" style="animation: float 6s ease-in-out infinite;"></div>
-    <div class="absolute bottom-20 left-10 w-80 h-80 bg-purple-200 dark:bg-blue-900 rounded-full opacity-20 blur-3xl" style="animation: float 6s ease-in-out infinite; animation-delay: 2s;"></div>
-
+  <main class="container mx-auto px-4 py-16 relative overflow-hidden pt-24">
+    <div
+      class="absolute top-10 right-10 w-64 h-64 bg-blue-200 dark:bg-purple-900 rounded-full opacity-20 floating blur-3xl">
+    </div>
+    <div
+      class="absolute bottom-20 left-10 w-80 h-80 bg-purple-200 dark:bg-blue-900 rounded-full opacity-20 floating blur-3xl"
+      style="animation-delay: 2s;"></div>
     <div class="relative z-10">
-      <!-- Hero Section -->
-      <div class="text-center mb-12 fade-in">
-        <h1 class="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-          About Me
-        </h1>
+      <div class="text-center mb-12" data-aos="fade-up">
+        <h1
+          class="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+          About Me</h1>
         <p class="text-lg text-gray-600 dark:text-gray-400">Get to know me better</p>
       </div>
-
-      <!-- About Me Card -->
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 md:p-10 mb-12 border-l-4 border-blue-500 dark:border-purple-500 fade-in">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 md:p-10 mb-12 border-l-4 border-blue-500 dark:border-purple-500"
+        data-aos="fade-up">
         <div class="flex flex-col md:flex-row items-center gap-8">
-          <!-- Profile Picture -->
           <div class="flex-shrink-0">
             <div class="relative">
-              <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-75"></div>
-              <img src="portfolio_image.png" alt="Charith Purushotham"
-                   class="relative rounded-full w-40 h-40 md:w-48 md:h-48 object-cover border-4 border-white dark:border-gray-800 shadow-xl">
+              <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-75">
+              </div><img src="portfolio_image.png" alt="Charith Purushotham"
+                class="relative rounded-full w-40 h-40 md:w-48 md:h-48 object-cover border-4 border-white dark:border-gray-800 shadow-xl">
             </div>
             <div class="text-center mt-4">
               <h3 class="text-xl font-bold dark:text-white">Charith Purushotham</h3>
               <p class="text-sm text-gray-600 dark:text-gray-400">Data Scientist & ML Engineer</p>
             </div>
           </div>
-
-          <!-- About Text -->
           <div class="flex-1">
             <div class="space-y-6">
               <div>
                 <div class="flex items-center mb-3">
-                  <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                  <div
+                    class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
                     <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                      <path
+                        d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
                     </svg>
                   </div>
                   <h4 class="text-lg font-semibold dark:text-white">Academic Focus</h4>
                 </div>
-                <p class="text-sm md:text-base leading-relaxed text-gray-700 dark:text-gray-300">
-                  I am a passionate data scientist and software developer currently pursuing my Master of Science in Computer Science at the University of Colorado Boulder. With expertise in Machine Learning, Deep Learning, and Artificial Intelligence, I am dedicated to applying cutting-edge data science techniques to solve real-world problems. I am currently focused on research projects that enhance model generalization and improve performance in environments with minimal labeled data, particularly through data augmentation and zero-shot learning approaches.
-                </p>
+                <p class="text-sm md:text-base leading-relaxed text-gray-700 dark:text-gray-300">I am a passionate data
+                  scientist and software developer currently pursuing my Master of Science in Computer Science at the
+                  University of Colorado Boulder. With expertise in Machine Learning,
+                  Deep Learning,
+                  and Artificial Intelligence,
+                  I am dedicated to applying cutting-edge data science techniques to solve real-world problems.</p>
               </div>
-
               <div>
                 <div class="flex items-center mb-3">
-                  <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
+                  <div
+                    class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
                     <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"/>
-                      <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/>
+                      <path fill-rule="evenodd"
+                        d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                        clip-rule="evenodd" />
+                      <path
+                        d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                     </svg>
                   </div>
                   <h4 class="text-lg font-semibold dark:text-white">Professional Experience</h4>
                 </div>
-                <p class="text-sm md:text-base leading-relaxed text-gray-700 dark:text-gray-300">
-                  In addition to my academic work, I have hands-on experience in developing AI-driven applications and data engineering solutions. I have worked on optimizing A/B testing frameworks, integrating real-time analytics, and developing human pose estimation solutions for fitness applications. I have also led projects focused on improving data processing times and optimizing system performance using advanced tools like Azure, Databricks, and Spark.
-                </p>
+                <p class="text-sm md:text-base leading-relaxed text-gray-700 dark:text-gray-300">In addition to my
+                  academic work,
+                  I have hands-on experience in developing AI-driven applications and data engineering solutions. I have
+                  worked on optimizing A/B testing frameworks,
+                  integrating real-time analytics,
+                  and developing human pose estimation solutions.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-    <!-- Education Section -->
-    <div class="mb-12 fade-in">
+      <div class="mb-12" data-aos="fade-up">
+        <div class="flex items-center mb-6">
+          <div
+            class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-3xl font-bold dark:text-white">Academic Qualifications</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Educational background and achievements</p>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div
+            class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-l-4 border-blue-500 dark:border-purple-500">
+            <div class="flex items-start mb-4">
+              <div
+                class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z" />
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-xl font-bold text-gray-900 dark:text-white">University of Colorado Boulder </h4>
+                <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">Master of Science</p>
+              </div>
+            </div>
+            <div class="space-y-2 mb-4">
+              <p class="text-sm text-gray-700 dark:text-gray-300"><strong>Computer Science</strong></p>
+              <p class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong
+                  class="text-green-600 dark:text-green-400">3.9/4.0</strong></p>
+              <p class="text-sm text-gray-700 dark:text-gray-300">Aug 2024 – May 2026 (Expected)</p>
+            </div>
+          </div>
+          <div
+            class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-l-4 border-purple-500 dark:border-pink-500">
+            <div class="flex items-start mb-4">
+              <div
+                class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z" />
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-xl font-bold text-gray-900 dark:text-white">Dayananda Sagar College of Engineering</h4>
+                <p class="text-sm text-purple-600 dark:text-pink-400 font-semibold">Bachelor of Engineering</p>
+              </div>
+            </div>
+            <div class="space-y-2 mb-4">
+              <p class="text-sm text-gray-700 dark:text-gray-300"><strong>Computer Science</strong></p>
+              <p class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong
+                  class="text-green-600 dark:text-green-400">9.68/10.0</strong></p>
+              <p class="text-sm text-gray-700 dark:text-gray-300">Aug 2018 – Jun 2022</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Technical Skills Section -->
+      <h3 class="text-xl md:text-2xl font-bold mt-8 mb-6 dark:text-white">Technical Skills</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Programming -->
+        <div
+          class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-blue-500 dark:border-blue-400 hover:shadow-xl transition-shadow">
+          <h4 class="text-lg font-semibold mb-4 text-blue-700 dark:text-blue-400 flex items-center">Programming &
+            Development</h4>
+          <div class="flex flex-wrap gap-2"><span
+              class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Python</span><span
+              class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Java</span><span
+              class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">React.js</span><span
+              class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Node.js</span><span
+              class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">C</span><span
+              class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Flask</span><span
+              class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">REST
+              APIs</span><span
+              class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">MySQL</span><span
+              class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">MongoDB</span><span
+              class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Git</span>
+          </div>
+        </div>
+        <!-- Cloud -->
+        <div
+          class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-green-500 dark:border-green-400 hover:shadow-xl transition-shadow">
+          <h4 class="text-lg font-semibold mb-4 text-green-700 dark:text-green-400 flex items-center">Cloud &
+            Infrastructure</h4>
+          <div class="flex flex-wrap gap-2"><span
+              class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Microsoft
+              Azure</span><span
+              class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">AWS</span><span
+              class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Docker</span><span
+              class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">CI/CD</span><span
+              class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Kafka</span><span
+              class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">GCP</span><span
+              class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Snowflake</span>
+          </div>
+        </div>
+        <!-- Data/ML -->
+        <div
+          class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-purple-500 dark:border-purple-400 hover:shadow-xl transition-shadow">
+          <h4 class="text-lg font-semibold mb-4 text-purple-700 dark:text-purple-400 flex items-center">Data &
+            Machine Learning</h4>
+          <div class="flex flex-wrap gap-2"><span
+              class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">PyTorch</span><span
+              class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">TensorFlow</span><span
+              class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Scikit-learn</span><span
+              class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">OpenCV</span><span
+              class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Databricks</span><span
+              class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">RAG</span><span
+              class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">LlamaIndex</span><span
+              class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">HuggingFace</span><span
+              class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Tableau</span>
+          </div>
+        </div>
+        <!-- Software/Tools -->
+        <div
+          class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-red-500 dark:border-red-400 hover:shadow-xl transition-shadow">
+          <h4 class="text-lg font-semibold mb-4 text-red-700 dark:text-red-400 flex items-center">Software &
+            Tools</h4>
+          <div class="flex flex-wrap gap-2"><span
+              class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">OOP</span><span
+              class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">System
+              Design</span><span
+              class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Jira</span><span
+              class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Postman</span><span
+              class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Bot
+              Framework</span></div>
+        </div>
+      </div>
+      <!-- Hobbies Section -->
+      <div class="mt-12" data-aos="fade-up">
+        <div class="flex items-center mb-6">
+          <div
+            class="w-12 h-12 bg-gradient-to-br from-pink-500 to-orange-600 rounded-lg flex items-center justify-center mr-4">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-3xl font-bold dark:text-white">Hobbies & Interests</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">What I love to do in my free time</p>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div
+            class="bg-gradient-to-br from-red-50 to-orange-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-red-500 dark:border-red-400">
+            <div class="flex flex-col items-center text-center">
+              <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Gym</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Staying fit and building strength</p>
+            </div>
+          </div>
+          <div
+            class="bg-gradient-to-br from-green-50 to-teal-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-green-500 dark:border-green-400">
+            <div class="flex flex-col items-center text-center">
+              <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Football</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Team spirit and strategy</p>
+            </div>
+          </div>
+          <div
+            class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-blue-500 dark:border-blue-400">
+            <div class="flex flex-col items-center text-center">
+              <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Cricket</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Passion for the gentleman's game</p>
+            </div>
+          </div>
+          <div
+            class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-purple-500 dark:border-purple-400">
+            <div class="flex flex-col items-center text-center">
+              <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Biking</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Exploring and adventure</p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl border-l-4 border-blue-500 dark:border-purple-500">
+          <p class="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed"><span
+              class="font-semibold text-blue-600 dark:text-blue-400">Staying Active:</span>These activities help me
+            maintain a healthy work-life balance,
+            keep my mind sharp,
+            and build discipline that translates into my professional work. Whether it's the strategic thinking in
+            cricket,
+            the teamwork in football,
+            or the endurance in gym and biking,
+            each hobby contributes to my personal growth. </p>
+          worked on optimizing A/B testing frameworks,
+          integrating real-time analytics,
+          and developing human pose estimation solutions.</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="mb-12" data-aos="fade-up">
       <div class="flex items-center mb-6">
-        <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
+        <div
+          class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
           <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+            <path
+              d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
           </svg>
         </div>
         <div>
@@ -181,63 +437,37 @@
           <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Educational background and achievements</p>
         </div>
       </div>
-
       <div class="grid md:grid-cols-2 gap-6">
-        <!-- CU Boulder Card -->
-        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-l-4 border-blue-500 dark:border-purple-500">
+        <div
+          class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-l-4 border-blue-500 dark:border-purple-500">
           <div class="flex items-start mb-4">
-            <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+            <div
+              class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
               <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z"/>
+                <path
+                  d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z" />
               </svg>
             </div>
             <div>
-              <h4 class="text-xl font-bold text-gray-900 dark:text-white">University of Colorado Boulder</h4>
+              <h4 class="text-xl font-bold text-gray-900 dark:text-white">University of Colorado Boulder </h4>
               <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">Master of Science</p>
             </div>
           </div>
-
           <div class="space-y-2 mb-4">
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-blue-600 dark:text-purple-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300"><strong>Computer Science</strong></span>
-            </div>
-
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong class="text-green-600 dark:text-green-400">3.9/4.0</strong></span>
-            </div>
-
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300">Aug 2024 – May 2026 (Expected)</span>
-            </div>
-          </div>
-
-          <div class="pt-3 border-t border-blue-200 dark:border-gray-700">
-            <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">KEY COURSES</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Deep Learning</span>
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">NLP</span>
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Systems for ML</span>
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Computer Vision</span>
-            </div>
+            <p class="text-sm text-gray-700 dark:text-gray-300"><strong>Computer Science</strong></p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong
+                class="text-green-600 dark:text-green-400">3.9/4.0</strong></p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">Aug 2024 – May 2026 (Expected)</p>
           </div>
         </div>
-
-        <!-- Bachelor's Card -->
-        <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-l-4 border-purple-500 dark:border-pink-500">
+        <div
+          class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-l-4 border-purple-500 dark:border-pink-500">
           <div class="flex items-start mb-4">
-            <div class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+            <div
+              class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
               <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z"/>
+                <path
+                  d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z" />
               </svg>
             </div>
             <div>
@@ -245,139 +475,93 @@
               <p class="text-sm text-purple-600 dark:text-pink-400 font-semibold">Bachelor of Engineering</p>
             </div>
           </div>
-
           <div class="space-y-2 mb-4">
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-purple-600 dark:text-pink-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300"><strong>Computer Science</strong></span>
-            </div>
-
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong class="text-green-600 dark:text-green-400">9.68/10.0</strong></span>
-            </div>
-
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-purple-600 dark:text-pink-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300">Aug 2018 – Jun 2022</span>
-            </div>
-          </div>
-
-          <div class="pt-3 border-t border-purple-200 dark:border-gray-700">
-            <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">KEY COURSES</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">AI/ML</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">DSA</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">DBMS</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">OOP</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">OS</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">Big Data</span>
-            </div>
+            <p class="text-sm text-gray-700 dark:text-gray-300"><strong>Computer Science</strong></p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong
+                class="text-green-600 dark:text-green-400">9.68/10.0</strong></p>
+            <p class="text-sm text-gray-700 dark:text-gray-300">Aug 2018 – Jun 2022</p>
           </div>
         </div>
       </div>
     </div>
-
     <!-- Technical Skills Section -->
     <h3 class="text-xl md:text-2xl font-bold mt-8 mb-6 dark:text-white">Technical Skills</h3>
-
     <div class="grid md:grid-cols-2 gap-6">
-      <!-- Programming and Development -->
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-blue-500 dark:border-blue-400 hover:shadow-xl transition-shadow">
-        <h4 class="text-lg font-semibold mb-4 text-blue-700 dark:text-blue-400 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"/>
-          </svg>
-          Programming & Development
-        </h4>
-        <div class="flex flex-wrap gap-2">
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Python</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Java</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">React.js</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Node.js</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">C</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Flask</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">REST APIs</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">MySQL</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">MongoDB</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Git</span>
+      <!-- Programming -->
+      <div
+        class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-blue-500 dark:border-blue-400 hover:shadow-xl transition-shadow">
+        <h4 class="text-lg font-semibold mb-4 text-blue-700 dark:text-blue-400 flex items-center">Programming &
+          Development</h4>
+        <div class="flex flex-wrap gap-2"><span
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Python</span><span
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Java</span><span
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">React.js</span><span
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Node.js</span><span
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">C</span><span
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Flask</span><span
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">REST
+            APIs</span><span
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">MySQL</span><span
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">MongoDB</span><span
+            class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Git</span>
         </div>
       </div>
-
-      <!-- Cloud and Infrastructure -->
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-green-500 dark:border-green-400 hover:shadow-xl transition-shadow">
-        <h4 class="text-lg font-semibold mb-4 text-green-700 dark:text-green-400 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M5.5 16a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 16h-8z"/>
-          </svg>
-          Cloud & Infrastructure
-        </h4>
-        <div class="flex flex-wrap gap-2">
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Microsoft Azure</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">AWS</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Docker</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">CI/CD</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Kafka</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">GCP</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Snowflake</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Azure Boards</span>
+      <!-- Cloud -->
+      <div
+        class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-green-500 dark:border-green-400 hover:shadow-xl transition-shadow">
+        <h4 class="text-lg font-semibold mb-4 text-green-700 dark:text-green-400 flex items-center">Cloud &
+          Infrastructure</h4>
+        <div class="flex flex-wrap gap-2"><span
+            class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Microsoft
+            Azure</span><span
+            class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">AWS</span><span
+            class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Docker</span><span
+            class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">CI/CD</span><span
+            class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Kafka</span><span
+            class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">GCP</span><span
+            class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Snowflake</span>
         </div>
       </div>
-
-      <!-- Data and Machine Learning -->
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-purple-500 dark:border-purple-400 hover:shadow-xl transition-shadow">
-        <h4 class="text-lg font-semibold mb-4 text-purple-700 dark:text-purple-400 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"/>
-            <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"/>
-            <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"/>
-          </svg>
-          Data & Machine Learning
-        </h4>
-        <div class="flex flex-wrap gap-2">
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">PyTorch</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">TensorFlow</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Scikit-learn</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">OpenCV</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Databricks</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">RAG</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">LlamaIndex</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">HuggingFace</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Tableau</span>
+      <!-- Data/ML -->
+      <div
+        class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-purple-500 dark:border-purple-400 hover:shadow-xl transition-shadow">
+        <h4 class="text-lg font-semibold mb-4 text-purple-700 dark:text-purple-400 flex items-center">Data &
+          Machine Learning</h4>
+        <div class="flex flex-wrap gap-2"><span
+            class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">PyTorch</span><span
+            class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">TensorFlow</span><span
+            class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Scikit-learn</span><span
+            class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">OpenCV</span><span
+            class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Databricks</span><span
+            class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">RAG</span><span
+            class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">LlamaIndex</span><span
+            class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">HuggingFace</span><span
+            class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Tableau</span>
         </div>
       </div>
-
-      <!-- Software and Project Tools -->
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-red-500 dark:border-red-400 hover:shadow-xl transition-shadow">
-        <h4 class="text-lg font-semibold mb-4 text-red-700 dark:text-red-400 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
-          </svg>
-          Software & Tools
-        </h4>
-        <div class="flex flex-wrap gap-2">
-          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">OOP</span>
-          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">System Design</span>
-          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Jira</span>
-          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Postman</span>
-          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Bot Framework</span>
-        </div>
+      <!-- Software/Tools -->
+      <div
+        class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-red-500 dark:border-red-400 hover:shadow-xl transition-shadow">
+        <h4 class="text-lg font-semibold mb-4 text-red-700 dark:text-red-400 flex items-center">Software &
+          Tools</h4>
+        <div class="flex flex-wrap gap-2"><span
+            class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">OOP</span><span
+            class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">System
+            Design</span><span
+            class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Jira</span><span
+            class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Postman</span><span
+            class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Bot
+            Framework</span></div>
       </div>
     </div>
-
     <!-- Hobbies Section -->
-    <div class="mt-12 fade-in">
+    <div class="mt-12" data-aos="fade-up">
       <div class="flex items-center mb-6">
-        <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-orange-600 rounded-lg flex items-center justify-center mr-4">
+        <div
+          class="w-12 h-12 bg-gradient-to-br from-pink-500 to-orange-600 rounded-lg flex items-center justify-center mr-4">
           <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
+            <path
+              d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
           </svg>
         </div>
         <div>
@@ -385,98 +569,80 @@
           <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">What I love to do in my free time</p>
         </div>
       </div>
-
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Gym Card -->
-        <div class="bg-gradient-to-br from-red-50 to-orange-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-red-500 dark:border-red-400">
+        <div
+          class="bg-gradient-to-br from-red-50 to-orange-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-red-500 dark:border-red-400">
           <div class="flex flex-col items-center text-center">
-            <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zM13 3a1 1 0 00-1 1v3a1 1 0 001 1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3zm1 2v1h1V5h-1z" clip-rule="evenodd"/>
-                <path d="M11 4a1 1 0 10-2 0v1a1 1 0 002 0V4zM10 7a1 1 0 011 1v1h2a1 1 0 110 2h-3a1 1 0 01-1-1V8a1 1 0 011-1zM16 9a1 1 0 100 2 1 1 0 000-2zM9 13a1 1 0 011-1h1a1 1 0 110 2v2a1 1 0 11-2 0v-3zM7 11a1 1 0 100-2H4a1 1 0 100 2h3zM17 13a1 1 0 01-1 1h-2a1 1 0 110-2h2a1 1 0 011 1zM16 17a1 1 0 100-2h-3a1 1 0 100 2h3z"/>
-              </svg>
-            </div>
             <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Gym</h4>
             <p class="text-sm text-gray-600 dark:text-gray-400">Staying fit and building strength</p>
           </div>
         </div>
-
-        <!-- Football Card -->
-        <div class="bg-gradient-to-br from-green-50 to-teal-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-green-500 dark:border-green-400">
+        <div
+          class="bg-gradient-to-br from-green-50 to-teal-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-green-500 dark:border-green-400">
           <div class="flex flex-col items-center text-center">
-            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"/>
-              </svg>
-            </div>
             <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Football</h4>
             <p class="text-sm text-gray-600 dark:text-gray-400">Team spirit and strategy</p>
           </div>
         </div>
-
-        <!-- Cricket Card -->
-        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-blue-500 dark:border-blue-400">
+        <div
+          class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-blue-500 dark:border-blue-400">
           <div class="flex flex-col items-center text-center">
-            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
-              </svg>
-            </div>
             <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Cricket</h4>
             <p class="text-sm text-gray-600 dark:text-gray-400">Passion for the gentleman's game</p>
           </div>
         </div>
-
-        <!-- Biking Card -->
-        <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-purple-500 dark:border-purple-400">
+        <div
+          class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-purple-500 dark:border-purple-400">
           <div class="flex flex-col items-center text-center">
-            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
-                <path d="M3 4a1 1 0 00-1 1v2.5a.5.5 0 001 0V5a1 1 0 011-1h2.586l-1.293 1.293a1 1 0 101.414 1.414L8.414 5H12a1 1 0 01.707.293l2.586 2.586a1 1 0 11-1.414 1.414L12.586 8H11a1 1 0 00-.707.293L9 9.586a1 1 0 11-1.414-1.414L8.879 7H4a1 1 0 01-1-1z"/>
-              </svg>
-            </div>
             <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Biking</h4>
             <p class="text-sm text-gray-600 dark:text-gray-400">Exploring and adventure</p>
           </div>
         </div>
       </div>
-
-      <div class="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl border-l-4 border-blue-500 dark:border-purple-500">
-        <p class="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-          <span class="font-semibold text-blue-600 dark:text-blue-400">Staying Active:</span> These activities help me maintain a healthy work-life balance, keep my mind sharp, and build discipline that translates into my professional work. Whether it's the strategic thinking in cricket, the teamwork in football, or the endurance in gym and biking, each hobby contributes to my personal growth.
-        </p>
+      <div
+        class="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl border-l-4 border-blue-500 dark:border-purple-500">
+        <p class="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed"><span
+            class="font-semibold text-blue-600 dark:text-blue-400">Staying Active:</span>These activities help me
+          maintain a healthy work-life balance,
+          keep my mind sharp,
+          and build discipline that translates into my professional work. Whether it's the strategic thinking in
+          cricket,
+          the teamwork in football,
+          or the endurance in gym and biking,
+          each hobby contributes to my personal growth. </p>
       </div>
     </div>
     </div>
   </main>
-
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('fade-in');
-          }, index * 100);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    // Observe all skill items and sections
-    document.addEventListener('DOMContentLoaded', () => {
-      const elements = document.querySelectorAll('.skill-item, .flex-card, h3');
-      elements.forEach(el => observer.observe(el));
+    // Initialize AOS
+    AOS.init({
+      once: true,
+      offset: 50,
+      duration: 800,
+      easing: 'ease-out-cubic',
     });
-  </script>
 
-  <script>
+    // Custom Cursor Logic
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-outline');
+
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+
+      // Using transform for better performance
+      cursorDot.style.transform = `translate(${posX}px, ${posY}px) translate(-50%, -50%)`;
+
+      cursorOutline.animate({
+        transform: `translate(${posX}px, ${posY}px) translate(-50%, -50%)`
+      }, {
+        duration: 500,
+        fill: "forwards"
+      });
+    });
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
@@ -489,7 +655,7 @@
       themeToggleDarkIcon.classList.remove('hidden');
     }
 
-    themeToggleBtn.addEventListener('click', function() {
+    themeToggleBtn.addEventListener('click', function () {
       // Toggle icons
       themeToggleDarkIcon.classList.toggle('hidden');
       themeToggleLightIcon.classList.toggle('hidden');
@@ -514,9 +680,16 @@
         menu.classList.toggle("flex");
         menu.classList.toggle("flex-col");
         menu.classList.toggle("items-center");
+
+        // Add glass effect to mobile menu when open
+        if (!menu.classList.contains("hidden")) {
+          menu.classList.add("glass");
+        } else {
+          menu.classList.remove("glass");
+        }
       });
     }
   </script>
-
 </body>
+
 </html>
