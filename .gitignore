@@ -1,0 +1,13 @@
+# Ignore JSON files
+*.json
+
+# Ignore Word documents
+*.doc
+*.docx
+
+# Ignore Documents folder
+Documents/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
