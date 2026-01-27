@@ -95,6 +95,27 @@
       }
     }
 
+    /* Tech badges */
+    .tech-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.375rem 0.875rem;
+      margin-right: 0.5rem;
+      margin-top: 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+    .tech-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    .dark .tech-button {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    }
+
     .timeline-content {
       width: calc(50% - 40px);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -236,14 +257,14 @@
               Tech Stack
             </h4>
             <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">PyTorch</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">CUDA</span>
-              <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs font-medium">TensorRT</span>
-              <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs font-medium">OpenCV</span>
-              <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 rounded-full text-xs font-medium">MLflow</span>
-              <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-xs font-medium">MediaMTX/SRT</span>
-              <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs font-medium">Python</span>
-              <span class="px-3 py-1 bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200 rounded-full text-xs font-medium">GenAI</span>
+              <span class="tech-button">PyTorch</span>
+              <span class="tech-button">CUDA</span>
+              <span class="tech-button">TensorRT</span>
+              <span class="tech-button">OpenCV</span>
+              <span class="tech-button">MLflow</span>
+              <span class="tech-button">MediaMTX/SRT</span>
+              <span class="tech-button">Python</span>
+              <span class="tech-button">GenAI</span>
             </div>
           </div>
         </div>
@@ -295,15 +316,15 @@
               Tech Stack
             </h4>
             <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Python</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">PyTorch</span>
-              <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs font-medium">SAM/SAM2</span>
-              <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs font-medium">YOLOv9</span>
-              <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 rounded-full text-xs font-medium">ResUNet</span>
-              <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-xs font-medium">DenseNet</span>
-              <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs font-medium">Random Forest</span>
-              <span class="px-3 py-1 bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200 rounded-full text-xs font-medium">XGBoost</span>
-              <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-xs font-medium">HPC</span>
+              <span class="tech-button">Python</span>
+              <span class="tech-button">PyTorch</span>
+              <span class="tech-button">SAM/SAM2</span>
+              <span class="tech-button">YOLOv9</span>
+              <span class="tech-button">ResUNet</span>
+              <span class="tech-button">DenseNet</span>
+              <span class="tech-button">Random Forest</span>
+              <span class="tech-button">XGBoost</span>
+              <span class="tech-button">HPC</span>
             </div>
           </div>
         </div>
@@ -376,15 +397,15 @@
               Tech Stack
             </h4>
             <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs font-medium">Node.js</span>
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">React.js</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">Bot Framework</span>
-              <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs font-medium">Flask</span>
-              <span class="px-3 py-1 bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200 rounded-full text-xs font-medium">Azure</span>
-              <span class="px-3 py-1 bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200 rounded-full text-xs font-medium">Docker</span>
-              <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-xs font-medium">Databricks</span>
-              <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs font-medium">AWS Bedrock</span>
-              <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 rounded-full text-xs font-medium">SageMaker</span>
+              <span class="tech-button">Node.js</span>
+              <span class="tech-button">React.js</span>
+              <span class="tech-button">Bot Framework</span>
+              <span class="tech-button">Flask</span>
+              <span class="tech-button">Azure</span>
+              <span class="tech-button">Docker</span>
+              <span class="tech-button">Databricks</span>
+              <span class="tech-button">AWS Bedrock</span>
+              <span class="tech-button">SageMaker</span>
             </div>
           </div>
         </div>
@@ -430,13 +451,13 @@
               Tech Stack
             </h4>
             <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Python</span>
-              <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-xs font-medium">Jupyter</span>
-              <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs font-medium">OpenCV</span>
-              <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs font-medium">Flask</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">Tableau</span>
-              <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 rounded-full text-xs font-medium">Excel</span>
-              <span class="px-3 py-1 bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200 rounded-full text-xs font-medium">BigQuery</span>
+              <span class="tech-button">Python</span>
+              <span class="tech-button">Jupyter</span>
+              <span class="tech-button">OpenCV</span>
+              <span class="tech-button">Flask</span>
+              <span class="tech-button">Tableau</span>
+              <span class="tech-button">Excel</span>
+              <span class="tech-button">BigQuery</span>
             </div>
           </div>
         </div>
@@ -471,9 +492,9 @@
               Tech Stack
             </h4>
             <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Python</span>
-              <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-xs font-medium">Streamlit</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">ML Analysis</span>
+              <span class="tech-button">Python</span>
+              <span class="tech-button">Streamlit</span>
+              <span class="tech-button">ML Analysis</span>
             </div>
           </div>
         </div>
