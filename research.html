@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research - Charith Purushotham</title>
+  <script>
+    // Dark mode initialization
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .paper-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .paper-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    .dark .paper-card:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+  <!-- Header -->
+  <header class="sticky top-0 bg-white dark:bg-gray-900 shadow-md z-50 p-4 transition-colors duration-300">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Charith Purushotham</h1>
+
+      <div class="flex items-center gap-4">
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
+          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+
+        <!-- Hamburger Button (Only on Mobile) -->
+        <button id="menu-toggle" class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white dark:bg-gray-800 shadow sm:shadow-none sm:bg-transparent dark:sm:bg-transparent p-4 sm:p-0 z-50 transition-colors duration-300">
+        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
+          <li><a href="index.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Home</a></li>
+          <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
+          <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
+          <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
+          <li><a href="research.html" class="block p-2 text-blue-600 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-400 font-semibold">Research</a></li>
+          <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-purple-600 to-blue-600 dark:from-gray-800 dark:to-gray-700 text-white py-16 px-4">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Research & Paper Reviews</h2>
+      <p class="text-lg sm:text-xl max-w-3xl mx-auto opacity-90">
+        A collection of in-depth paper reviews on Systems for Machine Learning, covering distributed computing, ML infrastructure, and emerging AI frameworks.
+      </p>
+    </div>
+  </section>
+
+  <!-- Research Papers Grid -->
+  <section class="container mx-auto px-4 py-12">
+    <div class="mb-8">
+      <h3 class="text-2xl font-bold mb-2">Systems for Machine Learning</h3>
+      <p class="text-gray-600 dark:text-gray-400">
+        Comprehensive reviews of 22 research papers exploring cutting-edge systems, frameworks, and infrastructure for AI and machine learning applications.
+      </p>
+    </div>
+
+    <!-- Papers Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Paper 1 -->
+      <a href="research/A1.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #1</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">Ray: A Distributed Framework for Emerging AI Applications</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Analysis of Ray's unified interface for task-parallel and actor-based computation with dynamic execution engine.
+        </p>
+      </a>
+
+      <!-- Paper 2 -->
+      <a href="research/A2.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #2</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">Zelda: Video Analytics using Vision-Language Models</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Zero-shot video search system using VLMs with prompt expansion and diversity-aware selection for efficient video analytics.
+        </p>
+      </a>
+
+      <!-- Paper 3 -->
+      <a href="research/A3.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #3</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">TensorFlow: A System for Large-Scale Machine Learning</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Flexible dataflow graph architecture enabling scalable ML computation across CPUs, GPUs, and TPUs with unified programming model.
+        </p>
+      </a>
+
+      <!-- Paper 4 -->
+      <a href="research/A4.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #4</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">In-Datacenter Performance Analysis of a Tensor Processing Unit</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Google's TPU delivering 15-30× speedups for neural network inference with domain-specific design and 8-bit systolic arrays.
+        </p>
+      </a>
+
+      <!-- Paper 5 -->
+      <a href="research/A5.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #5</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">cedar: Optimized and Unified Machine Learning Input Data</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Framework unifying ML input pipelines with systematic optimization (reordering, caching, fusion) across PyTorch, TensorFlow, and JAX.
+        </p>
+      </a>
+
+      <!-- Paper 6 -->
+      <a href="research/A6.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #6</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">Modyn: Data-Centric Machine Learning Pipeline Orchestration</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Policy-driven retraining system for continuously growing datasets with drift-based triggers and sample-level selection strategies.
+        </p>
+      </a>
+
+      <!-- Paper 7 -->
+      <a href="research/A7.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #7</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">Alpa: Automating Inter- and Intra-Operator Parallelism for Distributed Deep Learning</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Compiler automating parallelism strategies for large model training using ILP and dynamic programming for optimal execution plans.
+        </p>
+      </a>
+
+      <!-- Paper 8 -->
+      <a href="research/A8.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #8</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">PipeDream: Generalized Pipeline Parallelism for DNN Training</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          System combining intra-batch and inter-batch parallelism with 1F1B scheduling and weight stashing for efficient distributed training.
+        </p>
+      </a>
+
+      <!-- Paper 9 -->
+      <a href="research/A9.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #9</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">ZeRO-Infinity: Breaking the GPU Memory Wall for Extreme Scale Deep Learning</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Extends ZeRO-3 with NVMe offloading and memory-centric tiling to train trillion-parameter models on limited GPUs with bandwidth-centric partitioning.
+        </p>
+      </a>
+
+      <!-- Paper 10 -->
+      <a href="research/A10.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #10</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">ReCycle: Resilient Training of Large DNNs using Pipeline Adaptation</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Fault-tolerant training system using adaptive pipelining, decoupled backprop, and staggered optimizer to sustain throughput during GPU failures.
+        </p>
+      </a>
+
+      <!-- Paper 11 -->
+      <a href="research/A11.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #11</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">MAST: Global Scheduling of ML Training across Geo-Distributed Datacenters at Hyperscale</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Meta's system for scheduling ML workloads across global datacenters with temporal and scope decoupling, achieving 98% GPU allocation efficiency.
+        </p>
+      </a>
+
+      <!-- Paper 12 -->
+      <a href="research/A12.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #12</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">INFaaS: Automated Model-less Inference Serving</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Declarative API for ML inference with automatic model variant selection, cost optimization using ILP, and dynamic vertical autoscaling.
+        </p>
+      </a>
+
+      <!-- Paper 13 -->
+      <a href="research/A13.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #13</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">Training Compute-Optimal Large Language Models (Chinchilla)</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Study showing model size and training tokens should scale equally for compute-optimal training, challenging prior scaling laws.
+        </p>
+      </a>
+
+      <!-- Paper 14 -->
+      <a href="research/A14.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #14</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">ORCA: A Distributed Serving System for Transformer-Based Generative Models</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Iteration-level scheduling and selective batching for efficient autoregressive model serving, achieving 36.9x higher throughput than FasterTransformer.
+        </p>
+      </a>
+
+      <!-- Paper 15 -->
+      <a href="research/A15.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #15</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">Efficient Memory Management for Large Language Model Serving with PagedAttention (vLLM)</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          PagedAttention system using OS-like paging for KV cache management, achieving 2-4x throughput gains and 96%+ memory utilization.
+        </p>
+      </a>
+
+      <!-- Paper 16 -->
+      <a href="research/A16.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #16</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">DistServe: Disaggregating Prefill and Decoding for Goodput-optimized LLM Serving</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Separates prefill and decoding phases onto different GPUs with bandwidth-aware placement, achieving up to 7.4x higher request rates.
+        </p>
+      </a>
+
+      <!-- Paper 17 -->
+      <a href="research/A17.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #17</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">Hermes: Algorithm-System Co-design for Efficient Retrieval-Augmented Generation At-Scale</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Hierarchical search with clustered indices for trillion-token RAG systems, achieving 9.33x speedup with K-means clustering and DVFS.
+        </p>
+      </a>
+
+      <!-- Paper 18 -->
+      <a href="research/A18.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #18</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">Generative Agents: Interactive Simulacra of Human Behavior</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Architecture combining LLMs with memory streams, reflection, and planning for believable AI agents exhibiting emergent social behaviors.
+        </p>
+      </a>
+
+      <!-- Paper 19 -->
+      <a href="research/A19.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #19</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">MegaScale: Scaling Large Language Model Training to More Than 10,000 GPUs</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          ByteDance's system achieving 55.2% MFU on 12,288 GPUs with algorithm-system co-design, parallel transformers, and hybrid networking.
+        </p>
+      </a>
+
+      <!-- Paper 20 -->
+      <a href="research/A20.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #20</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">S-LoRA: Serving Thousands of Concurrent LoRA Adapters</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Unified paging and heterogeneous batching for serving thousands of LoRA adapters with custom CUDA kernels, achieving 4x throughput over vLLM.
+        </p>
+      </a>
+
+      <!-- Paper 21 -->
+      <a href="research/A21.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #21</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">Privacy Side Channels in Machine Learning Systems</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Analysis of privacy vulnerabilities in ML system components like data filters, tokenizers, and memorization detectors beyond model privacy.
+        </p>
+      </a>
+
+      <!-- Paper 22 -->
+      <a href="research/A22.pdf" target="_blank" class="paper-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:cursor-pointer">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Paper Review #22</span>
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-2">Sustainable AI: Environmental Implications, Challenges and Opportunities</h4>
+        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+          Holistic analysis of AI's carbon footprint including embodied carbon from hardware manufacturing and operational efficiency across ML lifecycle.
+        </p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 dark:bg-gray-900 text-white py-8 mt-12">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm">&copy; 2025 Charith Purushotham. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+    // Show correct icon on page load
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      themeToggleLightIcon.classList.remove('hidden');
+    } else {
+      themeToggleDarkIcon.classList.remove('hidden');
+    }
+
+    themeToggleBtn.addEventListener('click', function() {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
+    });
+
+    // Menu toggle functionality
+    const menuToggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+
+    if (menuToggle && menu) {
+      menuToggle.addEventListener("click", function () {
+        menu.classList.toggle("hidden");
+        menu.classList.toggle("flex");
+        menu.classList.toggle("flex-col");
+        menu.classList.toggle("items-center");
+      });
+    }
+  </script>
+</body>
+</html>

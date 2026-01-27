@@ -166,6 +166,7 @@
           <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
           <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
           <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
+          <li><a href="research.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Research</a></li>
           <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
         </ul>
       </nav>
@@ -214,13 +215,15 @@
 
           <div x-data="{ open: false }" class="mb-4">
             <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
-              Sports Analytics Pipeline Development
+              Real-Time Sports Analytics & Predictive Modeling
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
               <ul class="list-disc pl-6 dark:text-gray-300">
-                <li>Developing a sports analytics pipeline leveraging fine-tuned YOLO, HRNet, RTMPose, and 3D pose estimation models for motion understanding.</li>
-                <li>Engineering GPU-optimized inference pipelines with quantization (TensorRT), caching, and prefetching techniques, reducing end-to-end latency by 50% (18→9s).</li>
-                <li>Curating domain-specific sports datasets and employing GenAI agents (Roo, Claude) for automated data labeling, validation, and preprocessing.</li>
+                <li>Built and productionized a real-time snowboard video ML pipeline that ingests live camera streams, extracts keypoints/pose, applies temporal modeling, and outputs trick-level metrics using MediaMTX (SRT) streaming for reliable broadcast feeds.</li>
+                <li>Trained keypoint detection and temporal models on large-scale X Games video data; implemented dataset curation/automation and used MLflow to track experiments, metrics, and artifacts for reproducible model iteration.</li>
+                <li>Engineered GPU inference pipelines with TensorRT optimizations, quantization, and caching/prefetching, increasing throughput from 45 FPS to 58 FPS for real-time analysis.</li>
+                <li>Developed Bayesian/MCMC models to predict event scores and podium probability from trick metrics; generated commentator-facing insights by conditioning on historical distributions.</li>
+                <li>Leveraged LLM-based agents to automate labeling, data QA, and dataset bookkeeping, reducing manual overhead and improving iteration speed.</li>
               </ul>
             </div>
           </div>
@@ -233,14 +236,14 @@
               Tech Stack
             </h4>
             <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Python</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">PyTorch</span>
-              <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs font-medium">YOLO</span>
-              <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs font-medium">HRNet</span>
-              <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 rounded-full text-xs font-medium">RTMPose</span>
-              <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-xs font-medium">TensorRT</span>
-              <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs font-medium">GenAI</span>
-              <span class="px-3 py-1 bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200 rounded-full text-xs font-medium">Computer Vision</span>
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">PyTorch</span>
+              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">CUDA</span>
+              <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs font-medium">TensorRT</span>
+              <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs font-medium">OpenCV</span>
+              <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 rounded-full text-xs font-medium">MLflow</span>
+              <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-xs font-medium">MediaMTX/SRT</span>
+              <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs font-medium">Python</span>
+              <span class="px-3 py-1 bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200 rounded-full text-xs font-medium">GenAI</span>
             </div>
           </div>
         </div>
