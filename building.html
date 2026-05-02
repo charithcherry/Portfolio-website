@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What I'm Building - Charith Purushotham</title>
+  <script>
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+    /* Hero — animated grid + radial glow */
+    .lab-hero {
+      background:
+        radial-gradient(900px 500px at 15% 0%, rgba(99,102,241,0.32), transparent 60%),
+        radial-gradient(800px 500px at 85% 100%, rgba(236,72,153,0.28), transparent 60%),
+        linear-gradient(135deg, #050816 0%, #0f172a 60%, #1e1b4b 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .lab-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%);
+      pointer-events: none;
+    }
+
+    /* SVG motion lines floating in hero */
+    .motion-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .motion-lines path {
+      fill: none;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-dasharray: 4 8;
+      animation: dashFlow 12s linear infinite;
+    }
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -200; }
+    }
+
+    /* Status pulse */
+    @keyframes pulseDot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+    }
+    .status-dot { animation: pulseDot 2s infinite; }
+
+    /* String Tune-style reveals */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-32px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .reveal-left.in { opacity: 1; transform: translateX(0); }
+
+    /* Glass card */
+    .glass-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 16px;
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  border-color 0.4s ease,
+                  box-shadow 0.4s ease;
+    }
+    .glass-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(139,92,246,0.4);
+      box-shadow: 0 20px 50px rgba(139,92,246,0.15);
+    }
+
+    /* Tier card brain-anatomy badge */
+    .tier-badge {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Code block */
+    .codeblock {
+      background: #0d1117;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 18px 22px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: #c9d1d9;
+      overflow-x: auto;
+      position: relative;
+    }
+    .code-comment { color: #7d8590; }
+    .code-key { color: #79c0ff; }
+    .code-fn { color: #d2a8ff; }
+    .code-str { color: #a5d6ff; }
+    .code-num { color: #ffa657; }
+    .code-ok { color: #56d364; }
+
+    /* Lifecycle stepper */
+    .lifecycle-step {
+      position: relative;
+      padding-left: 60px;
+    }
+    .lifecycle-step::before {
+      content: counter(step, decimal-leading-zero);
+      counter-increment: step;
+      position: absolute;
+      left: 0; top: 0;
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1, #ec4899);
+      color: white;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(139,92,246,0.4);
+    }
+    .lifecycle-step::after {
+      content: '';
+      position: absolute;
+      left: 22px;
+      top: 56px;
+      bottom: -32px;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(139,92,246,0.4), transparent);
+    }
+    .lifecycle-step:last-child::after { display: none; }
+
+    /* Architecture pipeline arrow */
+    .pipeline-arrow {
+      width: 28px;
+      flex-shrink: 0;
+      color: rgba(139,92,246,0.5);
+    }
+
+    /* AMI signature wave */
+    .signature-wave {
+      width: 100%;
+      height: 80px;
+    }
+    .signature-wave path {
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      animation: drawSignature 3s ease-in-out infinite alternate;
+    }
+    @keyframes drawSignature {
+      from { stroke-dashoffset: 1000; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Status chip */
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .status-active {
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.3);
+      color: #4ade80;
+    }
+    .status-private {
+      background: rgba(251,191,36,0.12);
+      border: 1px solid rgba(251,191,36,0.3);
+      color: #fbbf24;
+    }
+    .status-research {
+      background: rgba(139,92,246,0.12);
+      border: 1px solid rgba(139,92,246,0.3);
+      color: #c4b5fd;
+    }
+
+    /* Big quote */
+    .big-quote {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+
+    /* Pulse-glow accent for the big "Why" card */
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 30px rgba(139,92,246,0.2); }
+      50% { box-shadow: 0 0 60px rgba(139,92,246,0.4); }
+    }
+    .glow-pulse { animation: glowPulse 4s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-gray-950 dark:bg-gray-950 text-gray-100 dark:text-gray-100 transition-colors duration-300">
+
+  <!-- Header -->
+  <header class="sticky top-0 bg-gray-950/80 backdrop-blur-md shadow-md z-50 p-4 transition-colors duration-300 border-b border-white/5">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl sm:text-3xl font-bold text-white">Charith Purushotham</h1>
+      <div class="flex items-center gap-4">
+        <button id="theme-toggle" class="text-gray-300 hover:text-blue-400 focus:outline-none">
+          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+        </button>
+        <button id="menu-toggle" class="sm:hidden text-gray-300 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-gray-900 sm:bg-transparent shadow sm:shadow-none p-4 sm:p-0 z-50">
+        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
+          <li><a href="index.html" class="block p-2 text-gray-100 hover:text-blue-400">Home</a></li>
+          <li><a href="about.html" class="block p-2 text-gray-100 hover:text-blue-400">About Me</a></li>
+          <li><a href="portfolio.html" class="block p-2 text-gray-100 hover:text-blue-400">Portfolio</a></li>
+          <li><a href="building.html" class="block p-2 text-purple-400 font-semibold">Building</a></li>
+          <li><a href="experience.html" class="block p-2 text-gray-100 hover:text-blue-400">Experience</a></li>
+          <li><a href="research.html" class="block p-2 text-gray-100 hover:text-blue-400">Research</a></li>
+          <li><a href="contact.html" class="block p-2 text-gray-100 hover:text-blue-400">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- HERO -->
+  <!-- ============================================================ -->
+  <section class="lab-hero py-24 md:py-32 px-4 relative">
+    <!-- Animated motion lines -->
+    <svg class="motion-lines" viewBox="0 0 1600 600" preserveAspectRatio="none">
+      <path d="M-100,300 Q300,180 700,290 T1700,260" stroke="#6366f1"/>
+      <path d="M-100,360 Q300,240 700,340 T1700,320" stroke="#a855f7" style="animation-delay: -2s"/>
+      <path d="M-100,420 Q300,300 700,410 T1700,380" stroke="#ec4899" style="animation-delay: -4s"/>
+      <path d="M-100,260 Q300,400 700,260 T1700,300" stroke="#06b6d4" style="animation-delay: -3s"/>
+    </svg>
+
+    <div class="container mx-auto max-w-5xl text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-sm font-medium">
+        <span class="w-2 h-2 bg-green-400 rounded-full status-dot"></span>
+        <span class="font-mono text-xs">// LAB · ACTIVE EXPERIMENTS · MAY 2026</span>
+      </div>
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+        What I'm Building
+      </h1>
+      <p class="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+        Three open-ended bets I think about every day — on memory, model independence, and motion. Some shipping, some still cooking.
+      </p>
+      <p class="mt-4 text-sm text-white/40 font-mono">// scroll to read about each</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- NEUROSTACK -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 px-4 relative bg-gray-950">
+    <div class="container mx-auto max-w-6xl">
+
+      <!-- Section header -->
+      <div class="reveal mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs text-purple-400">PROJECT 01</span>
+          <span class="status-chip status-private">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+            private repo · in progress
+          </span>
+        </div>
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+          <span class="bg-gradient-to-r from-purple-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">NeuroStack</span>
+        </h2>
+        <p class="text-xl md:text-2xl text-white/60 max-w-3xl font-light">
+          A brain-inspired memory architecture for AI agents — because tools without memory aren't intelligence, they're just very fast tools.
+        </p>
+      </div>
+
+      <!-- The thesis quote -->
+      <div class="reveal mb-16">
+        <div class="glass-card glow-pulse p-8 md:p-12 text-center">
+          <p class="big-quote text-white/90">
+            <span class="text-white/40">"</span>The most novel part of any agent architecture isn't the model. It's the <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-semibold">memory</span>.<span class="text-white/40">"</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- The problem -->
+      <div class="reveal mb-12">
+        <div class="grid md:grid-cols-2 gap-8 items-start">
+          <div>
+            <p class="text-xs font-mono text-purple-400 mb-2">// THE PROBLEM</p>
+            <h3 class="text-2xl md:text-3xl font-bold mb-4">An AI with no memory is a world-class expert who forgets you every morning.</h3>
+            <p class="text-white/70 leading-relaxed">
+              Most agents today reinitialize their context on every API call. Your profile, your preferences, what you worked on last week — gone. Even thoughtful systems like OpenClaw store memory as flat Markdown — a brilliant filing cabinet, but not a brain.
+            </p>
+          </div>
+          <div class="codeblock">
+<span class="code-comment"># Today's agent memory</span>
+<span class="code-key">memory</span>: List[<span class="code-fn">Markdown</span>] = read_files(<span class="code-str">"~/agent/memory/"</span>)
+<span class="code-key">context</span> = stuff_into_prompt(memory[:<span class="code-num">N</span>])
+<span class="code-fn">model</span>.respond(context)
+
+<span class="code-comment"># Same after 1 day. Same after 6 months.</span>
+<span class="code-comment"># No salience. No decay. No learning.</span>
+<span class="code-comment"># Trivial note == career decision.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Memory tiers -->
+      <div class="reveal mb-16">
+        <p class="text-xs font-mono text-purple-400 mb-2">// THE INSIGHT</p>
+        <h3 class="text-2xl md:text-3xl font-bold mb-2">The brain didn't evolve RAM. It evolved memory tiers.</h3>
+        <p class="text-white/60 mb-8">Three layers, mapped to anatomy. NeuroStack implements all three.</p>
+
+        <div class="grid md:grid-cols-3 gap-5">
+          <!-- Hot Memory -->
+          <div class="glass-card p-6 border-l-4" style="border-left-color: #6366f1">
+            <span class="tier-badge" style="background: rgba(99,102,241,0.15); color: #a5b4fc">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+              tier 01
+            </span>
+            <h4 class="text-xl font-bold mt-3 mb-1">Hot Memory</h4>
+            <p class="text-xs font-mono text-indigo-300 mb-4">prefrontal cortex</p>
+            <p class="text-sm text-white/70 leading-relaxed mb-4">
+              Who you are — always on, zero retrieval cost. Name, current role, active project. Lives in every prompt.
+            </p>
+            <div class="text-xs font-mono text-white/40">capacity: ~600–1500 chars · latency: 0ms</div>
+          </div>
+
+          <!-- Episodic -->
+          <div class="glass-card p-6 border-l-4" style="border-left-color: #a855f7">
+            <span class="tier-badge" style="background: rgba(168,85,247,0.15); color: #d8b4fe">
+              <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+              tier 02
+            </span>
+            <h4 class="text-xl font-bold mt-3 mb-1">Episodic Memory</h4>
+            <p class="text-xs font-mono text-purple-300 mb-4">hippocampus</p>
+            <p class="text-sm text-white/70 leading-relaxed mb-4">
+              What happened — timestamped events that decay over time. Retrieval strengthens the trace; cold memories fade.
+            </p>
+            <div class="text-xs font-mono text-white/40">decay: Ebbinghaus · strengthen: ACT-R</div>
+          </div>
+
+          <!-- Semantic -->
+          <div class="glass-card p-6 border-l-4" style="border-left-color: #ec4899">
+            <span class="tier-badge" style="background: rgba(236,72,153,0.15); color: #fbcfe8">
+              <span class="w-1.5 h-1.5 rounded-full bg-pink-400"></span>
+              tier 03
+            </span>
+            <h4 class="text-xl font-bold mt-3 mb-1">Semantic Memory</h4>
+            <p class="text-xs font-mono text-pink-300 mb-4">neocortex</p>
+            <p class="text-sm text-white/70 leading-relaxed mb-4">
+              Facts distilled from experience — <em>"Charith works in ML"</em> not <em>"on March 1st we discussed his job."</em> Slow to form, lasts forever.
+            </p>
+            <div class="text-xs font-mono text-white/40">storage: knowledge graph · triples</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACT-R formula card -->
+      <div class="reveal mb-16">
+        <div class="glass-card p-8 md:p-10">
+          <p class="text-xs font-mono text-purple-400 mb-2">// THE MATH</p>
+          <h3 class="text-2xl md:text-3xl font-bold mb-3">Retrieval strengthens memory.</h3>
+          <p class="text-white/70 mb-6 max-w-2xl">
+            ACT-R's base-level activation IS the Ebbinghaus forgetting curve, mathematically. Each access adds a fresh term — strong memories stay strong, unused ones fade.
+          </p>
+          <div class="bg-black/40 border border-white/10 rounded-xl p-6 font-mono text-center">
+            <span class="text-purple-300 text-2xl md:text-3xl">B</span><sub class="text-purple-300 text-sm">i</sub>
+            <span class="text-white/60 text-2xl mx-3">=</span>
+            <span class="text-blue-300 text-2xl">ln</span>
+            <span class="text-white/80 text-2xl">(</span>
+            <span class="text-white/60 text-2xl">Σ</span>
+            <span class="text-white/80 text-xl">t</span><sub class="text-white/80 text-sm">j</sub>
+            <sup class="text-pink-300 text-base">−0.5</sup>
+            <span class="text-white/80 text-2xl">)</span>
+            <div class="mt-4 text-xs text-white/50 grid grid-cols-1 md:grid-cols-3 gap-3 max-w-3xl mx-auto">
+              <div><span class="text-purple-300">B<sub>i</sub></span> = activation of memory <em>i</em></div>
+              <div><span class="text-white/80">t<sub>j</sub></span> = time since <em>j</em>th access</div>
+              <div><span class="text-pink-300">−0.5</span> = decay rate (empirical)</div>
+            </div>
+          </div>
+          <p class="mt-6 text-sm text-white/50 italic max-w-2xl">
+            Ebbinghaus gave us the forgetting curve in 1885. Anderson formalized it in 1998. We're applying it to context windows in 2026.
+          </p>
+        </div>
+      </div>
+
+      <!-- Memory lifecycle -->
+      <div class="reveal mb-16">
+        <p class="text-xs font-mono text-purple-400 mb-2">// THE LIFECYCLE</p>
+        <h3 class="text-2xl md:text-3xl font-bold mb-2">Memory is a lifecycle, not a lookup.</h3>
+        <p class="text-white/60 mb-10">Most systems: <span class="font-mono text-sm">store → retrieve → done</span>. NeuroStack runs five stages.</p>
+
+        <div class="space-y-8" style="counter-reset: step">
+          <div class="lifecycle-step">
+            <h4 class="text-xl font-bold mb-1">Intake</h4>
+            <p class="text-sm font-mono text-white/40 mb-2">salience-gated ingestion</p>
+            <p class="text-white/70">Not everything is worth remembering. <span class="font-mono text-purple-300 text-sm">salience = 0.5 × surprise + 0.5 × LLM_importance</span> decides what gets written, what gets discarded.</p>
+          </div>
+          <div class="lifecycle-step">
+            <h4 class="text-xl font-bold mb-1">Active</h4>
+            <p class="text-sm font-mono text-white/40 mb-2">always-on hot memory</p>
+            <p class="text-white/70">High-salience, recently-accessed memories stay in context. Zero retrieval latency. Functions like working memory.</p>
+          </div>
+          <div class="lifecycle-step">
+            <h4 class="text-xl font-bold mb-1">Decay</h4>
+            <p class="text-sm font-mono text-white/40 mb-2">Ebbinghaus, 1885</p>
+            <p class="text-white/70">Things you don't use fade. <strong>Not deleted</strong> — deprioritized. The forgetting curve is a feature, not a bug.</p>
+          </div>
+          <div class="lifecycle-step">
+            <h4 class="text-xl font-bold mb-1">Consolidation</h4>
+            <p class="text-sm font-mono text-white/40 mb-2">"sleep replay" · background process</p>
+            <p class="text-white/70">A nightly job scans episodes &gt; 24h old with high salience and extracts <span class="font-mono text-purple-300 text-sm">(entity, relation, entity)</span> triples into the semantic store. Hippocampus → neocortex, in code.</p>
+          </div>
+          <div class="lifecycle-step">
+            <h4 class="text-xl font-bold mb-1">Re-promotion</h4>
+            <p class="text-sm font-mono text-white/40 mb-2">cold → hot, automatic</p>
+            <p class="text-white/70">Asked about transformer attention three times this week? NeuroStack notices and bubbles it back into hot context. The agent learns what matters to <em>you</em>.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BRAIN COMPONENT (model-agnostic agent built on NeuroStack) -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 px-4 bg-gradient-to-b from-gray-950 via-purple-950/30 to-gray-950 relative">
+    <div class="container mx-auto max-w-6xl">
+
+      <div class="reveal mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs text-cyan-400">PROJECT 02</span>
+          <span class="status-chip status-active">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+            in development
+          </span>
+        </div>
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+          <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">Brain Component</span>
+        </h2>
+        <p class="text-xl md:text-2xl text-white/60 max-w-3xl font-light">
+          A model-agnostic agent runtime built on NeuroStack — so I never have to depend on OpenAI, Anthropic, or anyone's API to keep working.
+        </p>
+      </div>
+
+      <!-- The why -->
+      <div class="reveal mb-12 grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-xs font-mono text-cyan-400 mb-2">// WHY</p>
+          <h3 class="text-2xl md:text-3xl font-bold mb-4">Local-first. Provider-independent. Works offline.</h3>
+          <ul class="space-y-3 text-white/70">
+            <li class="flex gap-3">
+              <svg class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span><strong class="text-white">No vendor lock-in.</strong> Swap Ollama → llama.cpp → Claude → GPT-4 with one config flag.</span>
+            </li>
+            <li class="flex gap-3">
+              <svg class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span><strong class="text-white">Privacy by default.</strong> Your conversations, memories, and tool calls never leave your machine unless you opt in.</span>
+            </li>
+            <li class="flex gap-3">
+              <svg class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span><strong class="text-white">Cost-bounded.</strong> Use a 7B local model for cheap iteration, route only the hard calls to a frontier model.</span>
+            </li>
+            <li class="flex gap-3">
+              <svg class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span><strong class="text-white">Resilient.</strong> If a provider rate-limits you or sunsets a model, you keep working.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Architecture diagram -->
+        <div class="codeblock">
+<span class="code-comment"># Brain Component architecture</span>
+
+<span class="code-key">class</span> <span class="code-fn">Brain</span>:
+    <span class="code-key">memory</span>: <span class="code-fn">NeuroStack</span>      <span class="code-comment"># 3-tier brain memory</span>
+    <span class="code-key">model</span>:  <span class="code-fn">ModelRouter</span>     <span class="code-comment"># local OR cloud</span>
+    <span class="code-key">tools</span>:  <span class="code-fn">ToolRegistry</span>    <span class="code-comment"># MCP-compatible</span>
+    <span class="code-key">agents</span>: <span class="code-fn">AgentNetwork</span>    <span class="code-comment"># planner + workers</span>
+
+<span class="code-key">router</span> = <span class="code-fn">ModelRouter</span>(
+    local  = <span class="code-fn">Ollama</span>(<span class="code-str">"llama3.2:8b"</span>),
+    cloud  = <span class="code-fn">Anthropic</span>(<span class="code-str">"claude-opus-4-7"</span>),
+    policy = <span class="code-str">"local-first"</span>,         <span class="code-comment"># cost-aware</span>
+)
+
+<span class="code-key">brain</span> = <span class="code-fn">Brain</span>(memory=<span class="code-fn">NeuroStack</span>(), model=router)
+<span class="code-key">brain</span>.run()  <span class="code-ok"># offline-capable</span>
+        </div>
+      </div>
+
+      <!-- Pipeline diagram -->
+      <div class="reveal mb-8">
+        <p class="text-xs font-mono text-cyan-400 mb-2">// REQUEST FLOW</p>
+        <div class="glass-card p-6 md:p-8">
+          <div class="flex flex-col md:flex-row items-stretch gap-3 md:gap-2 text-center">
+            <div class="flex-1 bg-white/5 rounded-lg p-4 border border-white/10">
+              <div class="text-xs font-mono text-white/40 mb-1">01</div>
+              <div class="font-semibold mb-1">Intent</div>
+              <div class="text-xs text-white/60">user prompt</div>
+            </div>
+            <div class="flex items-center justify-center pipeline-arrow"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
+            <div class="flex-1 bg-white/5 rounded-lg p-4 border border-white/10">
+              <div class="text-xs font-mono text-purple-400 mb-1">02</div>
+              <div class="font-semibold mb-1">NeuroStack</div>
+              <div class="text-xs text-white/60">hot + episodic + semantic recall</div>
+            </div>
+            <div class="flex items-center justify-center pipeline-arrow"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
+            <div class="flex-1 bg-white/5 rounded-lg p-4 border border-white/10">
+              <div class="text-xs font-mono text-cyan-400 mb-1">03</div>
+              <div class="font-semibold mb-1">Router</div>
+              <div class="text-xs text-white/60">local · cloud · policy</div>
+            </div>
+            <div class="flex items-center justify-center pipeline-arrow"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
+            <div class="flex-1 bg-white/5 rounded-lg p-4 border border-white/10">
+              <div class="text-xs font-mono text-pink-400 mb-1">04</div>
+              <div class="font-semibold mb-1">Tools</div>
+              <div class="text-xs text-white/60">MCP shell + file + web</div>
+            </div>
+            <div class="flex items-center justify-center pipeline-arrow"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
+            <div class="flex-1 bg-white/5 rounded-lg p-4 border border-white/10">
+              <div class="text-xs font-mono text-green-400 mb-1">05</div>
+              <div class="font-semibold mb-1">Response</div>
+              <div class="text-xs text-white/60">+ writeback to NeuroStack</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ADAPTIVE MOTION INTELLIGENCE -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 px-4 relative bg-gray-950">
+    <div class="container mx-auto max-w-6xl">
+
+      <div class="reveal mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs text-pink-400">PROJECT 03</span>
+          <span class="status-chip status-research">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h.01a1 1 0 100-2H7zM4 7a1 1 0 011-1h.01a1 1 0 110 2H5a1 1 0 01-1-1zM12 7a1 1 0 011-1h.01a1 1 0 110 2H13a1 1 0 01-1-1z"/></svg>
+            research · drafted
+          </span>
+        </div>
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+          <span class="bg-gradient-to-r from-pink-400 via-rose-400 to-orange-400 bg-clip-text text-transparent">Adaptive Motion Intelligence</span>
+        </h2>
+        <p class="text-xl md:text-2xl text-white/60 max-w-3xl font-light">
+          The missing layer between pose landmarks and movement <em>understanding</em>. A platform that <strong class="text-white">generates</strong> the right movement analyzer for the right task, on demand.
+        </p>
+      </div>
+
+      <!-- Animated signature wave -->
+      <div class="reveal mb-12">
+        <div class="glass-card p-6 md:p-10">
+          <div class="text-xs font-mono text-pink-400 mb-3">// FROM POSE SNAPSHOTS TO ACTION SIGNATURES</div>
+          <svg class="signature-wave" viewBox="0 0 800 80" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="sigGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#ec4899"/>
+                <stop offset="50%" stop-color="#a855f7"/>
+                <stop offset="100%" stop-color="#06b6d4"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,40 Q50,10 100,40 T200,40 T300,40 T400,40 T500,40 T600,40 T700,40 T800,40"
+                  stroke="url(#sigGrad)" stroke-dasharray="1500" />
+            <path d="M0,40 Q50,70 100,40 T200,40 T300,40 T400,40 T500,40 T600,40 T700,40 T800,40"
+                  stroke="rgba(236,72,153,0.5)" stroke-dasharray="1500" style="animation-delay: -1.5s"/>
+          </svg>
+          <p class="text-sm text-white/60 mt-2 italic">Every action has a pattern over time. A movement isn't a set of frames — it's a repeatable signature that can be captured, scored, and compared.</p>
+        </div>
+      </div>
+
+      <!-- The problem -->
+      <div class="reveal mb-12 grid md:grid-cols-2 gap-8">
+        <div class="glass-card p-6 border-l-4" style="border-left-color: #ef4444">
+          <p class="text-xs font-mono text-red-400 mb-2">// THE STATUS QUO</p>
+          <h3 class="text-xl font-bold mb-3">Pose detection is a wall.</h3>
+          <ul class="space-y-2 text-sm text-white/70">
+            <li class="flex gap-2"><span class="text-red-400">×</span> Most systems stop at skeleton detection.</li>
+            <li class="flex gap-2"><span class="text-red-400">×</span> Apps are hardcoded for a few movements.</li>
+            <li class="flex gap-2"><span class="text-red-400">×</span> New movements require manual logic.</li>
+            <li class="flex gap-2"><span class="text-red-400">×</span> Motion products are rigid and slow to scale.</li>
+          </ul>
+        </div>
+        <div class="glass-card p-6 border-l-4" style="border-left-color: #10b981">
+          <p class="text-xs font-mono text-emerald-400 mb-2">// THE GAP</p>
+          <h3 class="text-xl font-bold mb-3">Task-specific movement understanding.</h3>
+          <p class="text-sm text-white/70">
+            Pose landmarks tell you <em>where</em> the joints are. They don't tell you whether the squat was deep enough, whether the elbow flared on the curl, or whether the rehab patient is making progress.
+          </p>
+        </div>
+      </div>
+
+      <!-- Novel Part #1 -->
+      <div class="reveal mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs text-pink-400">NOVEL PART · 01</span>
+        </div>
+        <h3 class="text-2xl md:text-3xl font-bold mb-2">The analyzer is generated, not just prewritten.</h3>
+        <p class="text-white/60 mb-6">A user describes the movement they want tracked. An agent network generates the analyzer. A sandbox validates it. The runtime stays fast and deterministic.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <div class="glass-card p-5 text-center">
+            <div class="text-xs font-mono text-pink-400 mb-2">01</div>
+            <div class="font-bold mb-1">Intent</div>
+            <div class="text-xs text-white/60">"track my front lever progress"</div>
+          </div>
+          <div class="glass-card p-5 text-center">
+            <div class="text-xs font-mono text-purple-400 mb-2">02</div>
+            <div class="font-bold mb-1">Agent Network</div>
+            <div class="text-xs text-white/60">master + specialists generate analyzer</div>
+          </div>
+          <div class="glass-card p-5 text-center">
+            <div class="text-xs font-mono text-cyan-400 mb-2">03</div>
+            <div class="font-bold mb-1">Validation Sandbox</div>
+            <div class="text-xs text-white/60">simulate · test · gate</div>
+          </div>
+          <div class="glass-card p-5 text-center">
+            <div class="text-xs font-mono text-green-400 mb-2">04</div>
+            <div class="font-bold mb-1">Execution</div>
+            <div class="text-xs text-white/60">live runtime · deterministic</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Why it matters -->
+      <div class="reveal mb-8">
+        <p class="text-xs font-mono text-pink-400 mb-2">// WHY IT MATTERS</p>
+        <h3 class="text-2xl md:text-3xl font-bold mb-2">One platform · three surfaces.</h3>
+        <p class="text-white/60 mb-8">Today it can understand a curl. Tomorrow rehab, sport, skill, and performance.</p>
+
+        <div class="grid md:grid-cols-3 gap-5">
+          <div class="glass-card p-6 border-t-4" style="border-top-color: #ec4899">
+            <div class="text-3xl mb-2">🏋️</div>
+            <h4 class="text-lg font-bold mb-2">Coaching</h4>
+            <p class="text-sm text-white/70">Fitness coaching, rep quality, real-time form correction.</p>
+          </div>
+          <div class="glass-card p-6 border-t-4" style="border-top-color: #a855f7">
+            <div class="text-3xl mb-2">🩺</div>
+            <h4 class="text-lg font-bold mb-2">Rehab</h4>
+            <p class="text-sm text-white/70">Visit-to-visit guidance, longitudinal progress tracking.</p>
+          </div>
+          <div class="glass-card p-6 border-t-4" style="border-top-color: #06b6d4">
+            <div class="text-3xl mb-2">📊</div>
+            <h4 class="text-lg font-bold mb-2">Analytics</h4>
+            <p class="text-sm text-white/70">Movement consistency, symmetry, ergonomic workflows.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- CTA / Get involved -->
+  <!-- ============================================================ -->
+  <section class="py-16 px-4 bg-gradient-to-r from-purple-950 via-gray-950 to-blue-950">
+    <div class="container mx-auto max-w-4xl text-center reveal">
+      <p class="text-xs font-mono text-white/50 mb-3">// COLLABORATE</p>
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">Working on something adjacent?</h2>
+      <p class="text-white/70 mb-8 max-w-2xl mx-auto">
+        I'm always up to compare notes on agent memory, model routing, or motion analytics. Reach out — happy to share what's working and what's not.
+      </p>
+      <a href="contact.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-slate-900 font-semibold rounded-lg hover:scale-105 transform transition duration-300 shadow-2xl">
+        Get in touch
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <footer class="bg-gray-950 text-white/40 py-8 px-4 border-t border-white/5">
+    <div class="container mx-auto text-center text-sm font-mono">
+      <p>// charith.purushotham · building things that remember, decide, and move</p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      themeToggleLightIcon.classList.remove('hidden');
+    } else {
+      themeToggleDarkIcon.classList.remove('hidden');
+    }
+    themeToggleBtn.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
+    });
+
+    const menuToggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    if (menuToggle && menu) {
+      menuToggle.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+        menu.classList.toggle('flex');
+        menu.classList.toggle('flex-col');
+        menu.classList.toggle('items-center');
+      });
+    }
+
+    // String Tune scroll-reveals
+    document.addEventListener('DOMContentLoaded', () => {
+      const targets = document.querySelectorAll('.reveal, .reveal-left');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      targets.forEach(el => io.observe(el));
+    });
+  </script>
+</body>
+</html>

@@ -269,6 +269,7 @@
           <li><a href="index.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Home</a></li>
           <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
           <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
+          <li><a href="building.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Building</a></li>
           <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
           <li><a href="research.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Research</a></li>
           <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
@@ -745,28 +746,28 @@
 
       // Each token: {t: text, c: class, p: pause-after-ms}
       const script = [
-        { t: '$ ', c: 'terminal-prompt' }, { t: 'whoami\n', c: 'terminal-cmd', p: 220 },
-        { t: '> charith.purushotham\n\n', c: 'terminal-out', p: 320 },
+        { t: '$ ', c: 'terminal-prompt' }, { t: 'whoami\n', c: 'terminal-cmd', p: 80 },
+        { t: '> charith.purushotham\n\n', c: 'terminal-out', p: 120 },
 
-        { t: '$ ', c: 'terminal-prompt' }, { t: 'pwd\n', c: 'terminal-cmd', p: 200 },
-        { t: '> /usr/owl-ai/ml/realtime-snowboard\n\n', c: 'terminal-out', p: 320 },
+        { t: '$ ', c: 'terminal-prompt' }, { t: 'pwd\n', c: 'terminal-cmd', p: 60 },
+        { t: '> /usr/owl-ai/ml/realtime-snowboard\n\n', c: 'terminal-out', p: 120 },
 
-        { t: '$ ', c: 'terminal-prompt' }, { t: 'cat ~/.profile\n', c: 'terminal-cmd', p: 220 },
+        { t: '$ ', c: 'terminal-prompt' }, { t: 'cat ~/.profile\n', c: 'terminal-cmd', p: 80 },
         { t: '> location:    ', c: 'terminal-key' }, { t: 'Boulder, Colorado\n', c: 'terminal-val' },
         { t: '> education:   ', c: 'terminal-key' }, { t: 'MS Computer Science · CU Boulder · 2024-2026\n', c: 'terminal-val' },
         { t: '> gpa:         ', c: 'terminal-key' }, { t: '3.93 / 4.00\n', c: 'terminal-val' },
         { t: '> currently:   ', c: 'terminal-key' }, { t: 'Owl AI · ML Engineer Intern\n', c: 'terminal-val' },
         { t: '> teaching:    ', c: 'terminal-key' }, { t: 'TA Distributed Systems · Prof. Mark Zhao\n', c: 'terminal-val' },
-        { t: '> stack:       ', c: 'terminal-key' }, { t: 'PyTorch · TensorRT · CUDA · FastAPI · React\n\n', c: 'terminal-val', p: 320 },
+        { t: '> stack:       ', c: 'terminal-key' }, { t: 'PyTorch · TensorRT · CUDA · FastAPI · React\n\n', c: 'terminal-val', p: 120 },
 
-        { t: '$ ', c: 'terminal-prompt' }, { t: 'ls ~/now\n', c: 'terminal-cmd', p: 200 },
+        { t: '$ ', c: 'terminal-prompt' }, { t: 'ls ~/now\n', c: 'terminal-cmd', p: 60 },
         { t: '> shipping:    ', c: 'terminal-key' }, { t: 'real-time snowboard ML pipeline (X Games)\n', c: 'terminal-val' },
         { t: '> studying:    ', c: 'terminal-key' }, { t: 'CSCI 5214 Big Data Architecture\n', c: 'terminal-val' },
         { t: '> reading:     ', c: 'terminal-key' }, { t: 'systems-for-ml paper reviews (22)\n', c: 'terminal-val' },
       ];
 
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const charDelay = reduced ? 0 : 14;
+      const charDelay = reduced ? 0 : 5;
 
       let i = 0; // token index
       let j = 0; // char index within token
