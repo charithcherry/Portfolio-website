@@ -12,9 +12,16 @@
       document.documentElement.classList.remove('dark');
     }
   </script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
   <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
     /* Card animations */
     .card {
       transition: all 0.3s ease;
@@ -177,7 +184,7 @@
         <!-- Stats -->
         <div class="flex flex-wrap justify-center gap-8 mt-8">
           <div class="text-center">
-            <div class="text-4xl font-bold text-blue-600 dark:text-blue-400">7+</div>
+            <div class="text-4xl font-bold text-blue-600 dark:text-blue-400">13+</div>
             <div class="text-sm text-gray-600 dark:text-gray-400">Projects</div>
           </div>
           <div class="text-center">
@@ -185,7 +192,7 @@
             <div class="text-sm text-gray-600 dark:text-gray-400">Achievements</div>
           </div>
           <div class="text-center">
-            <div class="text-4xl font-bold text-pink-600 dark:text-pink-400">3+</div>
+            <div class="text-4xl font-bold text-pink-600 dark:text-pink-400">5+</div>
             <div class="text-sm text-gray-600 dark:text-gray-400">Tech Stacks</div>
           </div>
         </div>
@@ -231,7 +238,7 @@
         </div>
         <div>
           <h3 class="text-3xl font-bold section-header dark:text-white">Deep Learning & OpenCV Projects</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">5 innovative AI/ML projects</p>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">5 deep learning & computer vision projects</p>
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -257,7 +264,7 @@
         <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
             <h4>Multimodal Zero-Shot Learning for Unseen Concepts</h4>
-            <div class="mt-2 text-sm">Designed a knowledge graph-based GCN model integrating CLIP text embeddings with semantic predicate-level relationships to classify images without labeled data. Incorporated attention-based edge features and custom prototype refinement loss.</div>
+            <div class="mt-2 text-sm">Built a zero-shot image classifier using CLIP image/text embeddings and a knowledge-graph R-GCN with edge-attention and a prototype-refinement loss before an MLP head. <strong class="text-blue-700 dark:text-purple-300">Improved over the CLIP baseline by +23% Top-1 accuracy (59% vs. 36%) and +13% F1 on AWA2.</strong></div>
           </div>
           <div class="mt-4">
             <span class="tech-button">PyTorch</span>
@@ -339,7 +346,7 @@
         </div>
         <div>
           <h3 class="text-3xl font-bold section-header dark:text-white">Machine Learning & EDA Projects</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">3 data analysis projects</p>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">4 data & recommendation projects</p>
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -377,6 +384,25 @@
           </div>
         </div>
 
+        <!-- Hybrid Recommender System -->
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
+          <div class="project-heading">
+            <h4>Hybrid Recommender System (Fashion)</h4>
+            <div class="mt-2 text-sm">Two-stage recommendation pipeline combining collaborative filtering and content-based search over <strong>44,072 fashion products</strong>, with FAISS + CLIP embeddings for ~10ms vector retrieval and a neural re-ranker. Full-stack React 18 + FastAPI app with 11 REST endpoints; sub-100ms end-to-end latency, 95.4% recommendation diversity, 1-interaction cold-start.</div>
+          </div>
+          <div class="mt-4">
+            <span class="tech-button">FastAPI</span>
+            <span class="tech-button">React 18</span>
+            <span class="tech-button">FAISS</span>
+            <span class="tech-button">CLIP Embeddings</span>
+            <span class="tech-button">Collaborative Filtering</span>
+            <span class="tech-button">Matrix Factorization</span>
+          </div>
+          <div class="button-container">
+            <a href="https://github.com/charithcherry/Hybrid-Recommender-System" target="_blank" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
+          </div>
+        </div>
+
         <!-- Format Matters -->
         <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
           <div class="project-heading">
@@ -408,7 +434,7 @@
         </div>
         <div>
           <h3 class="text-3xl font-bold section-header dark:text-white">Software Development Projects</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">2 full-stack applications</p>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">4 full-stack & desktop applications</p>
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -424,6 +450,42 @@
           </div>
           <div class="button-container">
             <a href="https://github.com/charithcherry/Chat-App" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View Project</a>
+          </div>
+        </div>
+
+        <!-- WhatNow Multi-App Wellness Platform -->
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
+          <div class="project-heading">
+            <h4>WhatNow — Multi-App Wellness Platform</h4>
+            <div class="mt-2 text-sm">A platform integrating <strong>six independent Next.js services</strong> (fitness coaching, nutrition planning, skin analysis, restaurant discovery, fitness analytics, community) under a unified opaque-token auth system on ports 3000–3006. MongoDB-backed, Google Gemini for AI features, MediaPipe-pose exercise tracking with rep counting and form feedback. Each service ships with its own Dockerfile.</div>
+          </div>
+          <div class="mt-4">
+            <span class="tech-button">Next.js</span>
+            <span class="tech-button">TypeScript</span>
+            <span class="tech-button">MongoDB</span>
+            <span class="tech-button">Google Gemini</span>
+            <span class="tech-button">MediaPipe</span>
+            <span class="tech-button">Docker</span>
+          </div>
+          <div class="button-container">
+            <a href="https://github.com/charithcherry/What_Now" target="_blank" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
+          </div>
+        </div>
+
+        <!-- Smart Expense Calculator -->
+        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
+          <div class="project-heading">
+            <h4>Smart Expense Calculator</h4>
+            <div class="mt-2 text-sm">Privacy-first personal-finance desktop app for Windows. Auto-categorizes transactions from bank-statement Excel exports, monitors budgets with real-time alerts, surfaces spending patterns and recurring subscriptions, and renders interactive analytics — all data stays local, no cloud sync. Built with Streamlit, Pandas, and Plotly on Python 3.11.</div>
+          </div>
+          <div class="mt-4">
+            <span class="tech-button">Python</span>
+            <span class="tech-button">Streamlit</span>
+            <span class="tech-button">Pandas</span>
+            <span class="tech-button">Plotly</span>
+          </div>
+          <div class="button-container">
+            <a href="https://github.com/charithcherry/Finance-App" target="_blank" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
           </div>
         </div>
 

@@ -12,19 +12,22 @@
       document.documentElement.classList.remove('dark');
     }
   </script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
     .typing {
       display: inline-block;
       overflow: hidden;
-      border-right: 3px solid #333;
+      border-right: 3px solid #fff;
       white-space: nowrap;
       width: 0;
       animation: typing 3s steps(30) forwards, blink 0.75s step-end infinite;
-    }
-
-    .dark .typing {
-      border-right-color: #fff;
     }
 
     @keyframes typing {
@@ -36,23 +39,74 @@
       50% { border-color: transparent; }
     }
 
-    /* Hero gradient background */
+    /* Hero — futuristic deep gradient with animated grid */
     .hero-gradient {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(99,102,241,0.35), transparent 60%),
+        radial-gradient(1000px 500px at 80% 100%, rgba(236,72,153,0.30), transparent 60%),
+        linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
     }
 
     .dark .hero-gradient {
-      background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(139,92,246,0.30), transparent 60%),
+        radial-gradient(1000px 500px at 80% 100%, rgba(59,130,246,0.25), transparent 60%),
+        linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%);
     }
+
+    /* Animated grid overlay */
+    .grid-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 80%);
+      pointer-events: none;
+    }
+
+    /* Glow ring around CTA */
+    .glow-cta {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .glow-cta::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, #6366f1, #ec4899, #06b6d4);
+      filter: blur(12px);
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.3s ease;
+    }
+    .glow-cta:hover::after { opacity: 0.7; }
 
     /* Floating animation */
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-20px); }
     }
+    .floating { animation: float 3s ease-in-out infinite; }
 
-    .floating {
-      animation: float 3s ease-in-out infinite;
+    /* Status pulse */
+    @keyframes pulseDot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+    }
+    .status-dot {
+      animation: pulseDot 2s infinite;
+    }
+
+    /* Subtle scan line for futuristic feel */
+    .scanline {
+      background: linear-gradient(transparent 50%, rgba(255,255,255,0.03) 50%);
+      background-size: 100% 4px;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -96,21 +150,69 @@
     </div>
   </header>
 
-  <main class="hero-gradient flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 text-center relative overflow-hidden">
-    <!-- Animated circles in background -->
-    <div class="absolute top-20 left-10 w-32 h-32 bg-white dark:bg-gray-700 rounded-full opacity-10 floating"></div>
-    <div class="absolute bottom-20 right-10 w-48 h-48 bg-white dark:bg-gray-700 rounded-full opacity-10 floating" style="animation-delay: 1s;"></div>
+  <main class="hero-gradient grid-bg flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 text-center relative overflow-hidden">
+    <!-- Floating glow orbs -->
+    <div class="absolute top-20 left-10 w-32 h-32 bg-indigo-500 rounded-full opacity-20 floating blur-2xl"></div>
+    <div class="absolute bottom-20 right-10 w-48 h-48 bg-pink-500 rounded-full opacity-20 floating blur-2xl" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500 rounded-full opacity-10 blur-3xl"></div>
 
-    <div class="relative z-10">
-      <h2 class="text-2xl sm:text-4xl md:text-5xl font-bold w-auto mb-4 text-white">
+    <div class="relative z-10 max-w-4xl">
+      <!-- Status pill -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-sm font-medium">
+        <span class="w-2 h-2 bg-green-400 rounded-full status-dot"></span>
+        <span class="font-mono text-xs">AVAILABLE FOR FULL-TIME ROLES — MAY 2026</span>
+      </div>
+
+      <h2 class="text-3xl sm:text-5xl md:text-6xl font-bold w-auto mb-4 text-white tracking-tight">
         <span class="typing">Hello, I'm Charith Purushotham</span>
       </h2>
-      <p class="text-lg sm:text-xl md:text-2xl mt-2 sm:mt-4 max-w-2xl text-white opacity-90">
-        Data Scientist | Machine Learning Engineer | Software Developer
+      <p class="text-base sm:text-lg md:text-xl mt-4 max-w-2xl mx-auto text-white/80 font-light">
+        Machine Learning Engineer · Data Scientist · Software Developer
       </p>
-      <a href="portfolio.html" class="inline-block mt-8 px-8 py-4 bg-white text-purple-700 dark:bg-gray-800 dark:text-white text-lg font-bold rounded-lg hover:scale-105 transform transition duration-300 shadow-lg">
-        Explore My Work
-      </a>
+      <p class="text-sm sm:text-base mt-3 max-w-3xl mx-auto text-white/60 font-mono">
+        Building real-time ML systems · CU Boulder MS '26 · Currently @ Owl AI
+      </p>
+
+      <!-- CTA cluster -->
+      <div class="flex flex-wrap items-center justify-center gap-4 mt-10">
+        <a href="portfolio.html" class="glow-cta inline-flex items-center gap-2 px-7 py-3.5 bg-white text-slate-900 text-base font-semibold rounded-lg hover:scale-105 transform transition duration-300 shadow-2xl">
+          Explore My Work
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="Documents/Resume-Charith Purushotham - AIML.pdf" target="_blank" class="inline-flex items-center gap-2 px-6 py-3.5 bg-white/10 backdrop-blur-md border border-white/30 text-white text-base font-semibold rounded-lg hover:bg-white/20 transform hover:scale-105 transition duration-300">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Resume (AIML)
+        </a>
+        <a href="Documents/Resume-Charith Purushotham - SDE.pdf" target="_blank" class="inline-flex items-center gap-2 px-6 py-3.5 bg-white/10 backdrop-blur-md border border-white/30 text-white text-base font-semibold rounded-lg hover:bg-white/20 transform hover:scale-105 transition duration-300">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Resume (SDE)
+        </a>
+      </div>
+
+      <!-- Currently doing -->
+      <div class="mt-12 max-w-3xl mx-auto">
+        <p class="text-xs uppercase tracking-widest text-white/50 mb-3 font-mono">// currently</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-left">
+          <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 hover:bg-white/10 transition">
+            <div class="text-xs text-white/50 font-mono mb-1">work</div>
+            <div class="text-sm text-white/90 font-medium">ML Engineer Intern</div>
+            <div class="text-xs text-white/60">Owl AI · Boulder</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 hover:bg-white/10 transition">
+            <div class="text-xs text-white/50 font-mono mb-1">teaching</div>
+            <div class="text-sm text-white/90 font-medium">TA — Distributed Systems</div>
+            <div class="text-xs text-white/60">CU Boulder · Prof. Mark Zhao</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 hover:bg-white/10 transition">
+            <div class="text-xs text-white/50 font-mono mb-1">studying</div>
+            <div class="text-sm text-white/90 font-medium">Big Data Architecture</div>
+            <div class="text-xs text-white/60">Spring 2026 · GPA 3.93</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll cue -->
+      <div class="mt-12 text-white/40 text-xs font-mono animate-bounce">↓ scroll to see more</div>
     </div>
   </main>
 

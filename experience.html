@@ -12,9 +12,16 @@
       document.documentElement.classList.remove('dark');
     }
   </script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
   <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
     /* Timeline styles */
     .timeline {
       position: relative;
@@ -247,15 +254,15 @@
         <p class="text-lg text-gray-600 dark:text-gray-400">My professional journey and achievements</p>
         <div class="flex flex-wrap justify-center gap-8 mt-6">
           <div class="text-center">
-            <div class="text-3xl font-bold text-blue-600 dark:text-blue-400">5+</div>
+            <div class="text-3xl font-bold text-blue-600 dark:text-blue-400">6+</div>
             <div class="text-sm text-gray-600 dark:text-gray-400">Positions</div>
           </div>
           <div class="text-center">
-            <div class="text-3xl font-bold text-purple-600 dark:text-purple-400">3</div>
+            <div class="text-3xl font-bold text-purple-600 dark:text-purple-400">5</div>
             <div class="text-sm text-gray-600 dark:text-gray-400">Years</div>
           </div>
           <div class="text-center">
-            <div class="text-3xl font-bold text-pink-600 dark:text-pink-400">10+</div>
+            <div class="text-3xl font-bold text-pink-600 dark:text-pink-400">13+</div>
             <div class="text-sm text-gray-600 dark:text-gray-400">Projects</div>
           </div>
         </div>
@@ -279,6 +286,7 @@
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
               <ul class="list-disc pl-6 dark:text-gray-300">
+                <li>Designed a distributed GPU data-curation pipeline for large-scale video analysis, orchestrating multimodal models (Qwen-3VL, NVIDIA Cosmos, SAM) to automatically detect events, segment scenes, and extract structured signals from raw broadcast footage for downstream model training.</li>
                 <li>Built and productionized a real-time snowboard video ML pipeline that ingests live camera streams, extracts keypoints/pose, applies temporal modeling, and outputs trick-level metrics using MediaMTX (SRT) streaming for reliable broadcast feeds.</li>
                 <li>Trained keypoint detection and temporal models on large-scale X Games video data; implemented dataset curation/automation and used MLflow to track experiments, metrics, and artifacts for reproducible model iteration.</li>
                 <li>Engineered GPU inference pipelines with TensorRT optimizations, quantization, and caching/prefetching, increasing throughput from 45 FPS to 58 FPS for real-time analysis.</li>
@@ -302,6 +310,9 @@
               <span class="tech-button">OpenCV</span>
               <span class="tech-button">MLflow</span>
               <span class="tech-button">MediaMTX/SRT</span>
+              <span class="tech-button">Qwen-3VL</span>
+              <span class="tech-button">NVIDIA Cosmos</span>
+              <span class="tech-button">SAM</span>
               <span class="tech-button">Python</span>
               <span class="tech-button">GenAI</span>
             </div>
@@ -369,6 +380,46 @@
         </div>
       </div>
 
+      <!-- Course Grader Experience -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Spring 2025 – Fall 2025</div>
+        <div class="timeline-content bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-blue-500 dark:border-purple-500">
+          <div class="mb-4">
+            <h3 class="text-xl font-semibold dark:text-white">Course Grader — CSCI 3022</h3>
+            <p class="text-lg font-medium text-gray-800 dark:text-gray-200">University of Colorado Boulder</p>
+          </div>
+
+          <div x-data="{ open: false }" class="mb-4">
+            <button @click="open = !open" class="text-lg font-semibold text-blue-600 dark:text-purple-400 hover:text-blue-800 dark:hover:text-purple-300 focus:outline-none w-full text-left py-2 px-4 rounded-md border border-transparent hover:bg-blue-100 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-purple-500 transition-all">
+              Intro to Data Science with Probability & Statistics
+            </button>
+            <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
+              <ul class="list-disc pl-6 dark:text-gray-300">
+                <li>Graded quizzes, exams, and homework for CSCI 3022; proctored and scanned in-class assessments.</li>
+                <li>Managed grading deadlines, attended weekly Zoom syncs with course staff, and ramped up on new probability/statistics topics each module.</li>
+                <li>Maintained accurate grade records and supported students with feedback on probabilistic reasoning and Python data-analysis assignments.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tech-stack mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <h4 class="text-lg font-semibold mb-3 dark:text-white flex items-center">
+              <svg class="w-5 h-5 mr-2 text-blue-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+              Topics
+            </h4>
+            <div class="flex flex-wrap gap-2">
+              <span class="tech-button">Probability</span>
+              <span class="tech-button">Statistics</span>
+              <span class="tech-button">Python</span>
+              <span class="tech-button">Data Science</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Phamax Experience -->
       <div class="timeline-item">
         <div class="timeline-dot"></div>
@@ -385,9 +436,11 @@
             </button>
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
               <ul class="list-disc pl-6 dark:text-gray-300">
-                <li>Collaborated on the system architecture for the digital assistant "Ariya," now a Microsoft-certified SaaS on the MS Teams store. Contributed to design, boosting subscriptions by 5% and client engagement by 7%, demonstrated by a higher client demo rate.</li>
-                <li>Implemented GPT features with OpenAI and Azure, enhancing data summarization and insights. Dockerized the solution, resulting in a 25% resource efficiency increase and reducing deployment time by 50% (from 15 minutes to 7 minutes).</li>
-                <li>Managed user and group administration on Azure, deployed Docker containers for efficient application deployment, and implemented automated logging and monitoring systems for improved user experience.</li>
+                <li>Co-architected Ariya, a Microsoft-certified Teams SaaS assistant that lets clients query large internal document corpora with grounded, source-backed responses; design contributions drove +5% subscription lift and +7% client engagement.</li>
+                <li>Built the document ingestion + embedding pipeline (chunking, metadata normalization, OpenAI embeddings, indexing/storage) and implemented hybrid retrieval + re-ranking on Azure Cognitive Search to improve relevance and reduce hallucinations by grounding responses in retrieved sources.</li>
+                <li>Operated the backend service stack for GPT-powered summarization/insights and feedback/logging services to capture user signals; iterated on answer quality from feedback logs.</li>
+                <li>Productionized services on Azure with Docker, GitHub Actions CI/CD, Azure SQL + Blob Storage + Redis caching, and Log Management for monitoring — improving resource efficiency 20–25% and cutting deployment time 50% (15 → 7 min).</li>
+                <li>Applied React.js perf optimizations (lazy loading, async data fetching) to improve UX, and automated SFTP → Azure Blob ingestion with validation (doc type, expiry date, naming).</li>
               </ul>
             </div>
           </div>
@@ -411,7 +464,7 @@
             <div :class="{'content': true, 'open': open}" class="pl-6 mt-2">
               <ul class="list-disc pl-6 dark:text-gray-300">
                 <li>Led a data engineering project for Santen using Databricks and Azure, halving processing time from 30 to 12-15 minutes and improving data accuracy by implementing checkpoints for data evaluation.</li>
-                <li>Implemented a medallion architecture, enhancing Tableau performance by offloading heavy processing to Databricks.</li>
+                <li>Implemented a Medallion architecture on Databricks for tiered ETL, with Delta Lake and Delta Live Tables for pharmaceutical workflows; offloaded heavy processing from Tableau and exported PBID files for Power BI, accelerating dashboard refresh.</li>
               </ul>
             </div>
           </div>

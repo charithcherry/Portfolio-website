@@ -12,10 +12,17 @@
       document.documentElement.classList.remove('dark');
     }
   </script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 
   <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
     /* Fade-in animation */
     @keyframes fadeInUp {
       from {
@@ -169,6 +176,32 @@
         </div>
       </div>
 
+    <!-- Resume Download Section -->
+    <div class="mb-12 fade-in">
+      <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-700 dark:via-purple-700 dark:to-pink-700 rounded-2xl p-8 shadow-2xl">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="text-white">
+            <h3 class="text-2xl md:text-3xl font-bold mb-2">Download My Resume</h3>
+            <p class="text-sm md:text-base text-blue-100 opacity-90">Two streams, two formats — pick the one that fits your role.</p>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <a href="Documents/Resume-Charith Purushotham - AIML.pdf" target="_blank" class="inline-flex items-center px-5 py-3 bg-white text-purple-700 hover:bg-gray-100 font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              AIML Resume
+            </a>
+            <a href="Documents/Resume-Charith Purushotham - SDE.pdf" target="_blank" class="inline-flex items-center px-5 py-3 bg-gray-900 text-white hover:bg-gray-800 font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 border border-white/20">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              SDE Resume
+            </a>
+            <a href="Documents/Transcript_Spring_2026.pdf" target="_blank" class="inline-flex items-center px-5 py-3 bg-white/10 backdrop-blur text-white hover:bg-white/20 font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 border border-white/30">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              Transcript
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Education Section -->
     <div class="mb-12 fade-in">
       <div class="flex items-center mb-6">
@@ -211,7 +244,7 @@
               <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong class="text-green-600 dark:text-green-400">3.9/4.0</strong></span>
+              <span class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong class="text-green-600 dark:text-green-400">3.93/4.00</strong></span>
             </div>
 
             <div class="flex items-center">
@@ -223,12 +256,26 @@
           </div>
 
           <div class="pt-3 border-t border-blue-200 dark:border-gray-700">
-            <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">KEY COURSES</p>
-            <div class="flex flex-wrap gap-2">
+            <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">COMPLETED COURSES</p>
+            <div class="flex flex-wrap gap-2 mb-3">
               <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Deep Learning</span>
               <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">NLP</span>
               <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Systems for ML</span>
               <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Computer Vision</span>
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Data Mining</span>
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Algorithms</span>
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Tech Entrepreneurship</span>
+            </div>
+            <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">CURRENTLY (SPRING 2026)</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 rounded-full text-xs font-medium">Big Data Architecture</span>
+              <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 rounded-full text-xs font-medium">Quality Management</span>
+            </div>
+            <div class="mt-4 pt-3 border-t border-blue-200 dark:border-gray-700">
+              <a href="Documents/Transcript_Spring_2026.pdf" target="_blank" class="inline-flex items-center text-xs font-semibold text-blue-600 dark:text-purple-400 hover:underline">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                View Transcript
+              </a>
             </div>
           </div>
         </div>

@@ -1,13 +1,13 @@
 # Ignore JSON files
 *.json
 
-# Ignore Word documents
+# Ignore Word working copies (editable resume sources stay local)
 *.doc
 *.docx
 
-# Ignore Documents folder
-Documents/
+# Internal working notes — don't publish to GitHub Pages
+Documents/more_info.txt
 
-# Ignore system files
+# System files
 .DS_Store
 Thumbs.db
