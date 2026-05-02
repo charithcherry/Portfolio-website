@@ -151,7 +151,10 @@
   </header>
 
   <main class="hero-gradient grid-bg flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 text-center relative overflow-hidden">
-    <!-- Floating glow orbs -->
+    <!-- AI Particle Simulator canvas (3D swarm, mouse-reactive) -->
+    <canvas id="particle-canvas" class="absolute inset-0 w-full h-full" style="pointer-events: none; opacity: 0.85;"></canvas>
+
+    <!-- Floating glow orbs (atmospheric, behind particles) -->
     <div class="absolute top-20 left-10 w-32 h-32 bg-indigo-500 rounded-full opacity-20 floating blur-2xl"></div>
     <div class="absolute bottom-20 right-10 w-48 h-48 bg-pink-500 rounded-full opacity-20 floating blur-2xl" style="animation-delay: 1s;"></div>
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500 rounded-full opacity-10 blur-3xl"></div>
@@ -255,6 +258,189 @@
         menu.classList.toggle("flex-col");
         menu.classList.toggle("items-center");
       });
+    }
+  </script>
+
+  <!-- Three.js for the AI Particle Simulator -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.161.0/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+
+    const canvas = document.getElementById('particle-canvas');
+    if (canvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 2000);
+      camera.position.z = 220;
+
+      // Mobile throttle: fewer particles on small screens
+      const isMobile = window.innerWidth < 768;
+      const PARTICLE_COUNT = isMobile ? 2500 : 8000;
+
+      // Particle geometry
+      const positions = new Float32Array(PARTICLE_COUNT * 3);
+      const velocities = new Float32Array(PARTICLE_COUNT * 3);
+      const targets = new Float32Array(PARTICLE_COUNT * 3);
+      const colors = new Float32Array(PARTICLE_COUNT * 3);
+      const sizes = new Float32Array(PARTICLE_COUNT);
+
+      // Palette: indigo → purple → pink → cyan (matches hero gradient)
+      const palette = [
+        new THREE.Color('#6366f1'), // indigo-500
+        new THREE.Color('#8b5cf6'), // violet-500
+        new THREE.Color('#ec4899'), // pink-500
+        new THREE.Color('#06b6d4'), // cyan-500
+      ];
+
+      // Initialize particles in a thick spherical shell — neural cluster vibe
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const i3 = i * 3;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        const r = 90 + Math.random() * 60;
+        targets[i3]     = r * Math.sin(phi) * Math.cos(theta);
+        targets[i3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        targets[i3 + 2] = r * Math.cos(phi);
+
+        // Spawn a bit off the target so they swirl in
+        positions[i3]     = targets[i3]     + (Math.random() - 0.5) * 60;
+        positions[i3 + 1] = targets[i3 + 1] + (Math.random() - 0.5) * 60;
+        positions[i3 + 2] = targets[i3 + 2] + (Math.random() - 0.5) * 60;
+
+        velocities[i3] = velocities[i3 + 1] = velocities[i3 + 2] = 0;
+
+        const c = palette[Math.floor(Math.random() * palette.length)];
+        colors[i3]     = c.r;
+        colors[i3 + 1] = c.g;
+        colors[i3 + 2] = c.b;
+
+        sizes[i] = 1.2 + Math.random() * 2.6;
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('aColor', new THREE.BufferAttribute(colors, 3));
+      geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+
+      // Custom shader: soft glowing dots
+      const material = new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: `
+          attribute float aSize;
+          attribute vec3 aColor;
+          varying vec3 vColor;
+          void main() {
+            vColor = aColor;
+            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+            gl_PointSize = aSize * (300.0 / -mvPosition.z);
+            gl_Position = projectionMatrix * mvPosition;
+          }
+        `,
+        fragmentShader: `
+          varying vec3 vColor;
+          void main() {
+            vec2 uv = gl_PointCoord - 0.5;
+            float d = length(uv);
+            float alpha = smoothstep(0.5, 0.0, d);
+            // soft inner glow
+            float glow = exp(-d * 4.0) * 0.6;
+            gl_FragColor = vec4(vColor * (1.0 + glow), alpha);
+          }
+        `,
+      });
+
+      const points = new THREE.Points(geometry, material);
+      scene.add(points);
+
+      // Mouse interaction
+      const mouse = new THREE.Vector2(0, 0);
+      const mouseTarget = new THREE.Vector3(0, 0, 0);
+      window.addEventListener('pointermove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      });
+
+      function resize() {
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        if (canvas.width !== w || canvas.height !== h) {
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+      }
+
+      const clock = new THREE.Clock();
+      function animate() {
+        const dt = Math.min(clock.getDelta(), 0.05);
+        const t = clock.elapsedTime;
+
+        // Project mouse into world-space at z=0 plane
+        mouseTarget.set(mouse.x * 130, mouse.y * 80, 0);
+
+        const pos = geometry.attributes.position.array;
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          const i3 = i * 3;
+
+          // Slowly orbit each particle's target around the cluster
+          const ox = Math.sin(t * 0.15 + i * 0.001) * 8;
+          const oy = Math.cos(t * 0.18 + i * 0.0013) * 8;
+          const tx = targets[i3]     + ox;
+          const ty = targets[i3 + 1] + oy;
+          const tz = targets[i3 + 2];
+
+          // Spring toward target
+          const dx = tx - pos[i3];
+          const dy = ty - pos[i3 + 1];
+          const dz = tz - pos[i3 + 2];
+          velocities[i3]     += dx * 0.012;
+          velocities[i3 + 1] += dy * 0.012;
+          velocities[i3 + 2] += dz * 0.012;
+
+          // Mouse repulsion (close range only)
+          const mdx = pos[i3]     - mouseTarget.x;
+          const mdy = pos[i3 + 1] - mouseTarget.y;
+          const mdz = pos[i3 + 2] - mouseTarget.z;
+          const dist2 = mdx * mdx + mdy * mdy + mdz * mdz;
+          if (dist2 < 2500 && dist2 > 0.01) {
+            const inv = 1.0 / Math.sqrt(dist2);
+            const force = (1.0 - dist2 / 2500) * 1.4;
+            velocities[i3]     += mdx * inv * force;
+            velocities[i3 + 1] += mdy * inv * force;
+            velocities[i3 + 2] += mdz * inv * force;
+          }
+
+          // Damping
+          velocities[i3]     *= 0.92;
+          velocities[i3 + 1] *= 0.92;
+          velocities[i3 + 2] *= 0.92;
+
+          pos[i3]     += velocities[i3];
+          pos[i3 + 1] += velocities[i3 + 1];
+          pos[i3 + 2] += velocities[i3 + 2];
+        }
+        geometry.attributes.position.needsUpdate = true;
+
+        // Slow scene rotation
+        points.rotation.y = t * 0.04;
+        points.rotation.x = Math.sin(t * 0.07) * 0.15;
+
+        resize();
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
     }
   </script>
 </body>

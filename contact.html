@@ -41,16 +41,6 @@
     .stagger-2 { animation-delay: 0.2s; }
     .stagger-3 { animation-delay: 0.3s; }
 
-    /* Input focus effects */
-    .input-field:focus {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    }
-
-    .dark .input-field:focus {
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-    }
-
     /* Social icon hover effects */
     .social-icon {
       transition: all 0.3s ease;
@@ -68,6 +58,68 @@
 
     .floating {
       animation: float 6s ease-in-out infinite;
+    }
+
+    /* Smoothie ambient fluid blobs */
+    .fluid-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      mix-blend-mode: screen;
+      opacity: 0.55;
+      pointer-events: none;
+      will-change: transform;
+    }
+    .dark .fluid-blob {
+      mix-blend-mode: lighten;
+      opacity: 0.4;
+    }
+    .fluid-1 {
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+      top: -120px; left: -120px;
+      animation: fluidDrift1 22s ease-in-out infinite;
+    }
+    .fluid-2 {
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+      bottom: -160px; right: -120px;
+      animation: fluidDrift2 28s ease-in-out infinite;
+    }
+    .fluid-3 {
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+      top: 40%; left: 50%;
+      animation: fluidDrift3 26s ease-in-out infinite;
+    }
+    @keyframes fluidDrift1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(80px, 60px) scale(1.15); }
+      66% { transform: translate(-40px, 100px) scale(0.9); }
+    }
+    @keyframes fluidDrift2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-100px, -80px) scale(1.2); }
+    }
+    @keyframes fluidDrift3 {
+      0%, 100% { transform: translate(-50%, 0) scale(1); }
+      50% { transform: translate(-50%, -120px) scale(1.3); }
+    }
+
+    /* Form field cursor-follow particles via gradient border on focus */
+    .input-field {
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  border-color 0.3s ease;
+    }
+    .input-field:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15),
+                  0 8px 24px rgba(99, 102, 241, 0.2);
+    }
+    .dark .input-field:focus {
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25),
+                  0 8px 24px rgba(139, 92, 246, 0.3);
     }
 
     /* Contact card hover effect */
@@ -125,9 +177,10 @@
   </header>
 
   <main class="container mx-auto px-4 py-16 relative overflow-hidden">
-    <!-- Decorative floating elements -->
-    <div class="absolute top-10 right-10 w-64 h-64 bg-blue-200 dark:bg-purple-900 rounded-full opacity-20 floating blur-3xl"></div>
-    <div class="absolute bottom-20 left-10 w-80 h-80 bg-purple-200 dark:bg-blue-900 rounded-full opacity-20 floating blur-3xl" style="animation-delay: 2s;"></div>
+    <!-- Smoothie ambient fluid blobs (drifting gradient mesh) -->
+    <div class="fluid-blob fluid-1"></div>
+    <div class="fluid-blob fluid-2"></div>
+    <div class="fluid-blob fluid-3"></div>
 
     <div class="relative z-10">
       <!-- Header Section -->

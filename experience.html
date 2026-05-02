@@ -48,14 +48,20 @@
       position: relative;
       margin-bottom: 3rem;
       opacity: 0;
-      animation: fadeInUp 0.6s ease-out forwards;
+      transform: translateY(20px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
-
-    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
-    .timeline-item:nth-child(2) { animation-delay: 0.2s; }
-    .timeline-item:nth-child(3) { animation-delay: 0.3s; }
-    .timeline-item:nth-child(4) { animation-delay: 0.4s; }
-    .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+    .timeline-item.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .timeline-item.in-view .timeline-dot {
+      animation: dotPulse 1.6s ease-out;
+    }
+    @keyframes dotPulse {
+      0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.8); }
+      100% { box-shadow: 0 0 0 18px rgba(139, 92, 246, 0); }
+    }
 
     @keyframes fadeInUp {
       from {
@@ -636,6 +642,20 @@
         menu.classList.toggle("items-center");
       });
     }
+
+    // String Tune-style timeline reveals
+    document.addEventListener('DOMContentLoaded', () => {
+      const items = document.querySelectorAll('.timeline-item');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+      items.forEach(el => io.observe(el));
+    });
   </script>
 
 </body>

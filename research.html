@@ -31,6 +31,32 @@
     .dark .paper-card:hover {
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     }
+
+    /* Dithered hero canvas */
+    .dither-hero {
+      position: relative;
+      overflow: hidden;
+      background: #050816;
+    }
+    .dither-hero canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .dither-hero .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .dither-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(5,8,22,0.6) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
   </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
@@ -73,12 +99,17 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="bg-gradient-to-r from-purple-600 to-blue-600 dark:from-gray-800 dark:to-gray-700 text-white py-16 px-4">
-    <div class="container mx-auto text-center">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Research & Paper Reviews</h2>
-      <p class="text-lg sm:text-xl max-w-3xl mx-auto opacity-90">
-        A collection of in-depth paper reviews on Systems for Machine Learning, covering distributed computing, ML infrastructure, and emerging AI frameworks.
+  <!-- Hero Section — Bayer-dithered WebGL backdrop -->
+  <section class="dither-hero text-white py-20 px-4">
+    <canvas id="dither-canvas"></canvas>
+    <div class="hero-content container mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-white/70 text-xs font-mono">
+        <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+        SYSTEMS FOR MACHINE LEARNING · 22 PAPERS
+      </div>
+      <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 tracking-tight">Research &amp; Paper Reviews</h2>
+      <p class="text-base sm:text-lg max-w-3xl mx-auto text-white/70">
+        In-depth reviews on distributed training, ML infrastructure, inference serving, and emerging AI systems — from Ray and TensorFlow to vLLM, MegaScale, and DistServe.
       </p>
     </div>
   </section>
@@ -449,6 +480,195 @@
         menu.classList.toggle("items-center");
       });
     }
+  </script>
+
+  <!-- Bayer-dithered WebGL hero (ASTRODITHER-inspired) -->
+  <script>
+    (function () {
+      const canvas = document.getElementById('dither-canvas');
+      if (!canvas) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const gl = canvas.getContext('webgl', { antialias: false, alpha: false });
+      if (!gl) return;
+
+      const vsSource = `
+        attribute vec2 aPos;
+        void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
+      `;
+
+      // 8x8 Bayer matrix encoded as a function
+      const fsSource = `
+        precision highp float;
+        uniform vec2 uResolution;
+        uniform float uTime;
+        uniform vec2 uMouse;
+
+        // 2D hash for noise
+        float hash(vec2 p) {
+          p = fract(p * vec2(123.34, 456.21));
+          p += dot(p, p + 45.32);
+          return fract(p.x * p.y);
+        }
+
+        // 5-octave value noise
+        float noise(vec2 p) {
+          vec2 i = floor(p);
+          vec2 f = fract(p);
+          float a = hash(i);
+          float b = hash(i + vec2(1.0, 0.0));
+          float c = hash(i + vec2(0.0, 1.0));
+          float d = hash(i + vec2(1.0, 1.0));
+          vec2 u = f * f * (3.0 - 2.0 * f);
+          return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+        }
+
+        float fbm(vec2 p) {
+          float v = 0.0;
+          float a = 0.5;
+          for (int i = 0; i < 5; i++) {
+            v += a * noise(p);
+            p *= 2.05;
+            a *= 0.5;
+          }
+          return v;
+        }
+
+        // 8x8 Bayer matrix (scaled to 0..1)
+        float bayer8(vec2 c) {
+          int x = int(mod(c.x, 8.0));
+          int y = int(mod(c.y, 8.0));
+          int idx = x + y * 8;
+          // Standard 8x8 ordered dither matrix values 0..63
+          float v = 0.0;
+          if (idx ==  0) v =  0.0;  else if (idx ==  1) v = 32.0;
+          else if (idx ==  2) v =  8.0;  else if (idx ==  3) v = 40.0;
+          else if (idx ==  4) v =  2.0;  else if (idx ==  5) v = 34.0;
+          else if (idx ==  6) v = 10.0;  else if (idx ==  7) v = 42.0;
+          else if (idx ==  8) v = 48.0;  else if (idx ==  9) v = 16.0;
+          else if (idx == 10) v = 56.0;  else if (idx == 11) v = 24.0;
+          else if (idx == 12) v = 50.0;  else if (idx == 13) v = 18.0;
+          else if (idx == 14) v = 58.0;  else if (idx == 15) v = 26.0;
+          else if (idx == 16) v = 12.0;  else if (idx == 17) v = 44.0;
+          else if (idx == 18) v =  4.0;  else if (idx == 19) v = 36.0;
+          else if (idx == 20) v = 14.0;  else if (idx == 21) v = 46.0;
+          else if (idx == 22) v =  6.0;  else if (idx == 23) v = 38.0;
+          else if (idx == 24) v = 60.0;  else if (idx == 25) v = 28.0;
+          else if (idx == 26) v = 52.0;  else if (idx == 27) v = 20.0;
+          else if (idx == 28) v = 62.0;  else if (idx == 29) v = 30.0;
+          else if (idx == 30) v = 54.0;  else if (idx == 31) v = 22.0;
+          else if (idx == 32) v =  3.0;  else if (idx == 33) v = 35.0;
+          else if (idx == 34) v = 11.0;  else if (idx == 35) v = 43.0;
+          else if (idx == 36) v =  1.0;  else if (idx == 37) v = 33.0;
+          else if (idx == 38) v =  9.0;  else if (idx == 39) v = 41.0;
+          else if (idx == 40) v = 51.0;  else if (idx == 41) v = 19.0;
+          else if (idx == 42) v = 59.0;  else if (idx == 43) v = 27.0;
+          else if (idx == 44) v = 49.0;  else if (idx == 45) v = 17.0;
+          else if (idx == 46) v = 57.0;  else if (idx == 47) v = 25.0;
+          else if (idx == 48) v = 15.0;  else if (idx == 49) v = 47.0;
+          else if (idx == 50) v =  7.0;  else if (idx == 51) v = 39.0;
+          else if (idx == 52) v = 13.0;  else if (idx == 53) v = 45.0;
+          else if (idx == 54) v =  5.0;  else if (idx == 55) v = 37.0;
+          else if (idx == 56) v = 63.0;  else if (idx == 57) v = 31.0;
+          else if (idx == 58) v = 55.0;  else if (idx == 59) v = 23.0;
+          else if (idx == 60) v = 61.0;  else if (idx == 61) v = 29.0;
+          else if (idx == 62) v = 53.0;  else v = 21.0;
+          return (v + 0.5) / 64.0;
+        }
+
+        void main() {
+          vec2 frag = gl_FragCoord.xy;
+          vec2 uv = frag / uResolution.xy;
+          vec2 p = uv;
+          p.x *= uResolution.x / uResolution.y;
+
+          // Animated, slowly drifting fbm field — looks like data flowing
+          float n = fbm(p * 1.6 + vec2(uTime * 0.05, uTime * 0.03));
+          n += 0.4 * fbm(p * 4.0 - vec2(uTime * 0.08, 0.0));
+
+          // Center spotlight + mouse hotspot (subtle)
+          float center = 1.0 - smoothstep(0.1, 0.9, length(uv - 0.5));
+          float mouseInfluence = 1.0 - smoothstep(0.0, 0.3, length(uv - uMouse));
+          float gradient = clamp(n * 0.7 + center * 0.35 + mouseInfluence * 0.15, 0.0, 1.0);
+
+          // Apply Bayer dither — pixelated cells are intentional
+          float pixelSize = 2.0;
+          vec2 cell = floor(frag / pixelSize);
+          float threshold = bayer8(cell);
+          float dithered = step(threshold, gradient);
+
+          // Two-tone palette: deep navy → cyan/violet
+          vec3 dark  = vec3(0.020, 0.035, 0.090);
+          vec3 light = mix(vec3(0.06, 0.45, 0.70), vec3(0.55, 0.30, 0.95), uv.x);
+          vec3 col = mix(dark, light, dithered);
+
+          // Soft scanline modulation for that CRT feel
+          col *= 0.93 + 0.07 * sin(frag.y * 1.6 + uTime * 2.0);
+
+          gl_FragColor = vec4(col, 1.0);
+        }
+      `;
+
+      function compile(type, src) {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+          console.warn('shader compile failed', gl.getShaderInfoLog(s));
+          return null;
+        }
+        return s;
+      }
+
+      const vs = compile(gl.VERTEX_SHADER, vsSource);
+      const fs = compile(gl.FRAGMENT_SHADER, fsSource);
+      if (!vs || !fs) return;
+
+      const prog = gl.createProgram();
+      gl.attachShader(prog, vs);
+      gl.attachShader(prog, fs);
+      gl.linkProgram(prog);
+      gl.useProgram(prog);
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+      const aPos = gl.getAttribLocation(prog, 'aPos');
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+      const uRes = gl.getUniformLocation(prog, 'uResolution');
+      const uTime = gl.getUniformLocation(prog, 'uTime');
+      const uMouse = gl.getUniformLocation(prog, 'uMouse');
+
+      let mouse = [0.5, 0.5];
+      canvas.addEventListener('pointermove', (e) => {
+        const r = canvas.getBoundingClientRect();
+        mouse = [(e.clientX - r.left) / r.width, 1.0 - (e.clientY - r.top) / r.height];
+      }, { passive: true });
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        const w = canvas.clientWidth * dpr;
+        const h = canvas.clientHeight * dpr;
+        if (canvas.width !== w || canvas.height !== h) {
+          canvas.width = w;
+          canvas.height = h;
+          gl.viewport(0, 0, w, h);
+        }
+      }
+
+      const t0 = performance.now();
+      function frame() {
+        resize();
+        gl.uniform2f(uRes, canvas.width, canvas.height);
+        gl.uniform1f(uTime, (performance.now() - t0) / 1000);
+        gl.uniform2f(uMouse, mouse[0], mouse[1]);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        requestAnimationFrame(frame);
+      }
+      frame();
+    })();
   </script>
 </body>
 </html>

@@ -499,28 +499,36 @@
     </div>
   </main>
 
+  <style>
+    /* String Tune-style reveals */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
   <script>
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('fade-in');
-          }, index * 100);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    // Observe all skill items and sections
+    // Scroll-reveal: stagger fade-up as elements enter viewport
     document.addEventListener('DOMContentLoaded', () => {
-      const elements = document.querySelectorAll('.skill-item, .flex-card, h3');
-      elements.forEach(el => observer.observe(el));
+      const targets = document.querySelectorAll(
+        '.bg-white.dark\\:bg-gray-800, .bg-gradient-to-br, .bg-gradient-to-r'
+      );
+      targets.forEach(el => el.classList.add('reveal'));
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry, idx) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('in'), idx * 60);
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+
+      targets.forEach(el => io.observe(el));
     });
   </script>
 
