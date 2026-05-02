@@ -307,6 +307,37 @@
       flex-shrink: 0;
       color: rgba(139,92,246,0.5);
     }
+    @media (max-width: 767px) {
+      .pipeline-arrow {
+        width: 100%;
+        height: 24px;
+        transform: rotate(90deg);
+      }
+    }
+
+    /* Hero gracefully sizes on tiny screens */
+    @media (max-width: 380px) {
+      .lab-hero h1 { font-size: 2.5rem; line-height: 1.05; }
+    }
+
+    /* Tighter mobile padding on sections (was 5rem top/bottom) */
+    @media (max-width: 640px) {
+      section.py-20 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+      section.lab-hero { padding-top: 4rem; padding-bottom: 4rem; }
+    }
+
+    /* Lifecycle stepper: tighter on mobile */
+    @media (max-width: 480px) {
+      .lifecycle-step { padding-left: 52px; }
+      .lifecycle-step::before { width: 38px; height: 38px; font-size: 12px; }
+      .lifecycle-step::after { left: 19px; }
+    }
+
+    /* Code blocks must not blow horizontal scroll on mobile */
+    .codeblock { font-size: 11.5px; }
+    @media (min-width: 768px) {
+      .codeblock { font-size: 12.5px; }
+    }
 
     /* AMI signature wave */
     .signature-wave {
@@ -390,9 +421,9 @@
           <li><a href="index.html" class="block p-2 text-gray-100 hover:text-blue-400">Home</a></li>
           <li><a href="about.html" class="block p-2 text-gray-100 hover:text-blue-400">About Me</a></li>
           <li><a href="portfolio.html" class="block p-2 text-gray-100 hover:text-blue-400">Portfolio</a></li>
-          <li><a href="building.html" class="block p-2 text-purple-400 font-semibold">Building</a></li>
           <li><a href="experience.html" class="block p-2 text-gray-100 hover:text-blue-400">Experience</a></li>
           <li><a href="research.html" class="block p-2 text-gray-100 hover:text-blue-400">Research</a></li>
+          <li><a href="building.html" class="block p-2 text-purple-400 font-semibold">Building</a></li>
           <li><a href="contact.html" class="block p-2 text-gray-100 hover:text-blue-400">Contact</a></li>
         </ul>
       </nav>
