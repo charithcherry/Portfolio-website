@@ -68,6 +68,173 @@
         width: 48%; /* Equal width for each card */
       }
     }
+
+    /* ========== 3D PROFILE PIC TILT ========== */
+    .pic-tilt-wrapper {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+    .pic-tilt {
+      transition: transform 0.15s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .pic-glow-ring {
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from var(--ring-angle, 0deg),
+        #6366f1, #ec4899, #06b6d4, #6366f1
+      );
+      filter: blur(14px);
+      opacity: 0.65;
+      z-index: -1;
+      animation: ringRotate 8s linear infinite;
+    }
+    @keyframes ringRotate {
+      from { --ring-angle: 0deg; }
+      to { --ring-angle: 360deg; }
+    }
+    @property --ring-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    /* ========== TERMINAL $ whoami ========== */
+    .terminal {
+      background: linear-gradient(180deg, #0d1117 0%, #0a0e15 100%);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5),
+                  inset 0 1px 0 rgba(255,255,255,0.05);
+      overflow: hidden;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      position: relative;
+    }
+    .terminal-header {
+      background: rgba(255,255,255,0.03);
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .terminal-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .terminal-body {
+      padding: 18px 22px;
+      color: #c9d1d9;
+      font-size: 13px;
+      line-height: 1.65;
+      min-height: 280px;
+    }
+    .terminal-prompt { color: #58a6ff; }
+    .terminal-cmd    { color: #f0f6fc; font-weight: 500; }
+    .terminal-out    { color: #7d8590; }
+    .terminal-key    { color: #d2a8ff; }
+    .terminal-val    { color: #79c0ff; }
+    .terminal-cursor {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: #58a6ff;
+      vertical-align: text-bottom;
+      animation: termBlink 1.06s steps(2, jump-none) infinite;
+    }
+    @keyframes termBlink { 50% { opacity: 0; } }
+    .terminal::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent 50%, rgba(0,0,0,0.06) 50%);
+      background-size: 100% 3px;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+
+    /* ========== CONSTELLATION GRAPH ========== */
+    .constellation-wrapper {
+      position: relative;
+      background: radial-gradient(ellipse at center,
+        rgba(15, 23, 42, 0.95) 0%,
+        rgba(2, 6, 23, 1) 100%);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .constellation-canvas {
+      display: block;
+      width: 100%;
+      height: 540px;
+      cursor: grab;
+    }
+    .constellation-canvas:active { cursor: grabbing; }
+    .constellation-legend {
+      position: absolute;
+      top: 16px; left: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10px;
+    }
+    .legend-chip {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.85);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(8px);
+    }
+    .legend-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .constellation-info {
+      position: absolute;
+      bottom: 16px; right: 16px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      background: rgba(0,0,0,0.4);
+      padding: 6px 12px;
+      border-radius: 8px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* ========== SPARKLINE SKILL CARDS ========== */
+    .skill-spark {
+      background: linear-gradient(135deg,
+        rgba(99,102,241,0.04),
+        rgba(236,72,153,0.04));
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 12px;
+      padding: 14px 16px;
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+    .skill-spark:hover {
+      transform: translateY(-3px);
+      border-color: rgba(99,102,241,0.4);
+      background: linear-gradient(135deg,
+        rgba(99,102,241,0.1),
+        rgba(236,72,153,0.1));
+    }
+    .dark .skill-spark {
+      background: linear-gradient(135deg,
+        rgba(139,92,246,0.06),
+        rgba(236,72,153,0.06));
+      border-color: rgba(139,92,246,0.2);
+    }
+    .spark-svg {
+      width: 100%;
+      height: 28px;
+      margin-top: 6px;
+    }
   </style>
 </head>
 <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
@@ -127,12 +294,14 @@
       <!-- About Me Card -->
       <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 md:p-10 mb-12 border-l-4 border-blue-500 dark:border-purple-500 fade-in">
         <div class="flex flex-col md:flex-row items-center gap-8">
-          <!-- Profile Picture -->
+          <!-- Profile Picture (3D mouse-tilt + rotating glow ring) -->
           <div class="flex-shrink-0">
-            <div class="relative">
-              <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-75"></div>
-              <img src="portfolio_image.png" alt="Charith Purushotham"
-                   class="relative rounded-full w-40 h-40 md:w-48 md:h-48 object-cover border-4 border-white dark:border-gray-800 shadow-xl">
+            <div class="pic-tilt-wrapper" id="pic-tilt-wrapper">
+              <div class="relative pic-tilt" id="pic-tilt">
+                <div class="pic-glow-ring"></div>
+                <img src="portfolio_image.png" alt="Charith Purushotham"
+                     class="relative rounded-full w-40 h-40 md:w-48 md:h-48 object-cover border-4 border-white dark:border-gray-800 shadow-xl">
+              </div>
             </div>
             <div class="text-center mt-4">
               <h3 class="text-xl font-bold dark:text-white">Charith Purushotham</h3>
@@ -175,6 +344,21 @@
           </div>
         </div>
       </div>
+
+    <!-- Terminal $ whoami block -->
+    <div class="mb-12 fade-in">
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="terminal-dot" style="background:#ff5f56"></span>
+          <span class="terminal-dot" style="background:#ffbd2e"></span>
+          <span class="terminal-dot" style="background:#27c93f"></span>
+          <span class="ml-3 text-xs text-gray-400 font-mono">charith@portfolio: ~</span>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+          <span id="terminal-output"></span><span class="terminal-cursor"></span>
+        </div>
+      </div>
+    </div>
 
     <!-- Resume Download Section -->
     <div class="mb-12 fade-in">
@@ -333,89 +517,92 @@
       </div>
     </div>
 
-    <!-- Technical Skills Section -->
-    <h3 class="text-xl md:text-2xl font-bold mt-8 mb-6 dark:text-white">Technical Skills</h3>
-
-    <div class="grid md:grid-cols-2 gap-6">
-      <!-- Programming and Development -->
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-blue-500 dark:border-blue-400 hover:shadow-xl transition-shadow">
-        <h4 class="text-lg font-semibold mb-4 text-blue-700 dark:text-blue-400 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"/>
+    <!-- ========== TECH STACK CONSTELLATION ========== -->
+    <div class="mt-12 fade-in">
+      <div class="flex items-center mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="6" cy="6" r="2" stroke-width="2"/>
+            <circle cx="18" cy="6" r="2" stroke-width="2"/>
+            <circle cx="12" cy="14" r="2" stroke-width="2"/>
+            <circle cx="6" cy="20" r="2" stroke-width="2"/>
+            <circle cx="18" cy="20" r="2" stroke-width="2"/>
+            <line x1="6" y1="8" x2="11" y2="12" stroke-width="1.5"/>
+            <line x1="18" y1="8" x2="13" y2="12" stroke-width="1.5"/>
+            <line x1="11" y1="16" x2="7" y2="18" stroke-width="1.5"/>
+            <line x1="13" y1="16" x2="17" y2="18" stroke-width="1.5"/>
           </svg>
-          Programming & Development
-        </h4>
-        <div class="flex flex-wrap gap-2">
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Python</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Java</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">React.js</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Node.js</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">C</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Flask</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">REST APIs</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">MySQL</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">MongoDB</span>
-          <span class="px-4 py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Git</span>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold dark:text-white">Tech Stack Constellation</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 font-mono">// drag a node, hover to highlight neighbors</p>
         </div>
       </div>
 
-      <!-- Cloud and Infrastructure -->
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-green-500 dark:border-green-400 hover:shadow-xl transition-shadow">
-        <h4 class="text-lg font-semibold mb-4 text-green-700 dark:text-green-400 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M5.5 16a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 16h-8z"/>
+      <div class="constellation-wrapper">
+        <canvas id="constellation" class="constellation-canvas"></canvas>
+        <div class="constellation-legend">
+          <div class="legend-chip"><span class="legend-dot" style="background:#6366f1"></span>Languages</div>
+          <div class="legend-chip"><span class="legend-dot" style="background:#a855f7"></span>ML / DL</div>
+          <div class="legend-chip"><span class="legend-dot" style="background:#06b6d4"></span>Frontend</div>
+          <div class="legend-chip"><span class="legend-dot" style="background:#10b981"></span>Backend</div>
+          <div class="legend-chip"><span class="legend-dot" style="background:#f59e0b"></span>Cloud</div>
+          <div class="legend-chip"><span class="legend-dot" style="background:#ec4899"></span>Data</div>
+          <div class="legend-chip"><span class="legend-dot" style="background:#eab308"></span>LLM / RAG</div>
+        </div>
+        <div class="constellation-info" id="constellation-info">node count: <span id="node-count">0</span> · edges: <span id="edge-count">0</span></div>
+      </div>
+    </div>
+
+    <!-- ========== TOP SKILLS WITH SPARKLINES ========== -->
+    <div class="mt-12 fade-in">
+      <div class="flex items-center mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <polyline points="3,17 9,11 13,15 21,7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="14,7 21,7 21,14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          Cloud & Infrastructure
-        </h4>
-        <div class="flex flex-wrap gap-2">
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Microsoft Azure</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">AWS</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Docker</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">CI/CD</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Kafka</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">GCP</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Snowflake</span>
-          <span class="px-4 py-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Azure Boards</span>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold dark:text-white">Top Skills · Usage Intensity</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 font-mono">// last 7 years of commits / projects / shipping</p>
         </div>
       </div>
 
-      <!-- Data and Machine Learning -->
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-purple-500 dark:border-purple-400 hover:shadow-xl transition-shadow">
-        <h4 class="text-lg font-semibold mb-4 text-purple-700 dark:text-purple-400 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"/>
-            <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"/>
-            <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"/>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="sparklines-grid">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <!-- ========== GITHUB CONTRIBUTION HEATMAP ========== -->
+    <div class="mt-12 fade-in">
+      <div class="flex items-center mb-6">
+        <div class="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-900 dark:from-gray-600 dark:to-gray-800 rounded-lg flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
           </svg>
-          Data & Machine Learning
-        </h4>
-        <div class="flex flex-wrap gap-2">
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">PyTorch</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">TensorFlow</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Scikit-learn</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">OpenCV</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Databricks</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">RAG</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">LlamaIndex</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">HuggingFace</span>
-          <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Tableau</span>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold dark:text-white">GitHub Activity</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 font-mono">// live contribution graph · @charithcherry</p>
         </div>
       </div>
-
-      <!-- Software and Project Tools -->
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-red-500 dark:border-red-400 hover:shadow-xl transition-shadow">
-        <h4 class="text-lg font-semibold mb-4 text-red-700 dark:text-red-400 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
-          </svg>
-          Software & Tools
-        </h4>
-        <div class="flex flex-wrap gap-2">
-          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">OOP</span>
-          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">System Design</span>
-          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Jira</span>
-          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Postman</span>
-          <span class="px-4 py-2 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-medium hover:scale-105 transition-transform">Bot Framework</span>
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+        <div class="flex justify-center overflow-x-auto">
+          <img src="https://ghchart.rshah.org/8b5cf6/charithcherry"
+               alt="charithcherry's GitHub contribution graph"
+               class="w-full max-w-4xl"
+               loading="lazy"
+               onerror="this.style.display='none'; document.getElementById('gh-fallback').style.display='block';">
+        </div>
+        <p id="gh-fallback" class="text-sm text-gray-500 dark:text-gray-400 text-center mt-2 font-mono" style="display:none;">
+          // GitHub heatmap unavailable — see <a href="https://github.com/charithcherry" target="_blank" class="text-purple-600 dark:text-purple-400 hover:underline">github.com/charithcherry</a>
+        </p>
+        <div class="flex items-center justify-center gap-4 mt-4 text-xs font-mono text-gray-500 dark:text-gray-400">
+          <a href="https://github.com/charithcherry" target="_blank" class="hover:text-purple-600 dark:hover:text-purple-400 transition-colors flex items-center gap-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            view on github
+          </a>
         </div>
       </div>
     </div>
@@ -529,6 +716,410 @@
       }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
 
       targets.forEach(el => io.observe(el));
+    });
+  </script>
+
+  <!-- ========== 3D PROFILE PIC TILT ========== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.getElementById('pic-tilt-wrapper');
+      const tilt = document.getElementById('pic-tilt');
+      if (!wrapper || !tilt) return;
+      wrapper.addEventListener('pointermove', (e) => {
+        const r = wrapper.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        tilt.style.transform = `rotateY(${x * 18}deg) rotateX(${-y * 18}deg) translateZ(20px)`;
+      });
+      wrapper.addEventListener('pointerleave', () => {
+        tilt.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0)';
+      });
+    });
+  </script>
+
+  <!-- ========== TERMINAL $ whoami TYPEWRITER ========== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const out = document.getElementById('terminal-output');
+      if (!out) return;
+
+      // Each token: {t: text, c: class, p: pause-after-ms}
+      const script = [
+        { t: '$ ', c: 'terminal-prompt' }, { t: 'whoami\n', c: 'terminal-cmd', p: 220 },
+        { t: '> charith.purushotham\n\n', c: 'terminal-out', p: 320 },
+
+        { t: '$ ', c: 'terminal-prompt' }, { t: 'pwd\n', c: 'terminal-cmd', p: 200 },
+        { t: '> /usr/owl-ai/ml/realtime-snowboard\n\n', c: 'terminal-out', p: 320 },
+
+        { t: '$ ', c: 'terminal-prompt' }, { t: 'cat ~/.profile\n', c: 'terminal-cmd', p: 220 },
+        { t: '> location:    ', c: 'terminal-key' }, { t: 'Boulder, Colorado\n', c: 'terminal-val' },
+        { t: '> education:   ', c: 'terminal-key' }, { t: 'MS Computer Science · CU Boulder · 2024-2026\n', c: 'terminal-val' },
+        { t: '> gpa:         ', c: 'terminal-key' }, { t: '3.93 / 4.00\n', c: 'terminal-val' },
+        { t: '> currently:   ', c: 'terminal-key' }, { t: 'Owl AI · ML Engineer Intern\n', c: 'terminal-val' },
+        { t: '> teaching:    ', c: 'terminal-key' }, { t: 'TA Distributed Systems · Prof. Mark Zhao\n', c: 'terminal-val' },
+        { t: '> stack:       ', c: 'terminal-key' }, { t: 'PyTorch · TensorRT · CUDA · FastAPI · React\n\n', c: 'terminal-val', p: 320 },
+
+        { t: '$ ', c: 'terminal-prompt' }, { t: 'ls ~/now\n', c: 'terminal-cmd', p: 200 },
+        { t: '> shipping:    ', c: 'terminal-key' }, { t: 'real-time snowboard ML pipeline (X Games)\n', c: 'terminal-val' },
+        { t: '> studying:    ', c: 'terminal-key' }, { t: 'CSCI 5214 Big Data Architecture\n', c: 'terminal-val' },
+        { t: '> reading:     ', c: 'terminal-key' }, { t: 'systems-for-ml paper reviews (22)\n', c: 'terminal-val' },
+      ];
+
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const charDelay = reduced ? 0 : 14;
+
+      let i = 0; // token index
+      let j = 0; // char index within token
+
+      function step() {
+        if (i >= script.length) return;
+        const tok = script[i];
+        if (j === 0) {
+          // append a span for this token
+          const span = document.createElement('span');
+          span.className = tok.c || '';
+          span.dataset.idx = i;
+          out.appendChild(span);
+        }
+        const span = out.querySelector(`[data-idx="${i}"]`);
+        span.textContent += tok.t[j];
+        j++;
+        if (j >= tok.t.length) {
+          const pauseAfter = tok.p || 0;
+          i++;
+          j = 0;
+          setTimeout(step, charDelay + pauseAfter);
+        } else {
+          setTimeout(step, charDelay);
+        }
+      }
+      // Start when in viewport
+      const term = document.querySelector('.terminal-body');
+      if (!term) return;
+      const io = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          step();
+          io.disconnect();
+        }
+      });
+      io.observe(term);
+    });
+  </script>
+
+  <!-- ========== TECH STACK CONSTELLATION (force-directed) ========== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('constellation');
+      if (!canvas) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const ctx = canvas.getContext('2d');
+
+      const palette = {
+        lang:    '#6366f1', // indigo
+        ml:      '#a855f7', // purple
+        front:   '#06b6d4', // cyan
+        back:    '#10b981', // emerald
+        cloud:   '#f59e0b', // amber
+        data:    '#ec4899', // pink
+        llm:     '#eab308', // yellow
+      };
+
+      const nodes = [
+        { id: 'Python',    g: 'lang',  m: 2.4 },
+        { id: 'Java',      g: 'lang',  m: 1.4 },
+        { id: 'TypeScript',g: 'lang',  m: 1.5 },
+        { id: 'SQL',       g: 'lang',  m: 1.2 },
+
+        { id: 'PyTorch',   g: 'ml',    m: 2.2 },
+        { id: 'TensorFlow',g: 'ml',    m: 1.6 },
+        { id: 'Scikit-learn', g: 'ml', m: 1.4 },
+        { id: 'XGBoost',   g: 'ml',    m: 1.2 },
+        { id: 'OpenCV',    g: 'ml',    m: 1.6 },
+        { id: 'TensorRT',  g: 'ml',    m: 1.4 },
+        { id: 'HuggingFace', g: 'ml',  m: 1.5 },
+
+        { id: 'React',     g: 'front', m: 1.6 },
+        { id: 'Next.js',   g: 'front', m: 1.4 },
+        { id: 'Tailwind',  g: 'front', m: 1.3 },
+
+        { id: 'FastAPI',   g: 'back',  m: 1.5 },
+        { id: 'Flask',     g: 'back',  m: 1.4 },
+        { id: 'Node.js',   g: 'back',  m: 1.3 },
+
+        { id: 'Azure',     g: 'cloud', m: 1.7 },
+        { id: 'AWS',       g: 'cloud', m: 1.6 },
+        { id: 'GCP',       g: 'cloud', m: 1.2 },
+        { id: 'Docker',    g: 'cloud', m: 1.6 },
+        { id: 'MLflow',    g: 'cloud', m: 1.4 },
+
+        { id: 'Databricks', g: 'data', m: 1.5 },
+        { id: 'Spark',     g: 'data',  m: 1.4 },
+        { id: 'Kafka',     g: 'data',  m: 1.2 },
+        { id: 'PostgreSQL',g: 'data',  m: 1.3 },
+        { id: 'MongoDB',   g: 'data',  m: 1.2 },
+
+        { id: 'LlamaIndex',g: 'llm',   m: 1.3 },
+        { id: 'RAG',       g: 'llm',   m: 1.5 },
+        { id: 'Az. Cognitive Search', g: 'llm', m: 1.3 },
+      ];
+      const edgeList = [
+        ['Python','PyTorch'], ['Python','TensorFlow'], ['Python','Scikit-learn'],
+        ['Python','XGBoost'], ['Python','OpenCV'], ['Python','FastAPI'],
+        ['Python','Flask'], ['Python','MLflow'], ['Python','Spark'],
+        ['PyTorch','TensorRT'], ['PyTorch','HuggingFace'], ['PyTorch','OpenCV'],
+        ['TypeScript','React'], ['React','Next.js'], ['React','Tailwind'],
+        ['Next.js','Node.js'], ['Node.js','MongoDB'],
+        ['FastAPI','PostgreSQL'], ['Flask','PostgreSQL'],
+        ['Docker','Azure'], ['Docker','AWS'], ['Docker','GCP'],
+        ['Azure','Databricks'], ['Databricks','Spark'],
+        ['Spark','Kafka'], ['SQL','PostgreSQL'], ['SQL','MongoDB'],
+        ['HuggingFace','RAG'], ['LlamaIndex','RAG'],
+        ['Az. Cognitive Search','RAG'], ['Azure','Az. Cognitive Search'],
+        ['MLflow','PyTorch'], ['MLflow','TensorFlow'],
+        ['Java','SQL'],
+      ];
+      const idx = new Map(nodes.map((n,i) => [n.id, i]));
+      const edges = edgeList
+        .filter(([a,b]) => idx.has(a) && idx.has(b))
+        .map(([a,b]) => ({ s: idx.get(a), t: idx.get(b) }));
+
+      // Init random positions
+      let W = 1, H = 1;
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+          canvas.width = w * dpr;
+          canvas.height = h * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        W = w; H = h;
+      }
+      resize();
+
+      nodes.forEach(n => {
+        n.x = W * 0.5 + (Math.random() - 0.5) * W * 0.7;
+        n.y = H * 0.5 + (Math.random() - 0.5) * H * 0.7;
+        n.vx = 0; n.vy = 0;
+      });
+
+      document.getElementById('node-count').textContent = nodes.length;
+      document.getElementById('edge-count').textContent = edges.length;
+
+      // Build neighbor map
+      const neighbors = nodes.map(() => new Set());
+      edges.forEach(e => {
+        neighbors[e.s].add(e.t);
+        neighbors[e.t].add(e.s);
+      });
+
+      // Mouse / drag state
+      let hoverIdx = -1;
+      let dragIdx = -1;
+      let mouse = { x: -1000, y: -1000 };
+      canvas.addEventListener('pointermove', (e) => {
+        const r = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - r.left;
+        mouse.y = e.clientY - r.top;
+        let h = -1, hd = 30 * 30;
+        for (let i = 0; i < nodes.length; i++) {
+          const dx = nodes[i].x - mouse.x;
+          const dy = nodes[i].y - mouse.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < hd) { hd = d2; h = i; }
+        }
+        hoverIdx = h;
+        if (dragIdx >= 0) {
+          nodes[dragIdx].x = mouse.x;
+          nodes[dragIdx].y = mouse.y;
+          nodes[dragIdx].vx = nodes[dragIdx].vy = 0;
+        }
+      });
+      canvas.addEventListener('pointerdown', () => { if (hoverIdx >= 0) dragIdx = hoverIdx; });
+      window.addEventListener('pointerup', () => { dragIdx = -1; });
+      canvas.addEventListener('pointerleave', () => {
+        mouse.x = mouse.y = -1000;
+        hoverIdx = -1;
+      });
+
+      // Force simulation
+      const REPEL = 1800;
+      const SPRING = 0.035;
+      const SPRING_LEN = 80;
+      const CENTER = 0.012;
+      const DAMP = 0.86;
+
+      function step() {
+        // Repulsion
+        for (let i = 0; i < nodes.length; i++) {
+          const a = nodes[i];
+          for (let j = i + 1; j < nodes.length; j++) {
+            const b = nodes[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            let d2 = dx * dx + dy * dy;
+            if (d2 < 1) d2 = 1;
+            const force = REPEL / d2;
+            const inv = 1 / Math.sqrt(d2);
+            const fx = dx * inv * force;
+            const fy = dy * inv * force;
+            a.vx += fx / a.m;
+            a.vy += fy / a.m;
+            b.vx -= fx / b.m;
+            b.vy -= fy / b.m;
+          }
+        }
+        // Spring (edges)
+        for (const e of edges) {
+          const a = nodes[e.s];
+          const b = nodes[e.t];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const d = Math.sqrt(dx * dx + dy * dy) || 1;
+          const force = (d - SPRING_LEN) * SPRING;
+          const fx = (dx / d) * force;
+          const fy = (dy / d) * force;
+          a.vx += fx / a.m;
+          a.vy += fy / a.m;
+          b.vx -= fx / b.m;
+          b.vy -= fy / b.m;
+        }
+        // Center pull + bounds
+        const cx = W / 2, cy = H / 2;
+        for (const n of nodes) {
+          n.vx += (cx - n.x) * CENTER;
+          n.vy += (cy - n.y) * CENTER;
+          n.vx *= DAMP;
+          n.vy *= DAMP;
+          if (n !== nodes[dragIdx]) {
+            n.x += n.vx;
+            n.y += n.vy;
+          }
+          // soft bounds
+          const pad = 30;
+          if (n.x < pad) n.x = pad;
+          if (n.x > W - pad) n.x = W - pad;
+          if (n.y < pad) n.y = pad;
+          if (n.y > H - pad) n.y = H - pad;
+        }
+      }
+
+      function render() {
+        resize();
+        ctx.clearRect(0, 0, W, H);
+
+        // Draw edges
+        for (const e of edges) {
+          const a = nodes[e.s], b = nodes[e.t];
+          const isHover = hoverIdx >= 0 && (e.s === hoverIdx || e.t === hoverIdx);
+          ctx.strokeStyle = isHover
+            ? 'rgba(255, 255, 255, 0.55)'
+            : 'rgba(255, 255, 255, 0.08)';
+          ctx.lineWidth = isHover ? 1.5 : 0.7;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+
+        // Draw nodes
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          const color = palette[n.g];
+          const isHover = i === hoverIdx;
+          const isNeighbor = hoverIdx >= 0 && neighbors[hoverIdx].has(i);
+          const dim = hoverIdx >= 0 && !isHover && !isNeighbor;
+
+          const r = 4 + n.m * 2.4;
+
+          // Soft glow
+          if (isHover || isNeighbor) {
+            const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 4);
+            grad.addColorStop(0, color + 'cc');
+            grad.addColorStop(1, color + '00');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, r * 4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          // Body
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+          ctx.fillStyle = dim ? color + '55' : color;
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          // Label
+          ctx.font = `${isHover ? '700 ' : '500 '}11px JetBrains Mono, ui-monospace, monospace`;
+          ctx.fillStyle = dim ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.9)';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'top';
+          ctx.fillText(n.id, n.x, n.y + r + 4);
+        }
+      }
+
+      function loop() {
+        step();
+        render();
+        requestAnimationFrame(loop);
+      }
+      loop();
+    });
+  </script>
+
+  <!-- ========== SPARKLINES ========== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('sparklines-grid');
+      if (!grid) return;
+
+      // Skill, since-year, monthly intensity (0-1) for last 12 quarters
+      const topSkills = [
+        { name: 'Python',     since: 2018, color: '#6366f1', s: [0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95, 0.98, 1.0, 0.95, 0.95] },
+        { name: 'PyTorch',    since: 2022, color: '#a855f7', s: [0.0, 0.0, 0.1, 0.2, 0.4, 0.55, 0.7, 0.85, 0.95, 1.0, 0.95, 0.95] },
+        { name: 'React.js',   since: 2021, color: '#06b6d4', s: [0.0, 0.2, 0.4, 0.6, 0.7, 0.65, 0.6, 0.5, 0.55, 0.6, 0.55, 0.55] },
+        { name: 'TensorRT',   since: 2025, color: '#f59e0b', s: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.85, 0.95, 1.0] },
+        { name: 'Azure',      since: 2022, color: '#0ea5e9', s: [0.0, 0.0, 0.2, 0.5, 0.7, 0.85, 0.85, 0.7, 0.5, 0.4, 0.3, 0.3] },
+        { name: 'Databricks', since: 2023, color: '#ec4899', s: [0.0, 0.0, 0.0, 0.0, 0.3, 0.6, 0.85, 0.9, 0.7, 0.4, 0.3, 0.25] },
+        { name: 'Docker',     since: 2022, color: '#10b981', s: [0.0, 0.1, 0.3, 0.5, 0.6, 0.7, 0.75, 0.7, 0.7, 0.75, 0.7, 0.7] },
+        { name: 'FastAPI',    since: 2024, color: '#22d3ee', s: [0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.4, 0.6, 0.75, 0.85, 0.85, 0.9] },
+      ];
+
+      grid.innerHTML = topSkills.map(skill => {
+        const yrs = 2026 - skill.since;
+        const pts = skill.s;
+        const W = 100, H = 28;
+        const max = Math.max(...pts) || 1;
+        const path = pts.map((v, i) => {
+          const x = (i / (pts.length - 1)) * W;
+          const y = H - (v / max) * H;
+          return (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1);
+        }).join(' ');
+        const areaPath = path + ` L${W},${H} L0,${H} Z`;
+        const id = 'g_' + skill.name.replace(/[^\w]/g, '');
+        return `
+          <div class="skill-spark">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-sm font-semibold dark:text-white">${skill.name}</span>
+              <span class="text-xs font-mono text-gray-500 dark:text-gray-400">${yrs}y</span>
+            </div>
+            <svg class="spark-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="${id}" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="${skill.color}" stop-opacity="0.55"/>
+                  <stop offset="100%" stop-color="${skill.color}" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="${areaPath}" fill="url(#${id})"/>
+              <path d="${path}" fill="none" stroke="${skill.color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        `;
+      }).join('');
     });
   </script>
 
