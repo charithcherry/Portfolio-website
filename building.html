@@ -420,7 +420,7 @@
         What I'm Building
       </h1>
       <p class="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
-        Three open-ended bets I think about every day — on memory, model independence, and motion. Some shipping, some still cooking.
+        A framework, two applications built on it, and a fourth bet on motion. NeuroStack is the foundation; everything else is what gets built on top.
       </p>
       <p class="mt-4 text-sm text-white/40 font-mono">// scroll to read about each</p>
     </div>
@@ -432,66 +432,27 @@
   <section class="py-20 md:py-28 px-4 relative bg-gray-950">
     <div class="container mx-auto max-w-6xl">
 
-      <!-- Section header -->
+      <!-- Section header — NeuroStack the framework -->
       <div class="reveal mb-12">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs text-purple-400">PROJECT 01 · github.com/charithcherry/Project-Remanence</span>
+        <div class="flex items-center gap-3 mb-4 flex-wrap">
+          <span class="font-mono text-xs text-purple-400">PROJECT 01 · THE FRAMEWORK</span>
           <span class="status-chip status-private">
             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
-            private repo · running in tray
+            in development
           </span>
         </div>
         <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
           <span class="bg-gradient-to-r from-purple-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">NeuroStack</span>
-          <span class="text-white/30 text-2xl md:text-3xl font-light ml-3">/ Research Agent</span>
         </h2>
         <p class="text-xl md:text-2xl text-white/60 max-w-3xl font-light">
-          A personal autonomous research agent with a brain-inspired 6-tier memory architecture. Runs silently in the system tray on macOS &amp; Windows — researches papers continuously, maintains a living memory of who you are, what you know, and what you've been doing.
+          A brain-inspired memory framework for AI agents. Eight memory layers across four temperature zones, multi-signal retrieval, a compaction agent that runs the lifecycle, and a model router that's local-first by default. Built to be embedded by any agent that needs to <em>remember</em>, not just <em>look things up</em>.
         </p>
         <div class="mt-6 flex flex-wrap gap-2 text-xs font-mono">
-          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">Python · 696KB</span>
-          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">SQLite (28 tables)</span>
+          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">Python framework</span>
+          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">SQLite · 28 tables</span>
           <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">Kuzu graph DB</span>
-          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">Ollama qwen3.5:4b</span>
-          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">tkinter + pystray</span>
-          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">no LangChain · no AutoGen</span>
-        </div>
-      </div>
-
-      <!-- What it does -->
-      <div class="reveal mb-12">
-        <p class="text-xs font-mono text-purple-400 mb-2">// WHAT IT DOES</p>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <div class="glass-card p-4">
-            <div class="text-purple-300 text-xs font-mono mb-1">every 2h</div>
-            <div class="font-semibold text-sm">Autonomous research</div>
-            <div class="text-xs text-white/60 mt-1">arXiv, Semantic Scholar, web — papers in your fields, on its own clock</div>
-          </div>
-          <div class="glass-card p-4">
-            <div class="text-purple-300 text-xs font-mono mb-1">every 4h</div>
-            <div class="font-semibold text-sm">Trend reports</div>
-            <div class="text-xs text-white/60 mt-1">synthesizes what's happening across your areas</div>
-          </div>
-          <div class="glass-card p-4">
-            <div class="text-purple-300 text-xs font-mono mb-1">daily</div>
-            <div class="font-semibold text-sm">Morning briefings</div>
-            <div class="text-xs text-white/60 mt-1">overnight discoveries + your recent activity</div>
-          </div>
-          <div class="glass-card p-4">
-            <div class="text-purple-300 text-xs font-mono mb-1">on demand</div>
-            <div class="font-semibold text-sm">Personal assistant chat</div>
-            <div class="text-xs text-white/60 mt-1">knows your full profile, work history, every conversation</div>
-          </div>
-          <div class="glass-card p-4">
-            <div class="text-purple-300 text-xs font-mono mb-1">on demand</div>
-            <div class="font-semibold text-sm">Career assistant</div>
-            <div class="text-xs text-white/60 mt-1">resume tailoring, job analysis, cover letters — full profile loaded</div>
-          </div>
-          <div class="glass-card p-4">
-            <div class="text-purple-300 text-xs font-mono mb-1">sandboxed</div>
-            <div class="font-semibold text-sm">Code agent</div>
-            <div class="text-xs text-white/60 mt-1">writes &amp; executes Python in a workspace with procedural memory</div>
-          </div>
+          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">ACT-R · A-MEM · CLS</span>
+          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">no LangChain · no AutoGen · no ORM</span>
         </div>
       </div>
 
@@ -766,22 +727,138 @@
         </p>
       </div>
 
-      <!-- Threading model -->
+      <!-- API surface — what NeuroStack exposes -->
       <div class="reveal mb-16">
+        <div class="grid md:grid-cols-2 gap-8 items-start">
+          <div>
+            <p class="text-xs font-mono text-purple-400 mb-2">// THE API SURFACE</p>
+            <h3 class="text-2xl md:text-3xl font-bold mb-4">A small interface. The complexity hides behind it.</h3>
+            <p class="text-white/70 leading-relaxed mb-4">
+              An application embedding NeuroStack only sees four primitives: write an episode, query for relevant memory, configure the model router, and let the compaction agent run. Everything else — decay, salience, consolidation, re-promotion, embeddings, graph extraction — is handled in the background.
+            </p>
+            <ul class="space-y-2 text-sm text-white/70">
+              <li class="flex gap-3"><span class="text-purple-400 font-mono flex-shrink-0">brain.save_episode()</span><span>writes to L3, fires salience-gate thread</span></li>
+              <li class="flex gap-3"><span class="text-purple-400 font-mono flex-shrink-0">brain.query()</span><span>multi-signal scored retrieval across L3-L5</span></li>
+              <li class="flex gap-3"><span class="text-purple-400 font-mono flex-shrink-0">brain.profile.set()</span><span>updates L1A identity block</span></li>
+              <li class="flex gap-3"><span class="text-purple-400 font-mono flex-shrink-0">router.call()</span><span>local-first model dispatch with fallback</span></li>
+            </ul>
+          </div>
+          <div class="codeblock">
+<span class="code-comment"># Embedding NeuroStack in any agent</span>
+<span class="code-key">from</span> neurostack <span class="code-key">import</span> <span class="code-fn">Brain</span>, <span class="code-fn">ModelRouter</span>
+
+<span class="code-key">router</span> = <span class="code-fn">ModelRouter</span>(
+    nano     = <span class="code-fn">Ollama</span>(<span class="code-str">"qwen3.5:4b"</span>),
+    standard = <span class="code-fn">OpenAI</span>(<span class="code-str">"gpt-5.2"</span>),
+)
+
+<span class="code-key">brain</span> = <span class="code-fn">Brain</span>(db=<span class="code-str">"~/agent.db"</span>, router=router)
+
+<span class="code-comment"># write</span>
+<span class="code-key">brain</span>.save_episode(<span class="code-str">"Charith mentioned ACT-R"</span>)
+
+<span class="code-comment"># read — scored retrieval, not just cosine</span>
+<span class="code-key">memories</span> = <span class="code-key">brain</span>.query(<span class="code-str">"forgetting curve math"</span>, k=<span class="code-num">5</span>)
+
+<span class="code-comment"># compaction runs in background</span>
+<span class="code-fn">CompactionAgent</span>(brain).start()  <span class="code-ok"># every 5 min</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- RESEARCH AGENT — first application built on NeuroStack -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 px-4 themed-section-alt relative">
+    <div class="container mx-auto max-w-6xl">
+
+      <div class="reveal mb-12">
+        <div class="flex items-center gap-3 mb-4 flex-wrap">
+          <span class="font-mono text-xs text-fuchsia-400">PROJECT 02 · FIRST APPLICATION</span>
+          <span class="status-chip status-private">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+            private repo · running in tray
+          </span>
+          <span class="status-chip status-active">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+            built on NeuroStack
+          </span>
+        </div>
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+          <span class="bg-gradient-to-r from-fuchsia-400 via-rose-400 to-orange-400 bg-clip-text text-transparent">Research Agent</span>
+        </h2>
+        <p class="text-xl md:text-2xl text-white/60 max-w-3xl font-light">
+          The first thing I built on NeuroStack. A personal autonomous research agent that runs silently in the system tray on macOS &amp; Windows — researches papers continuously, briefs me every morning, and remembers everything we've ever discussed.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-2 text-xs font-mono">
+          <span class="px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300">tkinter + pystray</span>
+          <span class="px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300">arXiv + Semantic Scholar + web</span>
+          <span class="px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300">7-daemon orchestrator</span>
+          <span class="px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300">~696 KB Python</span>
+        </div>
+      </div>
+
+      <!-- What it does -->
+      <div class="reveal mb-12">
+        <p class="text-xs font-mono text-fuchsia-400 mb-2">// WHAT IT DOES</p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div class="glass-card p-4">
+            <div class="text-fuchsia-300 text-xs font-mono mb-1">every 2h</div>
+            <div class="font-semibold text-sm">Autonomous research</div>
+            <div class="text-xs text-white/60 mt-1">arXiv, Semantic Scholar, web — papers in your fields, on its own clock</div>
+          </div>
+          <div class="glass-card p-4">
+            <div class="text-fuchsia-300 text-xs font-mono mb-1">every 4h</div>
+            <div class="font-semibold text-sm">Trend reports</div>
+            <div class="text-xs text-white/60 mt-1">synthesizes what's happening across your areas</div>
+          </div>
+          <div class="glass-card p-4">
+            <div class="text-fuchsia-300 text-xs font-mono mb-1">daily</div>
+            <div class="font-semibold text-sm">Morning briefings</div>
+            <div class="text-xs text-white/60 mt-1">overnight discoveries + your recent activity</div>
+          </div>
+          <div class="glass-card p-4">
+            <div class="text-fuchsia-300 text-xs font-mono mb-1">on demand</div>
+            <div class="font-semibold text-sm">Personal assistant chat</div>
+            <div class="text-xs text-white/60 mt-1">knows your full profile, work history, every conversation</div>
+          </div>
+          <div class="glass-card p-4">
+            <div class="text-fuchsia-300 text-xs font-mono mb-1">on demand</div>
+            <div class="font-semibold text-sm">Career assistant</div>
+            <div class="text-xs text-white/60 mt-1">resume tailoring, job analysis, cover letters — full profile loaded</div>
+          </div>
+          <div class="glass-card p-4">
+            <div class="text-fuchsia-300 text-xs font-mono mb-1">sandboxed</div>
+            <div class="font-semibold text-sm">Code agent</div>
+            <div class="text-xs text-white/60 mt-1">writes &amp; executes Python in a workspace with procedural memory</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- How it uses NeuroStack -->
+      <div class="reveal mb-12 grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-xs font-mono text-fuchsia-400 mb-2">// HOW IT USES NEUROSTACK</p>
+          <h3 class="text-2xl md:text-3xl font-bold mb-4">A thin app on top of a deep memory.</h3>
+          <p class="text-white/70 leading-relaxed">
+            Research Agent is mostly UI and orchestration. Every paper found, every chat turn, every reflection lands in NeuroStack. Every recall — "what did I read about KV-cache last month?" — runs through <code class="font-mono text-fuchsia-300">brain.query()</code>. The agent doesn't manage memory. It uses memory.
+          </p>
+        </div>
         <div class="glass-card p-6 md:p-8">
-          <p class="text-xs font-mono text-purple-400 mb-2">// THREADING MODEL · 7 DAEMONS</p>
-          <h3 class="text-xl md:text-2xl font-bold mb-4">Single-process. Concurrent. UI-safe.</h3>
+          <p class="text-xs font-mono text-fuchsia-400 mb-3">// THREADING MODEL · 7 DAEMONS</p>
           <pre class="font-mono text-xs md:text-sm text-white/80 overflow-x-auto leading-relaxed">
-<span class="code-key">Main thread</span>      tkinter hidden root + ui_queue.Queue() polled every 100ms
-<span class="code-key">Daemon 1</span>         pystray system tray (run_detached)
-<span class="code-key">Thread 2</span>         ResearchAgent.run_loop — search every 2h or on demand
-<span class="code-key">Daemon 3</span>         AgentOrchestrator._trend_loop — TrendAgent every 4h
-<span class="code-key">Daemon 4</span>         AgentOrchestrator._briefing_loop — checks every 60s
-<span class="code-key">Daemon 5</span>         AgentOrchestrator._compaction_loop — CompactionAgent every 5min
-<span class="code-key">Daemon 6</span>         AgentOrchestrator._model_check_loop — weekly compatibility test
-<span class="code-key">Daemon 7</span>         LocalModelWarmup — loads qwen3.5:4b into RAM at startup
-<span class="code-key">Per-episode</span>      Background threads for salience computation (non-blocking)</pre>
-          <p class="mt-4 text-xs text-white/50">All UI calls dispatched through <span class="font-mono">ui_queue</span> → main thread. Blocking UI calls use <span class="font-mono">threading.Event</span> to wait for user input without blocking the daemon.</p>
+<span class="code-key">Main</span>          tkinter root + ui_queue (100ms)
+<span class="code-key">Daemon 1</span>      pystray system tray
+<span class="code-key">Thread 2</span>      ResearchAgent — search every 2h
+<span class="code-key">Daemon 3</span>      TrendAgent — every 4h
+<span class="code-key">Daemon 4</span>      BriefingAgent — checks every 60s
+<span class="code-key">Daemon 5</span>      CompactionAgent — every 5 min
+<span class="code-key">Daemon 6</span>      ModelCheckAgent — weekly
+<span class="code-key">Daemon 7</span>      LocalModelWarmup — qwen3.5:4b</pre>
+          <p class="mt-3 text-xs text-white/50">UI calls dispatched via <span class="font-mono">ui_queue</span> → main thread. Blocking calls use <span class="font-mono">threading.Event</span>.</p>
         </div>
       </div>
 
@@ -795,18 +872,22 @@
     <div class="container mx-auto max-w-6xl">
 
       <div class="reveal mb-12">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs text-cyan-400">PROJECT 02</span>
+        <div class="flex items-center gap-3 mb-4 flex-wrap">
+          <span class="font-mono text-xs text-cyan-400">PROJECT 03 · NEXT APPLICATION</span>
           <span class="status-chip status-active">
             <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-            in development
+            in design
+          </span>
+          <span class="status-chip status-active">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+            built on NeuroStack
           </span>
         </div>
         <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
           <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">Brain Component</span>
         </h2>
         <p class="text-xl md:text-2xl text-white/60 max-w-3xl font-light">
-          A model-agnostic agent runtime built on NeuroStack — so I never have to depend on OpenAI, Anthropic, or anyone's API to keep working.
+          The next thing on NeuroStack — a fully local agent runtime. No OpenAI fallback, no Anthropic, no provider lock-in. Just NeuroStack memory + Ollama / llama.cpp / MLX, running entirely on your machine.
         </p>
       </div>
 
@@ -905,7 +986,7 @@
 
       <div class="reveal mb-12">
         <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs text-pink-400">PROJECT 03</span>
+          <span class="font-mono text-xs text-pink-400">PROJECT 04</span>
           <span class="status-chip status-research">
             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h.01a1 1 0 100-2H7zM4 7a1 1 0 011-1h.01a1 1 0 110 2H5a1 1 0 01-1-1zM12 7a1 1 0 011-1h.01a1 1 0 110 2H13a1 1 0 01-1-1z"/></svg>
             research · drafted
