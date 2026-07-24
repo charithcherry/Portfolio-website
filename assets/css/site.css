@@ -251,11 +251,6 @@ hr { border: none; border-top: 1px solid var(--rule); }
   font-size: 1.02rem;
   color: var(--text);
 }
-.brand-mark {
-  width: 26px; height: 26px;
-  flex: none;
-  color: var(--accent);
-}
 .brand-sub {
   font-family: var(--font-mono);
   font-size: .68rem;

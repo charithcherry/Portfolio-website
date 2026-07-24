@@ -96,6 +96,13 @@
     }
     .xp-card { padding: clamp(18px, 3vw, 26px); }
     .xp-top { display: flex; flex-wrap: wrap; gap: 4px var(--sp-4); align-items: baseline; justify-content: space-between; }
+    .xp-meta { display: inline-flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+    .role-tag {
+      font-family: var(--font-mono); font-size: .66rem; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--accent);
+      border: 1px solid rgba(var(--accent-rgb), 0.4);
+      border-radius: var(--r-pill); padding: 2px 8px; white-space: nowrap;
+    }
     .xp-org { color: var(--accent); font-weight: 600; font-size: .98rem; margin-top: 2px; }
     .xp-card ul { margin-top: var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-2); }
     .xp-card li {
@@ -139,17 +146,6 @@
   <header class="site-header">
     <div class="container nav">
       <a href="index.html" class="brand" aria-label="Charith Purushotham — home">
-        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <g stroke="currentColor" stroke-width="1.6" opacity="0.85">
-            <line x1="8" y1="10" x2="16" y2="16"/><line x1="16" y1="16" x2="24" y2="9"/>
-            <line x1="16" y1="16" x2="12" y2="24"/><line x1="16" y1="16" x2="23" y2="22"/>
-          </g>
-          <g fill="currentColor">
-            <circle cx="8" cy="10" r="2.3"/><circle cx="24" cy="9" r="2.3"/>
-            <circle cx="12" cy="24" r="2.3"/><circle cx="23" cy="22" r="2.3"/>
-          </g>
-          <circle cx="16" cy="16" r="3" fill="#8b5cf6"/>
-        </svg>
         <span>Charith Purushotham</span>
       </a>
 
@@ -257,13 +253,18 @@
                   <span class="tl-num">5–10<span class="unit">s</span></span>
                   <span class="tl-label">to a definitive call</span>
                 </div>
+                <div class="tl-stat">
+                  <span class="tl-num">10→2<span class="unit">s</span></span>
+                  <span class="tl-label">Godot graphic render</span>
+                </div>
               </div>
               <p class="sc-desc">
                 Live match line calling for Major League Pickleball, aired on PickleballTV, FOX and
                 YouTube. Broadcast camera streams are ingested at 240 FPS via GStreamer with
                 GPU-optimized reads; the system returns a definitive in/out call within 5–10 seconds —
-                including how close the bounce was to the line — with the on-air graphic rendered in Godot.
-                Near-perfect measured line-call accuracy to date.
+                including how close the bounce was to the line — with the on-air graphic rendered in Godot,
+                where I rebuilt the render path to cut MP4 latency from 10 s to 2 s so replays hit the
+                broadcast almost the moment the call is made. Near-perfect measured line-call accuracy to date.
               </p>
               <div class="chips">
                 <span class="chip">GStreamer</span><span class="chip">SAM</span>
@@ -313,8 +314,8 @@
               <p class="card-meta">X Games Aspen 2026</p>
               <div class="tl-grid">
                 <div class="tl-stat">
-                  <span class="tl-num">Aspen<span class="unit">'26</span></span>
-                  <span class="tl-label">X Games</span>
+                  <span class="tl-num">45→68<span class="unit">FPS</span></span>
+                  <span class="tl-label">custom temporal model</span>
                 </div>
                 <div class="tl-stat">
                   <span class="tl-num">360°<span class="unit">+</span></span>
@@ -322,13 +323,22 @@
                 </div>
               </div>
               <p class="sc-desc">
-                Athlete tracking plus total-rotation computation and player stats, with GStreamer
-                broadcast ingestion. Same real-time judging-console pattern as skateboarding —
-                tricks appear on the console the instant they finish.
+                Productionized the real-time snowboard pipeline for X Games Aspen 2026: athlete tracking,
+                keypoint/pose extraction and total-rotation stats, ingested over a MediaMTX (SRT) streaming
+                layer for reliable broadcast feeds. At its core is a custom causal temporal model — it reads
+                only past frames (no lookahead, so it is real-time safe) and outputs a per-frame probability
+                that the rider is airborne, which cleanly delimits trick start and end; I optimized it from
+                45 to 68 FPS, keeping tricks real-time on the same judging console as skateboarding, where
+                they appear the instant they finish. Training and evaluation on large-scale X Games video is
+                tracked in MLflow for reproducible, regression-safe iteration, and Bayesian/MCMC models
+                estimate event scores and podium probability from trick metrics and athlete form — turning
+                raw numbers into commentator-facing talking points. LLM agents automate labeling and data QA
+                to keep the dataset flowing.
               </p>
               <div class="chips">
-                <span class="chip">GStreamer</span><span class="chip">real-time</span>
-                <span class="chip">player stats</span><span class="chip">judging console</span>
+                <span class="chip">custom temporal model</span><span class="chip">MediaMTX/SRT</span>
+                <span class="chip">MLflow</span><span class="chip">Bayesian/MCMC</span>
+                <span class="chip">LLM agents</span><span class="chip">judging console</span>
               </div>
             </article>
 
@@ -396,6 +406,38 @@
               </div>
             </article>
 
+            <!-- Data curation platform -->
+            <article class="card card-hover sport-card span-full">
+              <div class="sc-head">
+                <h3 class="card-title">Data curation platform · the infra underneath</h3>
+                <span class="status"><span class="dot dot-cyan"></span> Infrastructure</span>
+              </div>
+              <p class="card-meta">Distributed GPU pipeline · feeds every sport model above</p>
+              <div class="tl-grid">
+                <div class="tl-stat">
+                  <span class="tl-num">Qwen-3VL<span class="unit">·Cosmos·SAM</span></span>
+                  <span class="tl-label">orchestrated models</span>
+                </div>
+                <div class="tl-stat">
+                  <span class="tl-num">multi-GPU</span>
+                  <span class="tl-label">round-robin scheduling</span>
+                </div>
+              </div>
+              <p class="sc-desc">
+                Built the distributed GPU data-curation pipeline that turns raw broadcast footage into the
+                training-ready signals every model above learns from. It orchestrates multimodal models —
+                Qwen-3VL, NVIDIA Cosmos and SAM — to detect events, segment scenes and extract structured
+                labels, using chunked, round-robin inference scheduling to keep multi-GPU systems saturated.
+                Without it, none of the sport models would have data to train on — it is the engine behind
+                the whole broadcast stack.
+              </p>
+              <div class="chips">
+                <span class="chip">Qwen-3VL</span><span class="chip">NVIDIA Cosmos</span>
+                <span class="chip">SAM</span><span class="chip">multi-GPU</span>
+                <span class="chip">data curation</span>
+              </div>
+            </article>
+
             <!-- Diving -->
             <div class="diving-line">
               <span class="dot dot-amber"></span>
@@ -423,8 +465,8 @@
               </div>
               <p class="xp-org">University of Colorado Boulder · Prof. Mark Zhao</p>
               <ul>
-                <li>Supported graduate Distributed Systems coursework — held office hours, ran help sessions, and graded projects on consensus, replication and fault-tolerant system design.</li>
-                <li>Guided students through implementation of distributed protocols and debugging of concurrent, networked systems.</li>
+                <li>Ran office hours and help sessions for graduate Distributed Systems (Prof. Mark Zhao), walking students through consensus, replication and fault-tolerant design so they could ship working implementations of genuinely hard distributed protocols.</li>
+                <li>Debugged students' concurrent, networked systems with them and graded their projects — the hands-on time that turned stuck submissions into correct, passing ones.</li>
               </ul>
               <div class="chips">
                 <span class="chip">Distributed Systems</span><span class="chip">Go</span>
@@ -438,15 +480,15 @@
             <span class="xp-dot" aria-hidden="true"></span>
             <div class="card xp-card">
               <div class="xp-top">
-                <h3 class="card-title">Machine Learning Engineer Intern</h3>
-                <span class="card-meta">Jun 2025 – Aug 2025</span>
+                <h3 class="card-title">Machine Learning Engineer</h3>
+                <span class="xp-meta"><span class="role-tag">internship</span><span class="card-meta">Jun 2025 – Aug 2025</span></span>
               </div>
               <p class="xp-org">Idaho National Laboratory · Idaho Falls, ID</p>
               <ul>
-                <li>Contributed to an LDRD-funded project fine-tuning deep-learning models (SAM/SAM2, YOLOv9, ResUNet, DenseNet, ResDense-UNet) for semantic segmentation of pores and cracks in post-irradiated nuclear materials from FIB, SEM, TEM and X-ray CT data.</li>
-                <li>Used HPC infrastructure for large-scale training and image characterization, enabling predictive modeling of radiation-induced material degradation.</li>
-                <li>Analyzed how data-quality factors (resolution, contrast, noise, artifacts) affect segmentation accuracy and applied saliency maps with attention mechanisms across microscopy modalities.</li>
-                <li>Supported a parallel study on size effects in nuclear materials, using Random Forest and XGBoost to compare temperature sensitivity and impact energy between sub-sized and full-sized specimens.</li>
+                <li>Fine-tuned deep-learning segmentation models (SAM/SAM2, YOLOv9, ResUNet, DenseNet, ResDense-UNet) to detect pores and cracks in post-irradiated nuclear materials across FIB, SEM, TEM and X-ray CT imagery on this LDRD-funded project — giving materials scientists automated defect maps they previously traced by hand.</li>
+                <li>Ran large-scale training on the Alpine HPC cluster, enabling predictive modeling of radiation-induced material degradation from microscopy at a scale single workstations could not handle.</li>
+                <li>Ran systematic experiments on how resolution, contrast, noise and artifacts affect segmentation accuracy, and compared attention modules (CBAM vs. bottleneck self-attention) with saliency maps across modalities — pinpointing which preprocessing and architecture choices held up on noisy post-irradiated imagery.</li>
+                <li>Supported a size-effects study using Random Forest and XGBoost to compare temperature sensitivity and impact energy between sub-sized and full-sized specimens — quantifying how far miniaturized test data can stand in for full-scale results.</li>
               </ul>
 
               <details class="xp-more">
@@ -475,12 +517,11 @@
             <div class="card xp-card">
               <div class="xp-top">
                 <h3 class="card-title">Course Grader — CSCI 3022</h3>
-                <span class="card-meta">Spring 2025 – Fall 2025</span>
+                <span class="xp-meta"><span class="role-tag">student role</span><span class="card-meta">Spring 2025 – Fall 2025</span></span>
               </div>
               <p class="xp-org">University of Colorado Boulder</p>
               <ul>
-                <li>Graded quizzes, exams and homework for Intro to Data Science with Probability &amp; Statistics; proctored and scanned in-class assessments.</li>
-                <li>Managed grading deadlines, attended weekly course-staff syncs, and maintained accurate grade records while supporting students on probabilistic reasoning and Python data-analysis assignments.</li>
+                <li>Graded and proctored assessments for Intro to Data Science with Probability &amp; Statistics and coached students through probabilistic reasoning and Python data-analysis work — keeping feedback fast and consistent across a large intro cohort.</li>
               </ul>
               <div class="chips">
                 <span class="chip">Probability</span><span class="chip">Statistics</span>
@@ -499,16 +540,16 @@
               </div>
               <p class="xp-org">Phamax · Bengaluru</p>
               <ul>
-                <li>Co-architected Ariya, a Microsoft-certified Teams SaaS assistant that lets clients query large internal document corpora with grounded, source-backed responses; contributions drove +5% subscription lift and +7% client engagement.</li>
-                <li>Built the document ingestion + embedding pipeline (chunking, metadata normalization, OpenAI embeddings, indexing) and hybrid retrieval + re-ranking on Azure Cognitive Search to improve relevance and reduce hallucinations.</li>
-                <li>Productionized services on Azure with Docker, GitHub Actions CI/CD, Azure SQL + Blob + Redis, and log monitoring — improving resource efficiency 20–25% and cutting deployment time 50% (15 → 7 min).</li>
+                <li>Co-architected Ariya, a Microsoft-certified Teams SaaS assistant that lets enterprise clients query large internal document corpora with grounded, source-backed answers — contributions that drove a +5% subscription lift and +7% client engagement.</li>
+                <li>Built the document ingestion + embedding pipeline (SFTP/Blob ingestion, chunking, metadata normalization, Azure OpenAI embeddings, indexing) with automated guardrails — document type, expiry and naming checks that blocked bad inputs before they ever reached retrieval — then layered hybrid + vector search with re-ranking on Azure Cognitive Search to lift relevance and cut hallucinations through source grounding.</li>
+                <li>Productionized the services on Azure with Docker + GitHub Actions CI/CD and added Redis caching to the retrieval and generation microservices — cutting deployment time 50% (15 → 7 min) and improving resource efficiency 20–25%, so releases shipped twice as fast and repeat queries returned near-instantly.</li>
               </ul>
 
               <details class="xp-more">
                 <summary><span class="more-label">More projects</span></summary>
                 <ul>
                   <li><strong>Medinfo Chatbot</strong> — collaborated on the content-processing architecture (client IRMS → SFTP container); built a custom Q&amp;A system and conversation-transcript logging that lifted chatbot engagement ~5%.</li>
-                  <li><strong>Santen data engineering</strong> — led a Databricks + Azure project, halving processing time from 30 to 12–15 min; implemented a Medallion architecture with Delta Lake / Delta Live Tables and offloaded heavy processing from Tableau to accelerate Power BI dashboard refresh.</li>
+                  <li><strong>Santen data engineering</strong> — led a Databricks + Azure medallion pipeline (Delta Lake / Delta Live Tables) that halved ETL runtime from 30 to 15 min and offloaded heavy processing off Tableau, so analysts' dashboards refreshed noticeably faster.</li>
                   <li><strong>AWS RAG &amp; ADR detection</strong> — designed a Retrieval-Augmented Generation pipeline on AWS Bedrock for pharma document summarization and deployed an Adverse Drug Reaction detection model on Amazon SageMaker.</li>
                 </ul>
               </details>
@@ -527,18 +568,19 @@
             <span class="xp-dot" aria-hidden="true"></span>
             <div class="card xp-card">
               <div class="xp-top">
-                <h3 class="card-title">Data Science Intern</h3>
-                <span class="card-meta">Apr 2022 – Aug 2022</span>
+                <h3 class="card-title">Data Scientist</h3>
+                <span class="xp-meta"><span class="role-tag">internship</span><span class="card-meta">Apr 2022 – Aug 2022</span></span>
               </div>
               <p class="xp-org">Fittlyf · Bengaluru</p>
               <ul>
-                <li>Built a Multi-Arm Bandit framework for an in-house reporting tool, optimizing A/B-test traffic and reducing turnaround time 40%; added Group Sequential Sampling to adjust significance thresholds, cutting turnaround a further 46%.</li>
-                <li>Developed an MVP computer-vision fitness tool using human pose estimation (BlazePose) to help physiotherapists monitor and report patient exercise routines.</li>
+                <li>Built a multi-armed bandit framework for the team's in-house reporting tool to optimize A/B traffic allocation, cutting decision turnaround 40%; layered on group-sequential sampling that dynamically adjusted significance thresholds to reach calls 46% faster — so product teams could end experiments sooner with far fewer wasted impressions.</li>
+                <li>Automated experimentation analytics with BigQuery + hypercube transformations feeding near-real-time Tableau dashboards, replacing slow manual pulls so stakeholders saw results while experiments were still running.</li>
+                <li>Refined the PCOS and women's-health information sections with statistically designed A/B tests on button placement and navigation, turning UI choices into data-backed decisions instead of guesswork.</li>
               </ul>
               <div class="chips">
-                <span class="chip">Python</span><span class="chip">OpenCV</span>
-                <span class="chip">BlazePose</span><span class="chip">A/B testing</span>
-                <span class="chip">BigQuery</span>
+                <span class="chip">Python</span><span class="chip">A/B testing</span>
+                <span class="chip">Multi-Armed Bandit</span><span class="chip">BigQuery</span>
+                <span class="chip">Tableau</span>
               </div>
             </div>
           </li>
@@ -548,12 +590,12 @@
             <span class="xp-dot" aria-hidden="true"></span>
             <div class="card xp-card">
               <div class="xp-top">
-                <h3 class="card-title">Data Science Intern</h3>
-                <span class="card-meta">Mar 2021 – Oct 2021</span>
+                <h3 class="card-title">Data Scientist</h3>
+                <span class="xp-meta"><span class="role-tag">internship</span><span class="card-meta">Mar 2021 – Oct 2021</span></span>
               </div>
               <p class="xp-org">Trawello Healthcare · Bengaluru</p>
               <ul>
-                <li>Built a Streamlit-based reporting framework over the startup's student-healthcare data, covering data analysis, visualization and ML prediction.</li>
+                <li>Built a Streamlit reporting framework over the startup's student-healthcare data — bundling analysis, visualization and ML prediction in one place so non-technical staff could read insights without waiting on a data analyst.</li>
               </ul>
               <div class="chips">
                 <span class="chip">Python</span><span class="chip">Streamlit</span>
