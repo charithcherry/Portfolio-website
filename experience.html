@@ -580,7 +580,7 @@
               <p class="xp-org">Idaho National Laboratory · Idaho Falls, ID</p>
               <ul>
                 <li>Fine-tuned deep-learning segmentation models (SAM/SAM2, YOLOv9, ResUNet, DenseNet, ResDense-UNet) to detect pores and cracks in post-irradiated nuclear materials across FIB, SEM, TEM and X-ray CT imagery on this LDRD-funded project — giving materials scientists automated defect maps they previously traced by hand.</li>
-                <li>Ran large-scale training on the Alpine HPC cluster, enabling predictive modeling of radiation-induced material degradation from microscopy at a scale single workstations could not handle.</li>
+                <li>Ran large-scale training on the Alpine HPC cluster — including custom HPC job configurations that adapted to whatever GPUs were available, keeping training and inference at peak speed — enabling predictive modeling of radiation-induced material degradation at a scale single workstations could not handle.</li>
                 <li>Ran systematic experiments on how resolution, contrast, noise and artifacts affect segmentation accuracy, and compared attention modules (CBAM vs. bottleneck self-attention) with saliency maps across modalities — pinpointing which preprocessing and architecture choices held up on noisy post-irradiated imagery.</li>
                 <li>Supported a size-effects study using Random Forest and XGBoost to compare temperature sensitivity and impact energy between sub-sized and full-sized specimens — quantifying how far miniaturized test data can stand in for full-scale results.</li>
               </ul>
@@ -629,21 +629,19 @@
             <span class="xp-dot" aria-hidden="true"></span>
             <div class="card xp-card">
               <div class="xp-top">
-                <h3 class="card-title">Associate Software Development Engineer</h3>
-                <span class="card-meta">Sep 2022 – Jul 2024</span>
+                <h3 class="card-title">Software Development Engineer</h3>
+                <span class="xp-meta"><span class="role-tag">founding engineer</span><span class="card-meta">Sep 2022 – Jul 2024</span></span>
               </div>
               <p class="xp-org">Phamax · Bengaluru</p>
               <ul>
-                <li>Co-architected Ariya, a Microsoft-certified Teams SaaS assistant that lets enterprise clients query large internal document corpora with grounded, source-backed answers — contributions that drove a +5% subscription lift and +7% client engagement.</li>
-                <li>Built the document ingestion + embedding pipeline (SFTP/Blob ingestion, chunking, metadata normalization, Azure OpenAI embeddings, indexing) with automated guardrails — document type, expiry and naming checks that blocked bad inputs before they ever reached retrieval — then layered hybrid + vector search with re-ranking on Azure Cognitive Search to lift relevance and cut hallucinations through source grounding.</li>
-                <li>Productionized the services on Azure with Docker + GitHub Actions CI/CD and added Redis caching to the retrieval and generation microservices — cutting deployment time 50% (15 → 7 min) and improving resource efficiency 20–25%, so releases shipped twice as fast and repeat queries returned near-instantly.</li>
+                <li>Co-architected Ariya, a Microsoft-certified Teams SaaS assistant, and built its answer path end to end: a document-ingestion pipeline (SFTP/Blob ingestion, validation, metadata normalization, chunking) with automated guardrails that blocked bad inputs — document type, expiry and naming checks — before they could corrupt downstream workflows; hybrid + vector retrieval with re-ranking on Azure Cognitive Search over Azure OpenAI embeddings; and Node.js retrieval, generation and summarization microservices with Redis caching for repeat queries. Together these cut hallucinations by ~99%, verified by nightly evals across a month-long test plan.</li>
+                <li>Led Databricks + Azure data engineering (medallion architecture, Spark/Delta pipelines), halving ETL runtime from 30 to 15 minutes and offloading heavy processing from Tableau — analysts' dashboards refreshed noticeably faster.</li>
               </ul>
 
               <details class="xp-more">
                 <summary><span class="more-label">More projects</span></summary>
                 <ul>
                   <li><strong>Medinfo Chatbot</strong> — collaborated on the content-processing architecture (client IRMS → SFTP container); built a custom Q&amp;A system and conversation-transcript logging that lifted chatbot engagement ~5%.</li>
-                  <li><strong>Santen data engineering</strong> — led a Databricks + Azure medallion pipeline (Delta Lake / Delta Live Tables) that halved ETL runtime from 30 to 15 min and offloaded heavy processing off Tableau, so analysts' dashboards refreshed noticeably faster.</li>
                   <li><strong>AWS RAG &amp; ADR detection</strong> — designed a Retrieval-Augmented Generation pipeline on AWS Bedrock for pharma document summarization and deployed an Adverse Drug Reaction detection model on Amazon SageMaker.</li>
                 </ul>
               </details>
