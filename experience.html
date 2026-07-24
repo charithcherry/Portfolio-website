@@ -492,6 +492,39 @@
               </div>
             </article>
 
+            <!-- Motocross -->
+            <article class="card card-hover sport-card">
+              <div class="sc-head">
+                <h3 class="card-title">Motocross · AI rebroadcast dubbing</h3>
+                <span class="status status-wip"><span class="dot dot-amber"></span> In progress</span>
+              </div>
+              <span class="org-badge">SMX</span>
+              <p class="card-meta">English → Japanese first · any target language</p>
+              <div class="tl-grid">
+                <div class="tl-stat">
+                  <span class="tl-num"><span data-countup="99" data-prefix="~">~99</span><span class="unit">%</span></span>
+                  <span class="tl-label">translation accuracy</span>
+                </div>
+                <div class="tl-stat">
+                  <span class="tl-num">in-sync</span>
+                  <span class="tl-label">dubbed lines fit the broadcast windows</span>
+                </div>
+              </div>
+              <p class="sc-desc">
+                Re-voicing English race commentary in another language for rebroadcast. VibeVoice-ASR
+                transcribes and diarizes the commentators; staged LLM passes (Claude, GPT) handle
+                translation, name consistency for riders and series, fluency and fact checks; then
+                per-commentator TTS voices (Gemini TTS, with a Qwen3-TTS voice-clone lane) speak the
+                lines, and a timing-fit stage lands each one in its original broadcast window — so the
+                Japanese call stays in sync with the commentators on screen.
+              </p>
+              <div class="chips">
+                <span class="chip">VibeVoice-ASR</span><span class="chip">Claude</span>
+                <span class="chip">GPT</span><span class="chip">Gemini TTS</span>
+                <span class="chip">Qwen3-TTS</span><span class="chip">timing fit</span>
+              </div>
+            </article>
+
             <!-- Data curation platform -->
             <article class="card card-hover sport-card span-full">
               <div class="sc-head">
