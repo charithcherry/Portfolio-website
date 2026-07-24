@@ -1,781 +1,535 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>What I'm Building - Charith Purushotham</title>
+  <title>What I'm Building — Charith Purushotham</title>
+  <meta name="description" content="A brain-inspired memory framework (NeuroStack) and the applications built on it — plus a bet on motion. What Charith Purushotham is building outside of work.">
+  <meta name="author" content="Charith Purushotham">
+  <meta name="theme-color" content="#050810">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="What I'm Building — Charith Purushotham">
+  <meta property="og:description" content="NeuroStack — a brain-inspired memory framework for AI agents — and the applications built on top of it.">
+  <meta property="og:url" content="https://charithcherry.github.io/Portfolio-website/building.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://charithcherry.github.io/Portfolio-website/building.html">
+
+  <!-- Inline SVG favicon: node-graph glyph (identical on every page) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050810'/%3E%3Cg stroke='%2322d3ee' stroke-width='1.5' opacity='0.85'%3E%3Cline x1='8' y1='10' x2='16' y2='16'/%3E%3Cline x1='16' y1='16' x2='24' y2='9'/%3E%3Cline x1='16' y1='16' x2='12' y2='24'/%3E%3Cline x1='16' y1='16' x2='23' y2='22'/%3E%3C/g%3E%3Cg fill='%2322d3ee'%3E%3Ccircle cx='8' cy='10' r='2.3'/%3E%3Ccircle cx='24' cy='9' r='2.3'/%3E%3Ccircle cx='12' cy='24' r='2.3'/%3E%3Ccircle cx='23' cy='22' r='2.3'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%238b5cf6'/%3E%3C/svg%3E">
+
+  <!-- FOUC guard -->
   <script>
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    (function () {
+      try {
+        var t = localStorage.getItem('color-theme');
+        if (t === 'dark' || (!t && !window.matchMedia('(prefers-color-scheme: light)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) { document.documentElement.classList.add('dark'); }
+    })();
   </script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config = { darkMode: 'class' }</script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+
+  <!-- Page-specific styles: reuse site.css tokens throughout -->
   <style>
-    /* Theme tokens — light is default, .dark overrides */
-    :root {
-      --page-bg:        #f8fafc;
-      --section-bg:     #ffffff;
-      --section-bg-alt: #f1f5f9;
-      --text-base:      #0f172a;
-      --text-muted:     rgba(15,23,42,0.65);
-      --text-soft:      rgba(15,23,42,0.5);
-      --text-faint:     rgba(15,23,42,0.4);
-      --glass-bg:       rgba(15,23,42,0.04);
-      --glass-bg-hover: rgba(99,102,241,0.06);
-      --glass-border:   rgba(15,23,42,0.1);
-      --rule:           rgba(15,23,42,0.08);
-      --table-head:     rgba(15,23,42,0.04);
-      --row-even:       rgba(15,23,42,0.02);
-      --footer-bg:      #f1f5f9;
-    }
-    html.dark {
-      --page-bg:        #030712;
-      --section-bg:     #030712;
-      --section-bg-alt: #0b1020;
-      --text-base:      #f3f4f6;
-      --text-muted:     rgba(255,255,255,0.7);
-      --text-soft:      rgba(255,255,255,0.5);
-      --text-faint:     rgba(255,255,255,0.4);
-      --glass-bg:       rgba(255,255,255,0.06);
-      --glass-bg-hover: rgba(255,255,255,0.1);
-      --glass-border:   rgba(255,255,255,0.1);
-      --rule:           rgba(255,255,255,0.08);
-      --table-head:     rgba(255,255,255,0.05);
-      --row-even:       rgba(255,255,255,0.02);
-      --footer-bg:      #030712;
-    }
+    /* spacing helpers (.mt-*/.mb-*) now live in site.css */
+    .grid-tight{gap:var(--sp-3);}
+    .items-start{align-items:start;}
 
-    body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--page-bg);
-      color: var(--text-base);
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
-
-    /* Theme-aware utility classes */
-    .themed-section { background: var(--section-bg); }
-    .themed-section-alt { background: var(--section-bg-alt); }
-    .themed-muted  { color: var(--text-muted) !important; }
-    .themed-soft   { color: var(--text-soft) !important; }
-    .themed-faint  { color: var(--text-faint) !important; }
-    .themed-rule   { border-color: var(--rule) !important; }
-    .themed-table thead { background: var(--table-head); }
-    .themed-table tbody tr { border-top: 1px solid var(--rule); }
-    .themed-table .row-mono { color: var(--text-base); }
-    .themed-footer { background: var(--footer-bg); border-top: 1px solid var(--rule); color: var(--text-faint); }
-
-    /* Hero — animated grid + radial glow */
-    .lab-hero {
+    /* ---- Hero (intentionally dark in both themes — dramatic by design) ---- */
+    .lab-hero{
+      position:relative; overflow:hidden; text-align:center; color:#e6eaf2;
+      padding-block:clamp(72px,14vh,150px);
       background:
-        radial-gradient(900px 500px at 15% 0%, rgba(99,102,241,0.32), transparent 60%),
-        radial-gradient(800px 500px at 85% 100%, rgba(236,72,153,0.28), transparent 60%),
-        linear-gradient(135deg, #050816 0%, #0f172a 60%, #1e1b4b 100%);
-      position: relative;
-      overflow: hidden;
+        radial-gradient(900px 520px at 15% 0%, rgba(var(--accent-2-rgb),0.24), transparent 60%),
+        radial-gradient(820px 520px at 85% 100%, rgba(var(--accent-rgb),0.20), transparent 60%),
+        linear-gradient(135deg,#050816 0%,#0b1020 55%,#131a34 100%);
     }
-    .lab-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
+    .lab-hero::before{
+      content:''; position:absolute; inset:0; pointer-events:none;
       background-image:
-        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
-      background-size: 56px 56px;
-      mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%);
-      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%);
-      pointer-events: none;
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size:56px 56px;
+      -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);
+      mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);
+    }
+    .motion-lines{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:.5;}
+    .motion-lines path{fill:none; stroke-width:1.4; stroke-linecap:round; stroke-dasharray:4 8; animation:dashFlow 12s linear infinite;}
+    @keyframes dashFlow{ to{ stroke-dashoffset:-200; } }
+    .hero-badge{
+      display:inline-flex; align-items:center; gap:8px; padding:6px 14px; margin-bottom:22px;
+      border-radius:var(--r-pill); background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.16); font-family:var(--font-mono);
+      font-size:.72rem; letter-spacing:.08em; color:rgba(255,255,255,0.9);
+    }
+    .hero-title{
+      font-size:clamp(2.6rem,7vw,4.6rem); font-weight:800; line-height:1.02;
+      letter-spacing:-0.035em; margin-bottom:20px;
+      background:linear-gradient(100deg,#22d3ee,#a78bfa 55%,#f0abfc);
+      -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent;
+    }
+    .lab-hero .hero-sub{color:rgba(255,255,255,0.72); max-width:56ch; margin:0 auto; font-size:clamp(1.05rem,1.6vw,1.3rem); line-height:1.55;}
+    .lab-hero .hero-note{margin-top:16px; font-family:var(--font-mono); font-size:.8rem; color:rgba(255,255,255,0.4);}
+    .pulse-live{width:8px; height:8px; border-radius:50%; background:#34d399; animation:pulseDot 2s infinite; flex:none;}
+
+    /* ---- project header ---- */
+    .proj-eyebrow{font-family:var(--font-mono); font-size:.78rem; letter-spacing:.06em; color:var(--accent);}
+    .proj-title{font-size:clamp(2rem,4.5vw,3rem); font-weight:800; letter-spacing:-0.03em; margin:14px 0 16px; color:var(--text);}
+    .proj-lead{font-size:clamp(1.1rem,1.8vw,1.45rem); font-weight:300; color:var(--text-muted); max-width:54ch; line-height:1.4;}
+    .proj-lead strong,.proj-lead em{color:var(--text);}
+
+    /* ---- card accents (build on .card) ---- */
+    .card-accent{border-left-width:4px; border-left-style:solid;}
+    .card-tab{border-top-width:4px; border-top-style:solid;}
+
+    /* ---- big thesis quote ---- */
+    .big-quote{font-weight:300; font-size:clamp(1.5rem,3.4vw,2.4rem); line-height:1.25; letter-spacing:-0.02em; text-wrap:balance; text-align:center; color:var(--text);}
+    .big-quote .accent{color:var(--accent-2); font-weight:600;}
+    .big-quote .q{color:var(--text-faint);}
+    .glow-pulse{animation:glowPulse 4s ease-in-out infinite;}
+    @keyframes glowPulse{ 0%,100%{ box-shadow:0 0 30px rgba(var(--accent-2-rgb),0.18);} 50%{ box-shadow:0 0 60px rgba(var(--accent-2-rgb),0.34);} }
+
+    /* ---- tables (scroll on mobile) ---- */
+    .tbl-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:var(--r-lg);}
+    .bld-table{width:100%; border-collapse:collapse; font-size:.9rem; min-width:520px;}
+    .bld-table thead{background:var(--panel-2);}
+    .bld-table th{text-align:left; padding:12px 14px; font-family:var(--font-mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-soft); white-space:nowrap;}
+    .bld-table td{padding:12px 14px; border-top:1px solid var(--rule); color:var(--text-muted); vertical-align:top;}
+    .bld-table .mono{font-family:var(--font-mono); color:var(--accent-2);}
+    .bld-table tr.row-hi{background:rgba(var(--live-rgb),0.06);}
+    .bld-table .t-live{color:var(--live);} .bld-table .t-accent{color:var(--accent);}
+
+    /* ---- code blocks (terminal — dark in both themes by design) ---- */
+    .codeblock{
+      background:#0d1117; border:1px solid rgba(255,255,255,0.09); border-radius:var(--r-lg);
+      padding:18px 20px; font-family:var(--font-mono); font-size:12px; line-height:1.7;
+      color:#c9d1d9; overflow-x:auto; white-space:pre;
+    }
+    @media(min-width:768px){ .codeblock{font-size:12.5px;} }
+    .code-comment{color:#7d8590;} .code-key{color:#79c0ff;} .code-fn{color:#d2a8ff;}
+    .code-str{color:#a5d6ff;} .code-num{color:#ffa657;} .code-ok{color:#56d364;}
+    .code-pink{color:#f0abfc;} .code-cyan{color:#22d3ee;} .code-violet{color:#c4b5fd;}
+
+    /* ---- math / formula panels ---- */
+    .formula{background:var(--panel-2); border:1px solid var(--border); border-radius:var(--r-lg); padding:22px; font-family:var(--font-mono); overflow-x:auto; color:var(--text); text-align:center;}
+    .formula .op{color:var(--text-faint);} .formula .v{color:var(--accent-2);} .formula .fn{color:var(--accent);}
+    .formula-legend{display:grid; grid-template-columns:1fr; gap:10px; max-width:640px; margin:16px auto 0; font-size:.78rem; color:var(--text-soft);}
+    @media(min-width:768px){ .formula-legend{grid-template-columns:repeat(3,1fr);} }
+
+    /* ---- page status chips ---- */
+    .schip{display:inline-flex; align-items:center; gap:6px; padding:4px 12px; border-radius:var(--r-pill); font-family:var(--font-mono); font-size:.66rem; font-weight:500; letter-spacing:.04em;}
+    .schip svg{width:12px; height:12px;}
+    .schip .mdot{width:6px; height:6px; border-radius:50%; background:var(--live);}
+    .schip-active{background:rgba(var(--live-rgb),0.12); border:1px solid rgba(var(--live-rgb),0.3); color:var(--live);}
+    .schip-private{background:rgba(217,119,6,0.12); border:1px solid rgba(217,119,6,0.35); color:var(--amber);}
+    .schip-research{background:rgba(var(--accent-2-rgb),0.12); border:1px solid rgba(var(--accent-2-rgb),0.3); color:var(--accent-2);}
+    .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+
+    /* ---- temperature-zone headers + layer cards ---- */
+    .zone-head{display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;}
+    .zone-bar{width:6px; height:24px; border-radius:var(--r-pill);}
+    .zone-title{font-size:1.05rem; font-weight:800; letter-spacing:.02em; color:var(--text);}
+    .zone-note{font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint);}
+    .layer-id{font-family:var(--font-mono); font-size:.72rem; margin-bottom:4px; color:var(--accent);}
+    .layer-name{font-weight:700; margin-bottom:4px; color:var(--text);}
+    .layer-cap{font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); margin-bottom:8px;}
+    .layer-desc{font-size:.9rem; color:var(--text-muted);}
+    .layer-desc strong{color:var(--text);}
+
+    /* ---- numbered job cards ---- */
+    .job{display:flex; gap:12px;}
+    .job .num{font-family:var(--font-mono); font-size:.85rem; font-weight:700; color:var(--accent-2); flex:none;}
+    .job .jt{font-weight:600; font-size:.9rem; color:var(--text);}
+    .job .jd{font-size:.78rem; color:var(--text-muted); margin-top:2px;}
+
+    /* ---- inline code accents ---- */
+    code.inl{font-family:var(--font-mono); font-size:.86em; color:var(--accent-2);}
+    .mono{font-family:var(--font-mono);}
+
+    /* ---- checklists ---- */
+    .stack-list{display:flex; flex-direction:column; gap:12px;}
+    .check-item{display:flex; gap:12px; color:var(--text-muted);}
+    .check-item svg{width:20px; height:20px; color:var(--accent); flex:none; margin-top:2px;}
+    .check-item strong{color:var(--text);}
+    .x-list li{display:flex; gap:10px; margin-bottom:8px; font-size:.9rem; color:var(--text-muted);}
+    .x-list .x{color:#ef4444;}
+
+    /* ---- feature mini-cards ---- */
+    .feat .k{font-family:var(--font-mono); font-size:.72rem; color:var(--accent-2); margin-bottom:4px;}
+    .feat .t{font-weight:600; font-size:.9rem; color:var(--text);}
+    .feat .d{font-size:.78rem; color:var(--text-muted); margin-top:4px;}
+
+    /* ---- AMI signature wave ---- */
+    .signature-wave{width:100%; height:80px;}
+    .signature-wave path{fill:none; stroke-width:2; stroke-linecap:round; stroke-dasharray:1500; animation:drawSignature 3s ease-in-out infinite alternate;}
+    @keyframes drawSignature{ from{stroke-dashoffset:1000;} to{stroke-dashoffset:0;} }
+
+    /* ---- request-flow pipeline ---- */
+    .flow-row{display:flex; flex-direction:column; gap:12px; text-align:center;}
+    @media(min-width:768px){ .flow-row{flex-direction:row; align-items:stretch; gap:8px;} }
+    .flow-node{flex:1; background:var(--panel-2); border:1px solid var(--border); border-radius:var(--r-md); padding:16px;}
+    .flow-node .n{font-family:var(--font-mono); font-size:.72rem; color:var(--text-faint); margin-bottom:4px;}
+    .flow-node .t{font-weight:700; margin-bottom:4px; color:var(--text);}
+    .flow-node .d{font-size:.78rem; color:var(--text-muted);}
+    .pipeline-arrow{display:flex; align-items:center; justify-content:center; width:28px; flex-shrink:0; color:rgba(var(--accent-2-rgb),0.6);}
+    .pipeline-arrow svg{width:22px; height:22px;}
+    @media(max-width:767px){ .pipeline-arrow{width:100%; height:22px; transform:rotate(90deg);} }
+
+    /* ---- lifecycle stepper (kept, repointed) ---- */
+    .lifecycle{counter-reset:step;}
+    .lifecycle-step{position:relative; padding-left:60px; padding-bottom:32px;}
+    .lifecycle-step::before{
+      content:counter(step, decimal-leading-zero); counter-increment:step;
+      position:absolute; left:0; top:0; width:44px; height:44px; border-radius:var(--r-md);
+      background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#fff;
+      font-family:var(--font-mono); font-weight:700; font-size:14px;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 16px rgba(var(--accent-2-rgb),0.4);
+    }
+    .lifecycle-step::after{content:''; position:absolute; left:22px; top:56px; bottom:0; width:1px; background:linear-gradient(180deg,rgba(var(--accent-2-rgb),0.4),transparent);}
+    .lifecycle-step:last-child{padding-bottom:0;}
+    .lifecycle-step:last-child::after{display:none;}
+    @media(max-width:480px){
+      .lifecycle-step{padding-left:52px;}
+      .lifecycle-step::before{width:38px; height:38px; font-size:12px;}
+      .lifecycle-step::after{left:19px;}
     }
 
-    /* SVG motion lines floating in hero */
-    .motion-lines {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      opacity: 0.5;
-    }
-    .motion-lines path {
-      fill: none;
-      stroke-width: 1.4;
-      stroke-linecap: round;
-      stroke-dasharray: 4 8;
-      animation: dashFlow 12s linear infinite;
-    }
-    @keyframes dashFlow {
-      to { stroke-dashoffset: -200; }
-    }
+    /* ---- pre threading block ---- */
+    .pre-mono{font-family:var(--font-mono); font-size:12px; line-height:1.7; color:var(--text-muted); overflow-x:auto; white-space:pre;}
+    .pre-mono .code-key{color:var(--accent-2);}
 
-    /* Status pulse */
-    @keyframes pulseDot {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
-      50% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
-    }
-    .status-dot { animation: pulseDot 2s infinite; }
-
-    /* String Tune-style reveals */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
-                  transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-    .reveal.in { opacity: 1; transform: translateY(0); }
-    .reveal-left {
-      opacity: 0;
-      transform: translateX(-32px);
-      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
-                  transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-    .reveal-left.in { opacity: 1; transform: translateX(0); }
-
-    /* Glass card — themed */
-    .glass-card {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 16px;
-      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
-                  border-color 0.4s ease,
-                  background 0.4s ease,
-                  box-shadow 0.4s ease;
-    }
-    .glass-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(139,92,246,0.4);
-      background: var(--glass-bg-hover);
-      box-shadow: 0 20px 50px rgba(139,92,246,0.18);
-    }
-    /* Inside-card text adapts to theme */
-    .glass-card { color: var(--text-base); }
-    .glass-card .text-white\/60,
-    .glass-card .text-white\/70,
-    .glass-card .text-white\/50,
-    .glass-card .text-white\/40 { color: var(--text-muted); }
-
-    /* ============================================================
-       LIGHT-MODE COLOR REWRITES
-       Hero stays dark in both themes (dramatic by design).
-       Code blocks stay dark (terminal aesthetic).
-       Everything else: flip the dark-only text/bg classes when light.
-       ============================================================ */
-    html:not(.dark) body { background: var(--page-bg); color: var(--text-base); }
-
-    /* Generic dark-only text classes → muted light-mode text */
-    html:not(.dark) :where(section, footer) :where(
-      .text-white,
-      [class*="text-white\\/"]
-    ):where(:not(.lab-hero *)):where(:not(.codeblock *)):where(:not(pre *)) {
-      color: var(--text-base);
-    }
-    html:not(.dark) :where(section, footer) :where(
-      .text-white\/70,
-      .text-white\/60,
-      .text-white\/50,
-      .text-white\/40,
-      .text-white\/30
-    ):where(:not(.lab-hero *)):where(:not(.codeblock *)):where(:not(pre *)) {
-      color: var(--text-muted);
-    }
-
-    /* Section backgrounds */
-    html:not(.dark) section.bg-gray-950 { background: var(--section-bg) !important; }
-    html:not(.dark) section.bg-gradient-to-b.from-gray-950 {
-      background: linear-gradient(180deg, var(--section-bg) 0%, rgba(139,92,246,0.06) 50%, var(--section-bg) 100%) !important;
-    }
-    html:not(.dark) section.bg-gradient-to-r.from-purple-950 {
-      background: linear-gradient(90deg, rgba(168,85,247,0.08), rgba(99,102,241,0.06), rgba(59,130,246,0.08)) !important;
-    }
-
-    /* Header */
-    html:not(.dark) header { background: rgba(255,255,255,0.85) !important; border-color: var(--rule) !important; }
-    html:not(.dark) header h1 { color: var(--text-base); }
-    html:not(.dark) header nav { background: var(--section-bg); }
-    html:not(.dark) header nav a { color: var(--text-base) !important; }
-    html:not(.dark) header nav a.text-purple-400 { color: #7c3aed !important; }
-
-    /* Body — light gray default */
-    html:not(.dark) body { background: var(--page-bg) !important; color: var(--text-base) !important; }
-
-    /* Tables */
-    html:not(.dark) table { color: var(--text-base); }
-    html:not(.dark) table thead { background: var(--table-head) !important; color: var(--text-muted); }
-    html:not(.dark) table .text-white\/70 { color: var(--text-muted) !important; }
-    html:not(.dark) table .border-white\/10,
-    html:not(.dark) .border.border-white\/10 { border-color: var(--rule) !important; }
-    html:not(.dark) .divide-white\/5 > * + * { border-color: var(--rule) !important; }
-
-    /* Hairlines / borders that were white-tinted */
-    html:not(.dark) .border-white\/5,
-    html:not(.dark) .border-white\/10,
-    html:not(.dark) .border-white\/20,
-    html:not(.dark) .border-t.border-white\/5 { border-color: var(--rule) !important; }
-
-    /* Pill / chip subtle backgrounds */
-    html:not(.dark) .bg-white\/5,
-    html:not(.dark) .bg-white\/10 { background: var(--glass-bg) !important; }
-
-    /* CTA section dark gradient → light variant */
-    html:not(.dark) section.bg-gradient-to-r.from-purple-950 .text-white {
-      color: var(--text-base);
-    }
-
-    /* Footer */
-    html:not(.dark) footer.bg-gray-950 {
-      background: var(--footer-bg) !important;
-      color: var(--text-faint) !important;
-      border-top: 1px solid var(--rule);
-    }
-
-    /* Tier card brain-anatomy badge */
-    .tier-badge {
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* Code block */
-    .codeblock {
-      background: #0d1117;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 18px 22px;
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 12.5px;
-      line-height: 1.7;
-      color: #c9d1d9;
-      overflow-x: auto;
-      position: relative;
-    }
-    .code-comment { color: #7d8590; }
-    .code-key { color: #79c0ff; }
-    .code-fn { color: #d2a8ff; }
-    .code-str { color: #a5d6ff; }
-    .code-num { color: #ffa657; }
-    .code-ok { color: #56d364; }
-
-    /* Lifecycle stepper */
-    .lifecycle-step {
-      position: relative;
-      padding-left: 60px;
-    }
-    .lifecycle-step::before {
-      content: counter(step, decimal-leading-zero);
-      counter-increment: step;
-      position: absolute;
-      left: 0; top: 0;
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #6366f1, #ec4899);
-      color: white;
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-weight: 700;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 16px rgba(139,92,246,0.4);
-    }
-    .lifecycle-step::after {
-      content: '';
-      position: absolute;
-      left: 22px;
-      top: 56px;
-      bottom: -32px;
-      width: 1px;
-      background: linear-gradient(180deg, rgba(139,92,246,0.4), transparent);
-    }
-    .lifecycle-step:last-child::after { display: none; }
-
-    /* Architecture pipeline arrow */
-    .pipeline-arrow {
-      width: 28px;
-      flex-shrink: 0;
-      color: rgba(139,92,246,0.5);
-    }
-    @media (max-width: 767px) {
-      .pipeline-arrow {
-        width: 100%;
-        height: 24px;
-        transform: rotate(90deg);
-      }
-    }
-
-    /* Hero gracefully sizes on tiny screens */
-    @media (max-width: 380px) {
-      .lab-hero h1 { font-size: 2.5rem; line-height: 1.05; }
-    }
-
-    /* Tighter mobile padding on sections (was 5rem top/bottom) */
-    @media (max-width: 640px) {
-      section.py-20 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
-      section.lab-hero { padding-top: 4rem; padding-bottom: 4rem; }
-    }
-
-    /* Lifecycle stepper: tighter on mobile */
-    @media (max-width: 480px) {
-      .lifecycle-step { padding-left: 52px; }
-      .lifecycle-step::before { width: 38px; height: 38px; font-size: 12px; }
-      .lifecycle-step::after { left: 19px; }
-    }
-
-    /* Code blocks must not blow horizontal scroll on mobile */
-    .codeblock { font-size: 11.5px; }
-    @media (min-width: 768px) {
-      .codeblock { font-size: 12.5px; }
-    }
-
-    /* AMI signature wave */
-    .signature-wave {
-      width: 100%;
-      height: 80px;
-    }
-    .signature-wave path {
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      animation: drawSignature 3s ease-in-out infinite alternate;
-    }
-    @keyframes drawSignature {
-      from { stroke-dashoffset: 1000; }
-      to { stroke-dashoffset: 0; }
-    }
-
-    /* Status chip */
-    .status-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 10.5px;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-    }
-    .status-active {
-      background: rgba(34,197,94,0.12);
-      border: 1px solid rgba(34,197,94,0.3);
-      color: #4ade80;
-    }
-    .status-private {
-      background: rgba(251,191,36,0.12);
-      border: 1px solid rgba(251,191,36,0.3);
-      color: #fbbf24;
-    }
-    .status-research {
-      background: rgba(139,92,246,0.12);
-      border: 1px solid rgba(139,92,246,0.3);
-      color: #c4b5fd;
-    }
-
-    /* Big quote */
-    .big-quote {
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      text-wrap: balance;
-    }
-
-    /* Pulse-glow accent for the big "Why" card */
-    @keyframes glowPulse {
-      0%, 100% { box-shadow: 0 0 30px rgba(139,92,246,0.2); }
-      50% { box-shadow: 0 0 60px rgba(139,92,246,0.4); }
-    }
-    .glow-pulse { animation: glowPulse 4s ease-in-out infinite; }
+    .emoji{font-size:1.8rem; line-height:1; margin-bottom:8px;}
   </style>
 </head>
-<body class="transition-colors duration-300">
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Header -->
-  <header class="sticky top-0 bg-gray-950/80 backdrop-blur-md shadow-md z-50 p-4 transition-colors duration-300 border-b border-white/5">
-    <div class="container mx-auto flex items-center justify-between">
-      <h1 class="text-2xl sm:text-3xl font-bold text-white">Charith Purushotham</h1>
-      <div class="flex items-center gap-4">
-        <button id="theme-toggle" class="text-gray-300 hover:text-blue-400 focus:outline-none">
-          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-        </button>
-        <button id="menu-toggle" class="sm:hidden text-gray-300 focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-      </div>
-      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-gray-900 sm:bg-transparent shadow sm:shadow-none p-4 sm:p-0 z-50">
-        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
-          <li><a href="index.html" class="block p-2 text-gray-100 hover:text-blue-400">Home</a></li>
-          <li><a href="about.html" class="block p-2 text-gray-100 hover:text-blue-400">About Me</a></li>
-          <li><a href="portfolio.html" class="block p-2 text-gray-100 hover:text-blue-400">Portfolio</a></li>
-          <li><a href="experience.html" class="block p-2 text-gray-100 hover:text-blue-400">Experience</a></li>
-          <li><a href="research.html" class="block p-2 text-gray-100 hover:text-blue-400">Research</a></li>
-          <li><a href="building.html" class="block p-2 text-purple-400 font-semibold">Building</a></li>
-          <li><a href="contact.html" class="block p-2 text-gray-100 hover:text-blue-400">Contact</a></li>
+  <!-- ===================== HEADER (canonical) ===================== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="Charith Purushotham — home">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <g stroke="currentColor" stroke-width="1.6" opacity="0.85">
+            <line x1="8" y1="10" x2="16" y2="16"/><line x1="16" y1="16" x2="24" y2="9"/>
+            <line x1="16" y1="16" x2="12" y2="24"/><line x1="16" y1="16" x2="23" y2="22"/>
+          </g>
+          <g fill="currentColor">
+            <circle cx="8" cy="10" r="2.3"/><circle cx="24" cy="9" r="2.3"/>
+            <circle cx="12" cy="24" r="2.3"/><circle cx="23" cy="22" r="2.3"/>
+          </g>
+          <circle cx="16" cy="16" r="3" fill="#8b5cf6"/>
+        </svg>
+        <span>Charith Purushotham</span>
+      </a>
+
+      <nav aria-label="Primary">
+        <ul class="nav-links" id="nav-links">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="about.html">About</a></li>
+          <li><a class="nav-link" href="experience.html">Experience</a></li>
+          <li><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+          <li><a class="nav-link" href="research.html">Research</a></li>
+          <li><a class="nav-link" href="building.html">Building</a></li>
+          <li><a class="nav-link" href="contact.html">Contact</a></li>
         </ul>
       </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="icon-btn theme-toggle" aria-label="Toggle color theme">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button id="nav-toggle" class="icon-btn nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- ============================================================ -->
-  <!-- HERO -->
-  <!-- ============================================================ -->
-  <section class="lab-hero py-24 md:py-32 px-4 relative">
-    <!-- Animated motion lines -->
-    <svg class="motion-lines" viewBox="0 0 1600 600" preserveAspectRatio="none">
-      <path d="M-100,300 Q300,180 700,290 T1700,260" stroke="#6366f1"/>
-      <path d="M-100,360 Q300,240 700,340 T1700,320" stroke="#a855f7" style="animation-delay: -2s"/>
-      <path d="M-100,420 Q300,300 700,410 T1700,380" stroke="#ec4899" style="animation-delay: -4s"/>
-      <path d="M-100,260 Q300,400 700,260 T1700,300" stroke="#06b6d4" style="animation-delay: -3s"/>
-    </svg>
+  <main id="main">
 
-    <div class="container mx-auto max-w-5xl text-center relative z-10">
-      <div class="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-sm font-medium">
-        <span class="w-2 h-2 bg-green-400 rounded-full status-dot"></span>
-        <span class="font-mono text-xs">// LAB · ACTIVE EXPERIMENTS · MAY 2026</span>
+    <!-- ===================== HERO ===================== -->
+    <section class="lab-hero">
+      <svg class="motion-lines" viewBox="0 0 1600 600" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M-100,300 Q300,180 700,290 T1700,260" stroke="#22d3ee"/>
+        <path d="M-100,360 Q300,240 700,340 T1700,320" stroke="#a855f7" style="animation-delay:-2s"/>
+        <path d="M-100,420 Q300,300 700,410 T1700,380" stroke="#ec4899" style="animation-delay:-4s"/>
+        <path d="M-100,260 Q300,400 700,260 T1700,300" stroke="#06b6d4" style="animation-delay:-3s"/>
+      </svg>
+      <div class="container" style="position:relative; z-index:1; max-width:960px;">
+        <span class="hero-badge"><span class="pulse-live" aria-hidden="true"></span> // LAB · ACTIVE EXPERIMENTS · 2026</span>
+        <h1 class="hero-title">What I'm Building</h1>
+        <p class="hero-sub">A framework, two applications built on it, and a fourth bet on motion. NeuroStack is the foundation; everything else is what gets built on top.</p>
+        <p class="hero-note">// scroll to read about each</p>
       </div>
-      <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-        What I'm Building
-      </h1>
-      <p class="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
-        A framework, two applications built on it, and a fourth bet on motion. NeuroStack is the foundation; everything else is what gets built on top.
-      </p>
-      <p class="mt-4 text-sm text-white/40 font-mono">// scroll to read about each</p>
-    </div>
-  </section>
+    </section>
 
-  <!-- ============================================================ -->
-  <!-- NEUROSTACK -->
-  <!-- ============================================================ -->
-  <section class="py-20 md:py-28 px-4 relative bg-gray-950">
-    <div class="container mx-auto max-w-6xl">
+    <!-- ===================== PROJECT 01 · NEUROSTACK ===================== -->
+    <section class="section">
+      <div class="container" style="max-width:1080px;">
 
-      <!-- Section header — NeuroStack the framework -->
-      <div class="reveal mb-12">
-        <div class="flex items-center gap-3 mb-4 flex-wrap">
-          <span class="font-mono text-xs text-purple-400">PROJECT 01 · THE FRAMEWORK</span>
-          <span class="status-chip status-private">
-            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
-            in development
-          </span>
-        </div>
-        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-          <span class="bg-gradient-to-r from-purple-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">NeuroStack</span>
-        </h2>
-        <p class="text-xl md:text-2xl text-white/60 max-w-3xl font-light">
-          A brain-inspired memory framework for AI agents. Eight memory layers across four temperature zones, multi-signal retrieval, a compaction agent that runs the lifecycle, and a model router that's local-first by default. Built to be embedded by any agent that needs to <em>remember</em>, not just <em>look things up</em>.
-        </p>
-        <div class="mt-6 flex flex-wrap gap-2 text-xs font-mono">
-          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">Python framework</span>
-          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">SQLite · 28 tables</span>
-          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">Kuzu graph DB</span>
-          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">ACT-R · A-MEM · CLS</span>
-          <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">no LangChain · no AutoGen · no ORM</span>
-        </div>
-      </div>
-
-      <!-- The thesis quote -->
-      <div class="reveal mb-16">
-        <div class="glass-card glow-pulse p-8 md:p-12 text-center">
-          <p class="big-quote text-white/90">
-            <span class="text-white/40">"</span>The most novel part of any agent architecture isn't the model. It's the <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-semibold">memory</span>.<span class="text-white/40">"</span>
-          </p>
-        </div>
-      </div>
-
-      <!-- The problem (real, from README) -->
-      <div class="reveal mb-12">
-        <p class="text-xs font-mono text-purple-400 mb-2">// THE PROBLEM I SOLVED</p>
-        <h3 class="text-2xl md:text-3xl font-bold mb-4">v0 was a flat 2-tier store. It broke in 8 ways.</h3>
-        <p class="text-white/70 mb-6 max-w-3xl">The original architecture — <span class="font-mono text-sm text-purple-300">profile</span> table (hot) + <span class="font-mono text-sm text-purple-300">episodes/papers</span> table (cold) — looked clean on paper but failed at every junction. Each row below is a real symptom that drove a NeuroStack subsystem.</p>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-white/10 rounded-xl overflow-hidden">
-            <thead class="bg-white/5 text-white/80 font-mono text-xs uppercase">
-              <tr><th class="text-left p-3">Problem</th><th class="text-left p-3">Impact</th></tr>
-            </thead>
-            <tbody class="divide-y divide-white/5">
-              <tr><td class="p-3 font-mono text-purple-300">500-char hot memory</td><td class="p-3 text-white/70">A business card — no room for actual job history</td></tr>
-              <tr><td class="p-3 font-mono text-purple-300">no temporal context</td><td class="p-3 text-white/70">Agent had no idea what you'd been doing lately</td></tr>
-              <tr><td class="p-3 font-mono text-purple-300">LIKE-only episode search</td><td class="p-3 text-white/70">Semantic similarity completely missing</td></tr>
-              <tr><td class="p-3 font-mono text-purple-300">no decay or salience</td><td class="p-3 text-white/70">Trivial note &equiv; career decision</td></tr>
-              <tr><td class="p-3 font-mono text-purple-300">no episodic → semantic pathway</td><td class="p-3 text-white/70">Insights never distilled into lasting knowledge</td></tr>
-              <tr><td class="p-3 font-mono text-purple-300">no re-promotion</td><td class="p-3 text-white/70">Cold memories could never resurface automatically</td></tr>
-              <tr><td class="p-3 font-mono text-purple-300">3 duplicate consolidation paths</td><td class="p-3 text-white/70">Chat / assistant / career each had their own broken impl</td></tr>
-              <tr><td class="p-3 font-mono text-purple-300">no dedicated memory agent</td><td class="p-3 text-white/70">Memory management scattered, ad hoc, inconsistent</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Inspiration sources -->
-      <div class="reveal mb-12">
-        <p class="text-xs font-mono text-purple-400 mb-2">// THE THEORY UNDERNEATH</p>
-        <h3 class="text-2xl md:text-3xl font-bold mb-4">Built from scratch. Inspired by six papers.</h3>
-        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-3 text-sm">
-          <div class="glass-card p-4"><div class="font-mono text-xs text-purple-300 mb-1">CLS</div><div class="font-semibold">Complementary Learning Systems</div><div class="text-xs text-white/50 mt-1">McClelland et al — neuroscience: hippocampus + neocortex split</div></div>
-          <div class="glass-card p-4"><div class="font-mono text-xs text-purple-300 mb-1">A-MEM</div><div class="font-semibold">Zettelkasten for agents</div><div class="text-xs text-white/50 mt-1">cosine-linked memory notes; powers L3 episode_links</div></div>
-          <div class="glass-card p-4"><div class="font-mono text-xs text-purple-300 mb-1">Zep / Graphiti</div><div class="font-semibold">Bi-temporal knowledge graphs</div><div class="text-xs text-white/50 mt-1">valid_from / valid_to edges; powers L4 entity facts</div></div>
-          <div class="glass-card p-4"><div class="font-mono text-xs text-purple-300 mb-1">MemGPT</div><div class="font-semibold">Virtual context management</div><div class="text-xs text-white/50 mt-1">paging hot memory in/out; powers L1 trim_working_memory</div></div>
-          <div class="glass-card p-4"><div class="font-mono text-xs text-purple-300 mb-1">ACT-R</div><div class="font-semibold">Base-level activation</div><div class="text-xs text-white/50 mt-1">Anderson 1998 — the math of retrieval-strengthened memory</div></div>
-          <div class="glass-card p-4"><div class="font-mono text-xs text-purple-300 mb-1">Generative Agents</div><div class="font-semibold">Reflection</div><div class="text-xs text-white/50 mt-1">Park et al — periodic insight generation; powers maybe_reflect</div></div>
-        </div>
-        <p class="mt-4 text-xs font-mono text-white/40">// no langchain. no autogen. no orm. every layer hand-rolled.</p>
-      </div>
-
-      <!-- 6-tier memory layers (real architecture) -->
-      <div class="reveal mb-16">
-        <p class="text-xs font-mono text-purple-400 mb-2">// THE ARCHITECTURE</p>
-        <h3 class="text-2xl md:text-3xl font-bold mb-2">Eight layers. Four temperature zones.</h3>
-        <p class="text-white/60 mb-8">Hot lives in every prompt. Cool retrieves on demand. Archive stays soft-deleted forever.</p>
-
-        <!-- HOT MEMORY ZONE -->
-        <div class="mb-6">
-          <div class="flex items-center gap-2 mb-3">
-            <div class="w-1.5 h-6 rounded-full bg-gradient-to-b from-red-400 to-orange-400"></div>
-            <h4 class="text-lg font-bold text-white">HOT MEMORY</h4>
-            <span class="text-xs font-mono text-orange-300">// injected into every prompt · zero latency</span>
+        <!-- header -->
+        <div class="reveal mb-12">
+          <div class="chip-row mb-4">
+            <span class="proj-eyebrow">PROJECT 01 · THE FRAMEWORK</span>
+            <span class="schip schip-private">
+              <svg fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+              in development
+            </span>
           </div>
-          <div class="grid md:grid-cols-3 gap-3">
-            <div class="glass-card p-5 border-l-4" style="border-left-color: #f87171">
-              <div class="font-mono text-xs text-red-300 mb-1">L1A</div>
-              <h5 class="font-bold mb-1">Identity Block</h5>
-              <p class="text-xs text-white/40 font-mono mb-2">~1500 chars · stable</p>
-              <p class="text-sm text-white/70">Who you ARE — priority-ordered: personal → experience → education → projects → skills. Experience entries <strong>never evicted</strong>; skills compacted first.</p>
+          <h2 class="proj-title">NeuroStack</h2>
+          <p class="proj-lead">A brain-inspired memory framework for AI agents. Eight memory layers across four temperature zones, multi-signal retrieval, a compaction agent that runs the lifecycle, and a model router that's local-first by default. Built to be embedded by any agent that needs to <em>remember</em>, not just <em>look things up</em>.</p>
+          <div class="chips mt-6">
+            <span class="chip">Python framework</span>
+            <span class="chip">SQLite · 28 tables</span>
+            <span class="chip">Kuzu graph DB</span>
+            <span class="chip">ACT-R · A-MEM · CLS</span>
+            <span class="chip">no LangChain · no AutoGen · no ORM</span>
+          </div>
+        </div>
+
+        <!-- thesis quote -->
+        <div class="reveal mb-12">
+          <div class="card glow-pulse" style="padding:clamp(28px,5vw,56px); text-align:center;">
+            <p class="big-quote"><span class="q">"</span>The most novel part of any agent architecture isn't the model. It's the <span class="accent">memory</span>.<span class="q">"</span></p>
+          </div>
+        </div>
+
+        <!-- the problem -->
+        <div class="reveal mb-12">
+          <p class="proj-eyebrow mb-2">// THE PROBLEM I SOLVED</p>
+          <h3 class="h3 mb-3">v0 was a flat 2-tier store. It broke in 8 ways.</h3>
+          <p class="muted mb-6" style="max-width:60ch;">The original architecture — <code class="inl">profile</code> table (hot) + <code class="inl">episodes/papers</code> table (cold) — looked clean on paper but failed at every junction. Each row below is a real symptom that drove a NeuroStack subsystem.</p>
+          <div class="tbl-wrap">
+            <table class="bld-table">
+              <thead><tr><th>Problem</th><th>Impact</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">500-char hot memory</td><td>A business card — no room for actual job history</td></tr>
+                <tr><td class="mono">no temporal context</td><td>Agent had no idea what you'd been doing lately</td></tr>
+                <tr><td class="mono">LIKE-only episode search</td><td>Semantic similarity completely missing</td></tr>
+                <tr><td class="mono">no decay or salience</td><td>Trivial note &equiv; career decision</td></tr>
+                <tr><td class="mono">no episodic &rarr; semantic pathway</td><td>Insights never distilled into lasting knowledge</td></tr>
+                <tr><td class="mono">no re-promotion</td><td>Cold memories could never resurface automatically</td></tr>
+                <tr><td class="mono">3 duplicate consolidation paths</td><td>Chat / assistant / career each had their own broken impl</td></tr>
+                <tr><td class="mono">no dedicated memory agent</td><td>Memory management scattered, ad hoc, inconsistent</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- inspiration -->
+        <div class="reveal mb-12">
+          <p class="proj-eyebrow mb-2">// THE THEORY UNDERNEATH</p>
+          <h3 class="h3 mb-4">Built from scratch. Inspired by six papers.</h3>
+          <div class="grid grid-3 grid-tight">
+            <div class="card"><div class="feat"><div class="k">CLS</div><div class="t">Complementary Learning Systems</div><div class="d">McClelland et al — neuroscience: hippocampus + neocortex split</div></div></div>
+            <div class="card"><div class="feat"><div class="k">A-MEM</div><div class="t">Zettelkasten for agents</div><div class="d">cosine-linked memory notes; powers L3 episode_links</div></div></div>
+            <div class="card"><div class="feat"><div class="k">Zep / Graphiti</div><div class="t">Bi-temporal knowledge graphs</div><div class="d">valid_from / valid_to edges; powers L4 entity facts</div></div></div>
+            <div class="card"><div class="feat"><div class="k">MemGPT</div><div class="t">Virtual context management</div><div class="d">paging hot memory in/out; powers L1 trim_working_memory</div></div></div>
+            <div class="card"><div class="feat"><div class="k">ACT-R</div><div class="t">Base-level activation</div><div class="d">Anderson 1998 — the math of retrieval-strengthened memory</div></div></div>
+            <div class="card"><div class="feat"><div class="k">Generative Agents</div><div class="t">Reflection</div><div class="d">Park et al — periodic insight generation; powers maybe_reflect</div></div></div>
+          </div>
+          <p class="mono faint tiny mt-4">// no langchain. no autogen. no orm. every layer hand-rolled.</p>
+        </div>
+
+        <!-- architecture: temperature zones -->
+        <div class="reveal mb-12">
+          <p class="proj-eyebrow mb-2">// THE ARCHITECTURE</p>
+          <h3 class="h3 mb-2">Eight layers. Four temperature zones.</h3>
+          <p class="muted mb-8">Hot lives in every prompt. Cool retrieves on demand. Archive stays soft-deleted forever.</p>
+
+          <!-- HOT -->
+          <div class="mb-6">
+            <div class="zone-head">
+              <span class="zone-bar" style="background:linear-gradient(180deg,#f87171,#fb923c);"></span>
+              <span class="zone-title">HOT MEMORY</span>
+              <span class="zone-note">// injected into every prompt · zero latency</span>
             </div>
-            <div class="glass-card p-5 border-l-4" style="border-left-color: #fb923c">
-              <div class="font-mono text-xs text-orange-300 mb-1">L1B</div>
-              <h5 class="font-bold mb-1">Temporal Context Window</h5>
-              <p class="text-xs text-white/40 font-mono mb-2">~800 chars · 5-min TTL cache</p>
-              <p class="text-sm text-white/70">What you've been DOING — today's sessions + this week's summary. Auto-rebuilt by CompactionAgent.</p>
-            </div>
-            <div class="glass-card p-5 border-l-4" style="border-left-color: #fbbf24">
-              <div class="font-mono text-xs text-yellow-300 mb-1">L1C</div>
-              <h5 class="font-bold mb-1">Experience Details</h5>
-              <p class="text-xs text-white/40 font-mono mb-2">uncapped</p>
-              <p class="text-sm text-white/70">Full job descriptions from resume import — every role, tech stack, achievement, always visible.</p>
+            <div class="grid grid-3 grid-tight">
+              <div class="card card-accent" style="border-left-color:#f87171;">
+                <div class="layer-id">L1A</div><div class="layer-name">Identity Block</div>
+                <div class="layer-cap">~1500 chars · stable</div>
+                <p class="layer-desc">Who you ARE — priority-ordered: personal &rarr; experience &rarr; education &rarr; projects &rarr; skills. Experience entries <strong>never evicted</strong>; skills compacted first.</p>
+              </div>
+              <div class="card card-accent" style="border-left-color:#fb923c;">
+                <div class="layer-id">L1B</div><div class="layer-name">Temporal Context Window</div>
+                <div class="layer-cap">~800 chars · 5-min TTL cache</div>
+                <p class="layer-desc">What you've been DOING — today's sessions + this week's summary. Auto-rebuilt by CompactionAgent.</p>
+              </div>
+              <div class="card card-accent" style="border-left-color:#fbbf24;">
+                <div class="layer-id">L1C</div><div class="layer-name">Experience Details</div>
+                <div class="layer-cap">uncapped</div>
+                <p class="layer-desc">Full job descriptions from resume import — every role, tech stack, achievement, always visible.</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- SESSION ZONE -->
-        <div class="mb-6">
-          <div class="flex items-center gap-2 mb-3">
-            <div class="w-1.5 h-6 rounded-full bg-gradient-to-b from-yellow-400 to-amber-400"></div>
-            <h4 class="text-lg font-bold text-white">SESSION</h4>
-            <span class="text-xs font-mono text-yellow-300">// in-memory · per conversation</span>
-          </div>
-          <div class="glass-card p-5 border-l-4" style="border-left-color: #fde047">
-            <div class="font-mono text-xs text-yellow-300 mb-1">L2</div>
-            <h5 class="font-bold mb-1">Episodic Buffer</h5>
-            <p class="text-xs text-white/40 font-mono mb-2">last N turns · auto-compress &gt; 30</p>
-            <p class="text-sm text-white/70">Verbatim recent conversation. When the buffer crosses 30 messages, the context compressor (qwen3.5:4b local) summarizes older turns to free room.</p>
-          </div>
-        </div>
-
-        <!-- COOL MEMORY ZONE -->
-        <div class="mb-6">
-          <div class="flex items-center gap-2 mb-3">
-            <div class="w-1.5 h-6 rounded-full bg-gradient-to-b from-cyan-400 to-blue-400"></div>
-            <h4 class="text-lg font-bold text-white">COOL MEMORY</h4>
-            <span class="text-xs font-mono text-cyan-300">// retrieved on demand via brain.query()</span>
-          </div>
-          <div class="grid md:grid-cols-3 gap-3">
-            <div class="glass-card p-5 border-l-4" style="border-left-color: #67e8f9">
-              <div class="font-mono text-xs text-cyan-300 mb-1">L3</div>
-              <h5 class="font-bold mb-1">Episodic Store</h5>
-              <p class="text-xs text-white/40 font-mono mb-2">bi-temporal · ACT-R + A-MEM</p>
-              <p class="text-sm text-white/70">Full episodes with salience scores. Semantic search via embeddings + LIKE fallback. Zettelkasten links between related episodes. Spreading activation: top-k → follow links 1-hop.</p>
+          <!-- SESSION -->
+          <div class="mb-6">
+            <div class="zone-head">
+              <span class="zone-bar" style="background:linear-gradient(180deg,#facc15,#f59e0b);"></span>
+              <span class="zone-title">SESSION</span>
+              <span class="zone-note">// in-memory · per conversation</span>
             </div>
-            <div class="glass-card p-5 border-l-4" style="border-left-color: #60a5fa">
-              <div class="font-mono text-xs text-blue-300 mb-1">L4</div>
-              <h5 class="font-bold mb-1">Entity Graph</h5>
-              <p class="text-xs text-white/40 font-mono mb-2">Kuzu embedded · bi-temporal</p>
-              <p class="text-sm text-white/70"><span class="font-mono">(subject, relation, object)</span> facts extracted from episodes. <strong>valid_from / valid_to</strong> edges — old facts get invalidated, never deleted. SQLite fallback when Kuzu unavailable.</p>
-            </div>
-            <div class="glass-card p-5 border-l-4" style="border-left-color: #818cf8">
-              <div class="font-mono text-xs text-indigo-300 mb-1">L5</div>
-              <h5 class="font-bold mb-1">Procedural Memory</h5>
-              <p class="text-xs text-white/40 font-mono mb-2">tool / task patterns</p>
-              <p class="text-sm text-white/70">What CodeAgent succeeded or failed at. Lessons injected before next similar task. Embedded so similar tasks retrieve relevant priors.</p>
+            <div class="card card-accent" style="border-left-color:#fde047;">
+              <div class="layer-id">L2</div><div class="layer-name">Episodic Buffer</div>
+              <div class="layer-cap">last N turns · auto-compress &gt; 30</div>
+              <p class="layer-desc">Verbatim recent conversation. When the buffer crosses 30 messages, the context compressor (qwen3.5:4b local) summarizes older turns to free room.</p>
             </div>
           </div>
-        </div>
 
-        <!-- ARCHIVE ZONE -->
-        <div>
-          <div class="flex items-center gap-2 mb-3">
-            <div class="w-1.5 h-6 rounded-full bg-gradient-to-b from-gray-500 to-gray-700"></div>
-            <h4 class="text-lg font-bold text-white">ARCHIVE</h4>
-            <span class="text-xs font-mono text-gray-400">// soft-deleted · never hard-deleted</span>
-          </div>
-          <div class="glass-card p-5 border-l-4" style="border-left-color: #6b7280">
-            <div class="font-mono text-xs text-gray-400 mb-1">L6</div>
-            <h5 class="font-bold mb-1">Cold Archive</h5>
-            <p class="text-xs text-white/40 font-mono mb-2">activation &lt; -3.0 · salience &lt; 0.2 · 30+ days idle</p>
-            <p class="text-sm text-white/70">Episodes that meet all three thresholds get <span class="font-mono">archived = 1</span>. Still queryable, never garbage-collected. Memory should fade, not disappear.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Multi-signal retrieval scoring -->
-      <div class="reveal mb-16">
-        <div class="glass-card p-8 md:p-10">
-          <p class="text-xs font-mono text-purple-400 mb-2">// MULTI-SIGNAL RETRIEVAL</p>
-          <h3 class="text-2xl md:text-3xl font-bold mb-3"><code class="font-mono text-purple-300">brain.query()</code> replaces flat cosine ranking.</h3>
-          <p class="text-white/70 mb-6 max-w-2xl">
-            Four signals, weighted. Every memory included in a response gets an access logged → ACT-R activation increases → that memory ranks higher next time, automatically.
-          </p>
-          <div class="bg-black/40 border border-white/10 rounded-xl p-6 font-mono text-sm md:text-base overflow-x-auto">
-<span class="code-fn">score</span>(memory) =  <span class="text-pink-300">0.4</span> &times; <span class="text-cyan-300">cosine_similarity</span>           <span class="code-comment"># semantic relevance</span>
-                + <span class="text-pink-300">0.3</span> &times; <span class="text-cyan-300">sigmoid</span>(<span class="text-purple-300">ACT-R_activation</span>)  <span class="code-comment"># access freq &times; recency</span>
-                + <span class="text-pink-300">0.2</span> &times; <span class="text-cyan-300">salience</span>                    <span class="code-comment"># importance &times; surprise at write</span>
-                + <span class="text-pink-300">0.1</span> &times; <span class="text-cyan-300">recency_bonus</span>               <span class="code-comment"># exp(-age_days/30)</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ACT-R formula -->
-      <div class="reveal mb-16">
-        <div class="glass-card p-8 md:p-10">
-          <p class="text-xs font-mono text-purple-400 mb-2">// THE FORGETTING-CURVE MATH</p>
-          <h3 class="text-2xl md:text-3xl font-bold mb-3">Retrieval strengthens memory. Decay is exponential.</h3>
-          <p class="text-white/70 mb-6 max-w-2xl">
-            ACT-R's base-level activation IS the Ebbinghaus forgetting curve, generalized to multiple accesses. Each access adds a fresh term. Strong memories stay strong; unused ones fade past the archive threshold.
-          </p>
-          <div class="bg-black/40 border border-white/10 rounded-xl p-6 font-mono text-center">
-            <span class="text-purple-300 text-2xl md:text-3xl">B</span><sub class="text-purple-300 text-sm">i</sub>
-            <span class="text-white/60 text-2xl mx-3">=</span>
-            <span class="text-blue-300 text-2xl">ln</span>
-            <span class="text-white/80 text-2xl">(</span>
-            <span class="text-white/60 text-2xl">Σ</span>
-            <span class="text-white/80 text-xl">t</span><sub class="text-white/80 text-sm">j</sub>
-            <sup class="text-pink-300 text-base">−0.5</sup>
-            <span class="text-white/80 text-2xl">)</span>
-            <div class="mt-4 text-xs text-white/50 grid grid-cols-1 md:grid-cols-3 gap-3 max-w-3xl mx-auto">
-              <div><span class="text-purple-300">B<sub>i</sub></span> = activation of memory <em>i</em></div>
-              <div><span class="text-white/80">t<sub>j</sub></span> = time since <em>j</em>th access</div>
-              <div><span class="text-pink-300">−0.5</span> = decay rate (Anderson)</div>
+          <!-- COOL -->
+          <div class="mb-6">
+            <div class="zone-head">
+              <span class="zone-bar" style="background:linear-gradient(180deg,#22d3ee,#60a5fa);"></span>
+              <span class="zone-title">COOL MEMORY</span>
+              <span class="zone-note">// retrieved on demand via brain.query()</span>
+            </div>
+            <div class="grid grid-3 grid-tight">
+              <div class="card card-accent" style="border-left-color:#67e8f9;">
+                <div class="layer-id">L3</div><div class="layer-name">Episodic Store</div>
+                <div class="layer-cap">bi-temporal · ACT-R + A-MEM</div>
+                <p class="layer-desc">Full episodes with salience scores. Semantic search via embeddings + LIKE fallback. Zettelkasten links between related episodes. Spreading activation: top-k &rarr; follow links 1-hop.</p>
+              </div>
+              <div class="card card-accent" style="border-left-color:#60a5fa;">
+                <div class="layer-id">L4</div><div class="layer-name">Entity Graph</div>
+                <div class="layer-cap">Kuzu embedded · bi-temporal</div>
+                <p class="layer-desc"><span class="mono">(subject, relation, object)</span> facts extracted from episodes. <strong>valid_from / valid_to</strong> edges — old facts get invalidated, never deleted. SQLite fallback when Kuzu unavailable.</p>
+              </div>
+              <div class="card card-accent" style="border-left-color:#818cf8;">
+                <div class="layer-id">L5</div><div class="layer-name">Procedural Memory</div>
+                <div class="layer-cap">tool / task patterns</div>
+                <p class="layer-desc">What CodeAgent succeeded or failed at. Lessons injected before next similar task. Embedded so similar tasks retrieve relevant priors.</p>
+              </div>
             </div>
           </div>
-          <p class="mt-6 text-sm text-white/50 italic max-w-2xl">
-            Ebbinghaus 1885 · Anderson &amp; Lebiere 1998 · applied to agent context windows, 2026.
-          </p>
-        </div>
-      </div>
 
-      <!-- CompactionAgent — the real lifecycle -->
-      <div class="reveal mb-16">
-        <p class="text-xs font-mono text-purple-400 mb-2">// THE COMPACTION AGENT</p>
-        <h3 class="text-2xl md:text-3xl font-bold mb-2">The only entity that moves memories between tiers.</h3>
-        <p class="text-white/60 mb-8 max-w-3xl">Runs every <span class="font-mono text-purple-300">5 minutes</span> asynchronously. Replaces the old <span class="font-mono text-purple-300">_embed_loop</span>. Ten jobs, one process, no scattered consolidation paths.</p>
-
-        <div class="grid md:grid-cols-2 gap-3">
-          <div class="glass-card p-4"><div class="flex gap-3"><span class="font-mono text-purple-300 text-sm font-bold flex-shrink-0">01</span><div><div class="font-semibold text-sm">embed_pending_papers</div><div class="text-xs text-white/60 mt-0.5">text-embedding-3-small over new arXiv / Semantic Scholar pulls</div></div></div></div>
-          <div class="glass-card p-4"><div class="flex gap-3"><span class="font-mono text-purple-300 text-sm font-bold flex-shrink-0">02</span><div><div class="font-semibold text-sm">embed_pending_episodes</div><div class="text-xs text-white/60 mt-0.5">embed episode summaries + backfill missing salience</div></div></div></div>
-          <div class="glass-card p-4"><div class="flex gap-3"><span class="font-mono text-purple-300 text-sm font-bold flex-shrink-0">03</span><div><div class="font-semibold text-sm">link_new_papers</div><div class="text-xs text-white/60 mt-0.5">A-MEM Zettelkasten cosine links — score &gt; 0.5, top-3</div></div></div></div>
-          <div class="glass-card p-4"><div class="flex gap-3"><span class="font-mono text-purple-300 text-sm font-bold flex-shrink-0">04</span><div><div class="font-semibold text-sm">link_new_episodes</div><div class="text-xs text-white/60 mt-0.5">A-MEM cosine links between episodes — score &gt; 0.3, top-3</div></div></div></div>
-          <div class="glass-card p-4"><div class="flex gap-3"><span class="font-mono text-purple-300 text-sm font-bold flex-shrink-0">05</span><div><div class="font-semibold text-sm">decay_and_prune</div><div class="text-xs text-white/60 mt-0.5">archive episodes with activation &lt; -3.0 AND salience &lt; 0.2</div></div></div></div>
-          <div class="glass-card p-4"><div class="flex gap-3"><span class="font-mono text-purple-300 text-sm font-bold flex-shrink-0">06</span><div><div class="font-semibold text-sm">consolidate_to_semantic</div><div class="text-xs text-white/60 mt-0.5">extract <span class="font-mono">(s, r, o)</span> triples from mature episodes → L4 graph</div></div></div></div>
-          <div class="glass-card p-4"><div class="flex gap-3"><span class="font-mono text-purple-300 text-sm font-bold flex-shrink-0">07</span><div><div class="font-semibold text-sm">maybe_reflect</div><div class="text-xs text-white/60 mt-0.5">cumulative-salience threshold → gpt-5.2 generates 3 insights, written back as 0.85-salience episodes</div></div></div></div>
-          <div class="glass-card p-4"><div class="flex gap-3"><span class="font-mono text-purple-300 text-sm font-bold flex-shrink-0">08</span><div><div class="font-semibold text-sm">re_promote</div><div class="text-xs text-white/60 mt-0.5">3+ accesses in 7 days → gpt-5.2 decides if stable fact → staged for user review</div></div></div></div>
-          <div class="glass-card p-4"><div class="flex gap-3"><span class="font-mono text-purple-300 text-sm font-bold flex-shrink-0">09</span><div><div class="font-semibold text-sm">trim_working_memory</div><div class="text-xs text-white/60 mt-0.5">evict stale profile entries: preferences first, experience/education last</div></div></div></div>
-          <div class="glass-card p-4"><div class="flex gap-3"><span class="font-mono text-purple-300 text-sm font-bold flex-shrink-0">10</span><div><div class="font-semibold text-sm">update_temporal_context</div><div class="text-xs text-white/60 mt-0.5">invalidate L1B cache — next query rebuilds it</div></div></div></div>
-        </div>
-
-        <div class="mt-6 glass-card p-5 border-l-4" style="border-left-color: #a855f7">
-          <p class="text-xs font-mono text-purple-300 mb-1">// SALIENCE GATE — fires at every <code>brain.save_episode()</code></p>
-          <p class="text-sm text-white/70">A background thread embeds the episode, computes <strong>surprise</strong> (1 − cosine_sim vs. recent mean), scores <strong>importance</strong> via <span class="font-mono text-purple-300">gpt-5-nano</span> (1-10), and writes:</p>
-          <p class="mt-3 font-mono text-sm text-purple-200 bg-black/40 px-4 py-3 rounded">salience = 0.5 × surprise + 0.5 × (importance / 10)</p>
-        </div>
-      </div>
-
-      <!-- ModelRouter -->
-      <div class="reveal mb-16">
-        <p class="text-xs font-mono text-purple-400 mb-2">// MODEL ROUTING — LOCAL-FIRST</p>
-        <h3 class="text-2xl md:text-3xl font-bold mb-2">qwen3.5:4b on Ollama. OpenAI as fallback.</h3>
-        <p class="text-white/60 mb-8 max-w-3xl">Every LLM call goes through <code class="font-mono text-purple-300">ModelRouter.call()</code>. On model-unavailable / deprecated errors it walks the fallback chain — no code changes when OpenAI deprecates a model.</p>
-
-        <div class="overflow-x-auto mb-6">
-          <table class="w-full text-sm border border-white/10 rounded-xl overflow-hidden">
-            <thead class="bg-white/5 text-white/80 font-mono text-xs uppercase">
-              <tr><th class="text-left p-3">Tier</th><th class="text-left p-3">Model</th><th class="text-left p-3">Backend</th><th class="text-left p-3">Tasks</th></tr>
-            </thead>
-            <tbody class="divide-y divide-white/5">
-              <tr class="bg-emerald-500/5">
-                <td class="p-3 font-mono text-emerald-300 font-bold">LOCAL · NANO</td>
-                <td class="p-3 font-mono text-white/90">qwen3.5:4b</td>
-                <td class="p-3 text-emerald-300">Ollama · on-device · free</td>
-                <td class="p-3 text-white/70">salience scoring, intent classification, entity / profile extraction, context compression</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-mono text-blue-300 font-bold">LONG_CTX</td>
-                <td class="p-3 font-mono text-white/90">gpt-4.1</td>
-                <td class="p-3 text-white/70">OpenAI · 1M context</td>
-                <td class="p-3 text-white/70">document ingestion (entire resume in one call)</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-mono text-blue-300 font-bold">STANDARD</td>
-                <td class="p-3 font-mono text-white/90">gpt-5.2</td>
-                <td class="p-3 text-white/70">OpenAI</td>
-                <td class="p-3 text-white/70">trends, paper chat, briefings, assistant chat, career, code generation</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-mono text-blue-300 font-bold">PRO</td>
-                <td class="p-3 font-mono text-white/90">gpt-5.2</td>
-                <td class="p-3 text-white/70">OpenAI</td>
-                <td class="p-3 text-white/70">memory consolidation, reflection, re-promotion decisions</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-3 text-sm">
-          <div class="glass-card p-5">
-            <p class="text-xs font-mono text-emerald-300 mb-1">NANO fallback chain</p>
-            <p class="font-mono text-white/80">qwen3.5:4b → gpt-5-nano → gpt-5-mini → gpt-4o-mini</p>
-          </div>
-          <div class="glass-card p-5">
-            <p class="text-xs font-mono text-blue-300 mb-1">STANDARD fallback chain</p>
-            <p class="font-mono text-white/80">gpt-5.2 → gpt-5.1 → gpt-5 → gpt-4.1 → gpt-4o</p>
-          </div>
-        </div>
-
-        <p class="mt-4 text-xs text-white/50">
-          A separate <span class="font-mono text-purple-300">ModelCheckAgent</span> runs at startup &amp; weekly: tests every known OpenAI model with both <span class="font-mono">max_tokens</span> and <span class="font-mono">max_completion_tokens</span>, detects which parameter each requires, persists results to <span class="font-mono">model_config.json</span> and the <span class="font-mono">model_availability</span> table.
-        </p>
-      </div>
-
-      <!-- API surface — what NeuroStack exposes -->
-      <div class="reveal mb-16">
-        <div class="grid md:grid-cols-2 gap-8 items-start">
+          <!-- ARCHIVE -->
           <div>
-            <p class="text-xs font-mono text-purple-400 mb-2">// THE API SURFACE</p>
-            <h3 class="text-2xl md:text-3xl font-bold mb-4">A small interface. The complexity hides behind it.</h3>
-            <p class="text-white/70 leading-relaxed mb-4">
-              An application embedding NeuroStack only sees four primitives: write an episode, query for relevant memory, configure the model router, and let the compaction agent run. Everything else — decay, salience, consolidation, re-promotion, embeddings, graph extraction — is handled in the background.
-            </p>
-            <ul class="space-y-2 text-sm text-white/70">
-              <li class="flex gap-3"><span class="text-purple-400 font-mono flex-shrink-0">brain.save_episode()</span><span>writes to L3, fires salience-gate thread</span></li>
-              <li class="flex gap-3"><span class="text-purple-400 font-mono flex-shrink-0">brain.query()</span><span>multi-signal scored retrieval across L3-L5</span></li>
-              <li class="flex gap-3"><span class="text-purple-400 font-mono flex-shrink-0">brain.profile.set()</span><span>updates L1A identity block</span></li>
-              <li class="flex gap-3"><span class="text-purple-400 font-mono flex-shrink-0">router.call()</span><span>local-first model dispatch with fallback</span></li>
-            </ul>
+            <div class="zone-head">
+              <span class="zone-bar" style="background:linear-gradient(180deg,#6b7280,#374151);"></span>
+              <span class="zone-title">ARCHIVE</span>
+              <span class="zone-note">// soft-deleted · never hard-deleted</span>
+            </div>
+            <div class="card card-accent" style="border-left-color:#6b7280;">
+              <div class="layer-id" style="color:var(--text-faint);">L6</div><div class="layer-name">Cold Archive</div>
+              <div class="layer-cap">activation &lt; -3.0 · salience &lt; 0.2 · 30+ days idle</div>
+              <p class="layer-desc">Episodes that meet all three thresholds get <span class="mono">archived = 1</span>. Still queryable, never garbage-collected. Memory should fade, not disappear.</p>
+            </div>
           </div>
-          <div class="codeblock">
-<span class="code-comment"># Embedding NeuroStack in any agent</span>
+        </div>
+
+        <!-- multi-signal retrieval -->
+        <div class="reveal mb-12">
+          <div class="card" style="padding:clamp(24px,4vw,40px);">
+            <p class="proj-eyebrow mb-2">// MULTI-SIGNAL RETRIEVAL</p>
+            <h3 class="h3 mb-3"><code class="inl">brain.query()</code> replaces flat cosine ranking.</h3>
+            <p class="muted mb-6" style="max-width:60ch;">Four signals, weighted. Every memory included in a response gets an access logged &rarr; ACT-R activation increases &rarr; that memory ranks higher next time, automatically.</p>
+            <div class="codeblock"><span class="code-fn">score</span>(memory) =  <span class="code-pink">0.4</span> &times; <span class="code-cyan">cosine_similarity</span>           <span class="code-comment"># semantic relevance</span>
+                + <span class="code-pink">0.3</span> &times; <span class="code-cyan">sigmoid</span>(<span class="code-violet">ACT-R_activation</span>)  <span class="code-comment"># access freq &times; recency</span>
+                + <span class="code-pink">0.2</span> &times; <span class="code-cyan">salience</span>                    <span class="code-comment"># importance &times; surprise at write</span>
+                + <span class="code-pink">0.1</span> &times; <span class="code-cyan">recency_bonus</span>               <span class="code-comment"># exp(-age_days/30)</span></div>
+          </div>
+        </div>
+
+        <!-- ACT-R formula -->
+        <div class="reveal mb-12">
+          <div class="card" style="padding:clamp(24px,4vw,40px);">
+            <p class="proj-eyebrow mb-2">// THE FORGETTING-CURVE MATH</p>
+            <h3 class="h3 mb-3">Retrieval strengthens memory. Decay is exponential.</h3>
+            <p class="muted mb-6" style="max-width:60ch;">ACT-R's base-level activation IS the Ebbinghaus forgetting curve, generalized to multiple accesses. Each access adds a fresh term. Strong memories stay strong; unused ones fade past the archive threshold.</p>
+            <div class="formula">
+              <span class="v" style="font-size:1.8rem;">B</span><sub class="v">i</sub>
+              <span class="op" style="font-size:1.6rem; margin:0 10px;">=</span>
+              <span class="fn" style="font-size:1.6rem;">ln</span>
+              <span class="op" style="font-size:1.6rem;">(</span>
+              <span class="op" style="font-size:1.6rem;">&Sigma;</span>
+              <span style="font-size:1.4rem;">t</span><sub>j</sub><sup class="code-pink" style="color:#ec4899;">&minus;0.5</sup>
+              <span class="op" style="font-size:1.6rem;">)</span>
+              <div class="formula-legend">
+                <div><span class="v">B<sub>i</sub></span> = activation of memory <em>i</em></div>
+                <div>t<sub>j</sub> = time since <em>j</em>th access</div>
+                <div><span style="color:#ec4899;">&minus;0.5</span> = decay rate (Anderson)</div>
+              </div>
+            </div>
+            <p class="soft small mt-6" style="font-style:italic; max-width:60ch;">Ebbinghaus 1885 · Anderson &amp; Lebiere 1998 · applied to agent context windows, 2026.</p>
+          </div>
+        </div>
+
+        <!-- compaction agent -->
+        <div class="reveal mb-12">
+          <p class="proj-eyebrow mb-2">// THE COMPACTION AGENT</p>
+          <h3 class="h3 mb-2">The only entity that moves memories between tiers.</h3>
+          <p class="muted mb-8" style="max-width:64ch;">Runs every <span class="mono" style="color:var(--accent-2);">5 minutes</span> asynchronously. Replaces the old <span class="mono" style="color:var(--accent-2);">_embed_loop</span>. Ten jobs, one process, no scattered consolidation paths.</p>
+          <div class="grid grid-2 grid-tight">
+            <div class="card"><div class="job"><span class="num">01</span><div><div class="jt">embed_pending_papers</div><div class="jd">text-embedding-3-small over new arXiv / Semantic Scholar pulls</div></div></div></div>
+            <div class="card"><div class="job"><span class="num">02</span><div><div class="jt">embed_pending_episodes</div><div class="jd">embed episode summaries + backfill missing salience</div></div></div></div>
+            <div class="card"><div class="job"><span class="num">03</span><div><div class="jt">link_new_papers</div><div class="jd">A-MEM Zettelkasten cosine links — score &gt; 0.5, top-3</div></div></div></div>
+            <div class="card"><div class="job"><span class="num">04</span><div><div class="jt">link_new_episodes</div><div class="jd">A-MEM cosine links between episodes — score &gt; 0.3, top-3</div></div></div></div>
+            <div class="card"><div class="job"><span class="num">05</span><div><div class="jt">decay_and_prune</div><div class="jd">archive episodes with activation &lt; -3.0 AND salience &lt; 0.2</div></div></div></div>
+            <div class="card"><div class="job"><span class="num">06</span><div><div class="jt">consolidate_to_semantic</div><div class="jd">extract <span class="mono">(s, r, o)</span> triples from mature episodes &rarr; L4 graph</div></div></div></div>
+            <div class="card"><div class="job"><span class="num">07</span><div><div class="jt">maybe_reflect</div><div class="jd">cumulative-salience threshold &rarr; gpt-5.2 generates 3 insights, written back as 0.85-salience episodes</div></div></div></div>
+            <div class="card"><div class="job"><span class="num">08</span><div><div class="jt">re_promote</div><div class="jd">3+ accesses in 7 days &rarr; gpt-5.2 decides if stable fact &rarr; staged for user review</div></div></div></div>
+            <div class="card"><div class="job"><span class="num">09</span><div><div class="jt">trim_working_memory</div><div class="jd">evict stale profile entries: preferences first, experience/education last</div></div></div></div>
+            <div class="card"><div class="job"><span class="num">10</span><div><div class="jt">update_temporal_context</div><div class="jd">invalidate L1B cache — next query rebuilds it</div></div></div></div>
+          </div>
+
+          <div class="card card-accent mt-6" style="border-left-color:var(--accent-2);">
+            <p class="proj-eyebrow mb-2">// SALIENCE GATE — fires at every <code class="inl">brain.save_episode()</code></p>
+            <p class="muted">A background thread embeds the episode, computes <strong style="color:var(--text);">surprise</strong> (1 &minus; cosine_sim vs. recent mean), scores <strong style="color:var(--text);">importance</strong> via <span class="mono" style="color:var(--accent-2);">gpt-5-nano</span> (1-10), and writes:</p>
+            <p class="mono mt-3" style="color:var(--accent); background:var(--bg-2); padding:12px 16px; border-radius:var(--r-sm);">salience = 0.5 &times; surprise + 0.5 &times; (importance / 10)</p>
+          </div>
+        </div>
+
+        <!-- model router -->
+        <div class="reveal mb-12">
+          <p class="proj-eyebrow mb-2">// MODEL ROUTING — LOCAL-FIRST</p>
+          <h3 class="h3 mb-2">qwen3.5:4b on Ollama. OpenAI as fallback.</h3>
+          <p class="muted mb-8" style="max-width:64ch;">Every LLM call goes through <code class="inl">ModelRouter.call()</code>. On model-unavailable / deprecated errors it walks the fallback chain — no code changes when OpenAI deprecates a model.</p>
+
+          <div class="tbl-wrap mb-6">
+            <table class="bld-table">
+              <thead><tr><th>Tier</th><th>Model</th><th>Backend</th><th>Tasks</th></tr></thead>
+              <tbody>
+                <tr class="row-hi"><td class="mono t-live" style="font-weight:700;">LOCAL · NANO</td><td class="mono">qwen3.5:4b</td><td class="t-live">Ollama · on-device · free</td><td>salience scoring, intent classification, entity / profile extraction, context compression</td></tr>
+                <tr><td class="mono t-accent" style="font-weight:700;">LONG_CTX</td><td class="mono">gpt-4.1</td><td>OpenAI · 1M context</td><td>document ingestion (entire resume in one call)</td></tr>
+                <tr><td class="mono t-accent" style="font-weight:700;">STANDARD</td><td class="mono">gpt-5.2</td><td>OpenAI</td><td>trends, paper chat, briefings, assistant chat, career, code generation</td></tr>
+                <tr><td class="mono t-accent" style="font-weight:700;">PRO</td><td class="mono">gpt-5.2</td><td>OpenAI</td><td>memory consolidation, reflection, re-promotion decisions</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid grid-2 grid-tight">
+            <div class="card"><p class="mono tiny t-live mb-2" style="color:var(--live);">NANO fallback chain</p><p class="mono small" style="color:var(--text);">qwen3.5:4b &rarr; gpt-5-nano &rarr; gpt-5-mini &rarr; gpt-4o-mini</p></div>
+            <div class="card"><p class="mono tiny mb-2" style="color:var(--accent);">STANDARD fallback chain</p><p class="mono small" style="color:var(--text);">gpt-5.2 &rarr; gpt-5.1 &rarr; gpt-5 &rarr; gpt-4.1 &rarr; gpt-4o</p></div>
+          </div>
+
+          <p class="soft small mt-4" style="max-width:70ch;">A separate <span class="mono" style="color:var(--accent-2);">ModelCheckAgent</span> runs at startup &amp; weekly: tests every known OpenAI model with both <span class="mono">max_tokens</span> and <span class="mono">max_completion_tokens</span>, detects which parameter each requires, persists results to <span class="mono">model_config.json</span> and the <span class="mono">model_availability</span> table.</p>
+        </div>
+
+        <!-- API surface -->
+        <div class="reveal">
+          <div class="grid grid-2 items-start">
+            <div>
+              <p class="proj-eyebrow mb-2">// THE API SURFACE</p>
+              <h3 class="h3 mb-4">A small interface. The complexity hides behind it.</h3>
+              <p class="muted mb-4">An application embedding NeuroStack only sees four primitives: write an episode, query for relevant memory, configure the model router, and let the compaction agent run. Everything else — decay, salience, consolidation, re-promotion, embeddings, graph extraction — is handled in the background.</p>
+              <ul class="stack-list small">
+                <li class="check-item"><span class="mono" style="color:var(--accent-2); flex:none;">brain.save_episode()</span><span>writes to L3, fires salience-gate thread</span></li>
+                <li class="check-item"><span class="mono" style="color:var(--accent-2); flex:none;">brain.query()</span><span>multi-signal scored retrieval across L3-L5</span></li>
+                <li class="check-item"><span class="mono" style="color:var(--accent-2); flex:none;">brain.profile.set()</span><span>updates L1A identity block</span></li>
+                <li class="check-item"><span class="mono" style="color:var(--accent-2); flex:none;">router.call()</span><span>local-first model dispatch with fallback</span></li>
+              </ul>
+            </div>
+            <div class="codeblock"><span class="code-comment"># Embedding NeuroStack in any agent</span>
 <span class="code-key">from</span> neurostack <span class="code-key">import</span> <span class="code-fn">Brain</span>, <span class="code-fn">ModelRouter</span>
 
 <span class="code-key">router</span> = <span class="code-fn">ModelRouter</span>(
@@ -792,96 +546,60 @@
 <span class="code-key">memories</span> = <span class="code-key">brain</span>.query(<span class="code-str">"forgetting curve math"</span>, k=<span class="code-num">5</span>)
 
 <span class="code-comment"># compaction runs in background</span>
-<span class="code-fn">CompactionAgent</span>(brain).start()  <span class="code-ok"># every 5 min</span>
+<span class="code-fn">CompactionAgent</span>(brain).start()  <span class="code-ok"># every 5 min</span></div>
           </div>
         </div>
+
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- ===================== PROJECT 02 · RESEARCH AGENT ===================== -->
+    <section class="section section-alt">
+      <div class="container" style="max-width:1080px;">
 
-  <!-- ============================================================ -->
-  <!-- RESEARCH AGENT — first application built on NeuroStack -->
-  <!-- ============================================================ -->
-  <section class="py-20 md:py-28 px-4 themed-section-alt relative">
-    <div class="container mx-auto max-w-6xl">
-
-      <div class="reveal mb-12">
-        <div class="flex items-center gap-3 mb-4 flex-wrap">
-          <span class="font-mono text-xs text-fuchsia-400">PROJECT 02 · FIRST APPLICATION</span>
-          <span class="status-chip status-private">
-            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
-            private repo · running in tray
-          </span>
-          <span class="status-chip status-active">
-            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-            built on NeuroStack
-          </span>
-        </div>
-        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-          <span class="bg-gradient-to-r from-fuchsia-400 via-rose-400 to-orange-400 bg-clip-text text-transparent">Research Agent</span>
-        </h2>
-        <p class="text-xl md:text-2xl text-white/60 max-w-3xl font-light">
-          The first thing I built on NeuroStack. A personal autonomous research agent that runs silently in the system tray on macOS &amp; Windows — researches papers continuously, briefs me every morning, and remembers everything we've ever discussed.
-        </p>
-        <div class="mt-6 flex flex-wrap gap-2 text-xs font-mono">
-          <span class="px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300">tkinter + pystray</span>
-          <span class="px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300">arXiv + Semantic Scholar + web</span>
-          <span class="px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300">7-daemon orchestrator</span>
-          <span class="px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300">~696 KB Python</span>
-        </div>
-      </div>
-
-      <!-- What it does -->
-      <div class="reveal mb-12">
-        <p class="text-xs font-mono text-fuchsia-400 mb-2">// WHAT IT DOES</p>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <div class="glass-card p-4">
-            <div class="text-fuchsia-300 text-xs font-mono mb-1">every 2h</div>
-            <div class="font-semibold text-sm">Autonomous research</div>
-            <div class="text-xs text-white/60 mt-1">arXiv, Semantic Scholar, web — papers in your fields, on its own clock</div>
+        <div class="reveal mb-12">
+          <div class="chip-row mb-4">
+            <span class="proj-eyebrow" style="color:var(--accent-2);">PROJECT 02 · FIRST APPLICATION</span>
+            <span class="schip schip-private">
+              <svg fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+              private repo · running in tray
+            </span>
+            <span class="schip schip-active"><span class="mdot" aria-hidden="true"></span> built on NeuroStack</span>
           </div>
-          <div class="glass-card p-4">
-            <div class="text-fuchsia-300 text-xs font-mono mb-1">every 4h</div>
-            <div class="font-semibold text-sm">Trend reports</div>
-            <div class="text-xs text-white/60 mt-1">synthesizes what's happening across your areas</div>
-          </div>
-          <div class="glass-card p-4">
-            <div class="text-fuchsia-300 text-xs font-mono mb-1">daily</div>
-            <div class="font-semibold text-sm">Morning briefings</div>
-            <div class="text-xs text-white/60 mt-1">overnight discoveries + your recent activity</div>
-          </div>
-          <div class="glass-card p-4">
-            <div class="text-fuchsia-300 text-xs font-mono mb-1">on demand</div>
-            <div class="font-semibold text-sm">Personal assistant chat</div>
-            <div class="text-xs text-white/60 mt-1">knows your full profile, work history, every conversation</div>
-          </div>
-          <div class="glass-card p-4">
-            <div class="text-fuchsia-300 text-xs font-mono mb-1">on demand</div>
-            <div class="font-semibold text-sm">Career assistant</div>
-            <div class="text-xs text-white/60 mt-1">resume tailoring, job analysis, cover letters — full profile loaded</div>
-          </div>
-          <div class="glass-card p-4">
-            <div class="text-fuchsia-300 text-xs font-mono mb-1">sandboxed</div>
-            <div class="font-semibold text-sm">Code agent</div>
-            <div class="text-xs text-white/60 mt-1">writes &amp; executes Python in a workspace with procedural memory</div>
+          <h2 class="proj-title">Research Agent</h2>
+          <p class="proj-lead">The first thing I built on NeuroStack. A personal autonomous research agent that runs silently in the system tray on macOS &amp; Windows — researches papers continuously, briefs me every morning, and remembers everything we've ever discussed.</p>
+          <div class="chips mt-6">
+            <span class="chip">tkinter + pystray</span>
+            <span class="chip">arXiv + Semantic Scholar + web</span>
+            <span class="chip">7-daemon orchestrator</span>
+            <span class="chip">~696 KB Python</span>
           </div>
         </div>
-      </div>
 
-      <!-- How it uses NeuroStack -->
-      <div class="reveal mb-12 grid md:grid-cols-2 gap-8 items-start">
-        <div>
-          <p class="text-xs font-mono text-fuchsia-400 mb-2">// HOW IT USES NEUROSTACK</p>
-          <h3 class="text-2xl md:text-3xl font-bold mb-4">A thin app on top of a deep memory.</h3>
-          <p class="text-white/70 leading-relaxed">
-            Research Agent is mostly UI and orchestration. Every paper found, every chat turn, every reflection lands in NeuroStack. Every recall — "what did I read about KV-cache last month?" — runs through <code class="font-mono text-fuchsia-300">brain.query()</code>. The agent doesn't manage memory. It uses memory.
-          </p>
+        <!-- what it does -->
+        <div class="reveal mb-12">
+          <p class="proj-eyebrow mb-4" style="color:var(--accent-2);">// WHAT IT DOES</p>
+          <div class="grid grid-3 grid-tight">
+            <div class="card"><div class="feat"><div class="k">every 2h</div><div class="t">Autonomous research</div><div class="d">arXiv, Semantic Scholar, web — papers in your fields, on its own clock</div></div></div>
+            <div class="card"><div class="feat"><div class="k">every 4h</div><div class="t">Trend reports</div><div class="d">synthesizes what's happening across your areas</div></div></div>
+            <div class="card"><div class="feat"><div class="k">daily</div><div class="t">Morning briefings</div><div class="d">overnight discoveries + your recent activity</div></div></div>
+            <div class="card"><div class="feat"><div class="k">on demand</div><div class="t">Personal assistant chat</div><div class="d">knows your full profile, work history, every conversation</div></div></div>
+            <div class="card"><div class="feat"><div class="k">on demand</div><div class="t">Career assistant</div><div class="d">resume tailoring, job analysis, cover letters — full profile loaded</div></div></div>
+            <div class="card"><div class="feat"><div class="k">sandboxed</div><div class="t">Code agent</div><div class="d">writes &amp; executes Python in a workspace with procedural memory</div></div></div>
+          </div>
         </div>
-        <div class="glass-card p-6 md:p-8">
-          <p class="text-xs font-mono text-fuchsia-400 mb-3">// THREADING MODEL · 7 DAEMONS</p>
-          <pre class="font-mono text-xs md:text-sm text-white/80 overflow-x-auto leading-relaxed">
-<span class="code-key">Main</span>          tkinter root + ui_queue (100ms)
+
+        <!-- how it uses neurostack -->
+        <div class="reveal">
+          <div class="grid grid-2 items-start">
+            <div>
+              <p class="proj-eyebrow mb-2" style="color:var(--accent-2);">// HOW IT USES NEUROSTACK</p>
+              <h3 class="h3 mb-4">A thin app on top of a deep memory.</h3>
+              <p class="muted">Research Agent is mostly UI and orchestration. Every paper found, every chat turn, every reflection lands in NeuroStack. Every recall — "what did I read about KV-cache last month?" — runs through <code class="inl">brain.query()</code>. The agent doesn't manage memory. It uses memory.</p>
+            </div>
+            <div class="card" style="padding:clamp(20px,3vw,32px);">
+              <p class="proj-eyebrow mb-3" style="color:var(--accent-2);">// THREADING MODEL · 7 DAEMONS</p>
+              <pre class="pre-mono"><span class="code-key">Main</span>          tkinter root + ui_queue (100ms)
 <span class="code-key">Daemon 1</span>      pystray system tray
 <span class="code-key">Thread 2</span>      ResearchAgent — search every 2h
 <span class="code-key">Daemon 3</span>      TrendAgent — every 4h
@@ -889,67 +607,42 @@
 <span class="code-key">Daemon 5</span>      CompactionAgent — every 5 min
 <span class="code-key">Daemon 6</span>      ModelCheckAgent — weekly
 <span class="code-key">Daemon 7</span>      LocalModelWarmup — qwen3.5:4b</pre>
-          <p class="mt-3 text-xs text-white/50">UI calls dispatched via <span class="font-mono">ui_queue</span> → main thread. Blocking calls use <span class="font-mono">threading.Event</span>.</p>
+              <p class="soft small mt-3">UI calls dispatched via <span class="mono">ui_queue</span> &rarr; main thread. Blocking calls use <span class="mono">threading.Event</span>.</p>
+            </div>
+          </div>
         </div>
+
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- ===================== PROJECT 03 · BRAIN COMPONENT ===================== -->
+    <section class="section">
+      <div class="container" style="max-width:1080px;">
 
-  <!-- ============================================================ -->
-  <!-- BRAIN COMPONENT (model-agnostic agent built on NeuroStack) -->
-  <!-- ============================================================ -->
-  <section class="py-20 md:py-28 px-4 bg-gradient-to-b from-gray-950 via-purple-950/30 to-gray-950 relative">
-    <div class="container mx-auto max-w-6xl">
-
-      <div class="reveal mb-12">
-        <div class="flex items-center gap-3 mb-4 flex-wrap">
-          <span class="font-mono text-xs text-cyan-400">PROJECT 03 · NEXT APPLICATION</span>
-          <span class="status-chip status-active">
-            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-            in design
-          </span>
-          <span class="status-chip status-active">
-            <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-            built on NeuroStack
-          </span>
-        </div>
-        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-          <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">Brain Component</span>
-        </h2>
-        <p class="text-xl md:text-2xl text-white/60 max-w-3xl font-light">
-          The next thing on NeuroStack — a fully local agent runtime. No OpenAI fallback, no Anthropic, no provider lock-in. Just NeuroStack memory + Ollama / llama.cpp / MLX, running entirely on your machine.
-        </p>
-      </div>
-
-      <!-- The why -->
-      <div class="reveal mb-12 grid md:grid-cols-2 gap-8 items-start">
-        <div>
-          <p class="text-xs font-mono text-cyan-400 mb-2">// WHY</p>
-          <h3 class="text-2xl md:text-3xl font-bold mb-4">Local-first. Provider-independent. Works offline.</h3>
-          <ul class="space-y-3 text-white/70">
-            <li class="flex gap-3">
-              <svg class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              <span><strong class="text-white">No vendor lock-in.</strong> Swap Ollama → llama.cpp → Claude → GPT-4 with one config flag.</span>
-            </li>
-            <li class="flex gap-3">
-              <svg class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              <span><strong class="text-white">Privacy by default.</strong> Your conversations, memories, and tool calls never leave your machine unless you opt in.</span>
-            </li>
-            <li class="flex gap-3">
-              <svg class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              <span><strong class="text-white">Cost-bounded.</strong> Use a 7B local model for cheap iteration, route only the hard calls to a frontier model.</span>
-            </li>
-            <li class="flex gap-3">
-              <svg class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-              <span><strong class="text-white">Resilient.</strong> If a provider rate-limits you or sunsets a model, you keep working.</span>
-            </li>
-          </ul>
+        <div class="reveal mb-12">
+          <div class="chip-row mb-4">
+            <span class="proj-eyebrow">PROJECT 03 · NEXT APPLICATION</span>
+            <span class="schip schip-active"><span class="mdot" aria-hidden="true"></span> in design</span>
+            <span class="schip schip-active"><span class="mdot" aria-hidden="true"></span> built on NeuroStack</span>
+          </div>
+          <h2 class="proj-title">Brain Component</h2>
+          <p class="proj-lead">The next thing on NeuroStack — a fully local agent runtime. No OpenAI fallback, no Anthropic, no provider lock-in. Just NeuroStack memory + Ollama / llama.cpp / MLX, running entirely on your machine.</p>
         </div>
 
-        <!-- Architecture diagram -->
-        <div class="codeblock">
-<span class="code-comment"># Brain Component architecture</span>
+        <!-- why -->
+        <div class="reveal mb-12">
+          <div class="grid grid-2 items-start">
+            <div>
+              <p class="proj-eyebrow mb-2">// WHY</p>
+              <h3 class="h3 mb-4">Local-first. Provider-independent. Works offline.</h3>
+              <ul class="stack-list">
+                <li class="check-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span><strong>No vendor lock-in.</strong> Swap Ollama &rarr; llama.cpp &rarr; Claude &rarr; GPT-4 with one config flag.</span></li>
+                <li class="check-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span><strong>Privacy by default.</strong> Your conversations, memories, and tool calls never leave your machine unless you opt in.</span></li>
+                <li class="check-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span><strong>Cost-bounded.</strong> Use a 7B local model for cheap iteration, route only the hard calls to a frontier model.</span></li>
+                <li class="check-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span><strong>Resilient.</strong> If a provider rate-limits you or sunsets a model, you keep working.</span></li>
+              </ul>
+            </div>
+            <div class="codeblock"><span class="code-comment"># Brain Component architecture</span>
 
 <span class="code-key">class</span> <span class="code-fn">Brain</span>:
     <span class="code-key">memory</span>: <span class="code-fn">NeuroStack</span>      <span class="code-comment"># 3-tier brain memory</span>
@@ -964,244 +657,152 @@
 )
 
 <span class="code-key">brain</span> = <span class="code-fn">Brain</span>(memory=<span class="code-fn">NeuroStack</span>(), model=router)
-<span class="code-key">brain</span>.run()  <span class="code-ok"># offline-capable</span>
+<span class="code-key">brain</span>.run()  <span class="code-ok"># offline-capable</span></div>
+          </div>
         </div>
-      </div>
 
-      <!-- Pipeline diagram -->
-      <div class="reveal mb-8">
-        <p class="text-xs font-mono text-cyan-400 mb-2">// REQUEST FLOW</p>
-        <div class="glass-card p-6 md:p-8">
-          <div class="flex flex-col md:flex-row items-stretch gap-3 md:gap-2 text-center">
-            <div class="flex-1 bg-white/5 rounded-lg p-4 border border-white/10">
-              <div class="text-xs font-mono text-white/40 mb-1">01</div>
-              <div class="font-semibold mb-1">Intent</div>
-              <div class="text-xs text-white/60">user prompt</div>
-            </div>
-            <div class="flex items-center justify-center pipeline-arrow"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
-            <div class="flex-1 bg-white/5 rounded-lg p-4 border border-white/10">
-              <div class="text-xs font-mono text-purple-400 mb-1">02</div>
-              <div class="font-semibold mb-1">NeuroStack</div>
-              <div class="text-xs text-white/60">hot + episodic + semantic recall</div>
-            </div>
-            <div class="flex items-center justify-center pipeline-arrow"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
-            <div class="flex-1 bg-white/5 rounded-lg p-4 border border-white/10">
-              <div class="text-xs font-mono text-cyan-400 mb-1">03</div>
-              <div class="font-semibold mb-1">Router</div>
-              <div class="text-xs text-white/60">local · cloud · policy</div>
-            </div>
-            <div class="flex items-center justify-center pipeline-arrow"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
-            <div class="flex-1 bg-white/5 rounded-lg p-4 border border-white/10">
-              <div class="text-xs font-mono text-pink-400 mb-1">04</div>
-              <div class="font-semibold mb-1">Tools</div>
-              <div class="text-xs text-white/60">MCP shell + file + web</div>
-            </div>
-            <div class="flex items-center justify-center pipeline-arrow"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
-            <div class="flex-1 bg-white/5 rounded-lg p-4 border border-white/10">
-              <div class="text-xs font-mono text-green-400 mb-1">05</div>
-              <div class="font-semibold mb-1">Response</div>
-              <div class="text-xs text-white/60">+ writeback to NeuroStack</div>
+        <!-- request flow -->
+        <div class="reveal">
+          <p class="proj-eyebrow mb-2">// REQUEST FLOW</p>
+          <div class="card" style="padding:clamp(20px,3vw,32px);">
+            <div class="flow-row">
+              <div class="flow-node"><div class="n">01</div><div class="t">Intent</div><div class="d">user prompt</div></div>
+              <div class="pipeline-arrow" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
+              <div class="flow-node"><div class="n" style="color:var(--accent-2);">02</div><div class="t">NeuroStack</div><div class="d">hot + episodic + semantic recall</div></div>
+              <div class="pipeline-arrow" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
+              <div class="flow-node"><div class="n" style="color:var(--accent);">03</div><div class="t">Router</div><div class="d">local · cloud · policy</div></div>
+              <div class="pipeline-arrow" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
+              <div class="flow-node"><div class="n" style="color:#ec4899;">04</div><div class="t">Tools</div><div class="d">MCP shell + file + web</div></div>
+              <div class="pipeline-arrow" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div>
+              <div class="flow-node"><div class="n" style="color:var(--live);">05</div><div class="t">Response</div><div class="d">+ writeback to NeuroStack</div></div>
             </div>
           </div>
         </div>
+
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- ===================== PROJECT 04 · ADAPTIVE MOTION INTELLIGENCE ===================== -->
+    <section class="section section-alt">
+      <div class="container" style="max-width:1080px;">
 
-  <!-- ============================================================ -->
-  <!-- ADAPTIVE MOTION INTELLIGENCE -->
-  <!-- ============================================================ -->
-  <section class="py-20 md:py-28 px-4 relative bg-gray-950">
-    <div class="container mx-auto max-w-6xl">
-
-      <div class="reveal mb-12">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs text-pink-400">PROJECT 04</span>
-          <span class="status-chip status-research">
-            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M7 3a1 1 0 000 2h.01a1 1 0 100-2H7zM4 7a1 1 0 011-1h.01a1 1 0 110 2H5a1 1 0 01-1-1zM12 7a1 1 0 011-1h.01a1 1 0 110 2H13a1 1 0 01-1-1z"/></svg>
-            research · drafted
-          </span>
+        <div class="reveal mb-12">
+          <div class="chip-row mb-4">
+            <span class="proj-eyebrow" style="color:#ec4899;">PROJECT 04</span>
+            <span class="schip schip-research">
+              <svg fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3a1 1 0 000 2h.01a1 1 0 100-2H7zM4 7a1 1 0 011-1h.01a1 1 0 110 2H5a1 1 0 01-1-1zM12 7a1 1 0 011-1h.01a1 1 0 110 2H13a1 1 0 01-1-1z"/></svg>
+              research · drafted
+            </span>
+          </div>
+          <h2 class="proj-title">Adaptive Motion Intelligence</h2>
+          <p class="proj-lead">The missing layer between pose landmarks and movement <em>understanding</em>. A platform that <strong>generates</strong> the right movement analyzer for the right task, on demand.</p>
         </div>
-        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-          <span class="bg-gradient-to-r from-pink-400 via-rose-400 to-orange-400 bg-clip-text text-transparent">Adaptive Motion Intelligence</span>
-        </h2>
-        <p class="text-xl md:text-2xl text-white/60 max-w-3xl font-light">
-          The missing layer between pose landmarks and movement <em>understanding</em>. A platform that <strong class="text-white">generates</strong> the right movement analyzer for the right task, on demand.
-        </p>
+
+        <!-- signature wave -->
+        <div class="reveal mb-12">
+          <div class="card" style="padding:clamp(20px,4vw,40px);">
+            <p class="proj-eyebrow mb-3" style="color:#ec4899;">// FROM POSE SNAPSHOTS TO ACTION SIGNATURES</p>
+            <svg class="signature-wave" viewBox="0 0 800 80" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="sigGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ec4899"/>
+                  <stop offset="50%" stop-color="#a855f7"/>
+                  <stop offset="100%" stop-color="#06b6d4"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,40 Q50,10 100,40 T200,40 T300,40 T400,40 T500,40 T600,40 T700,40 T800,40" stroke="url(#sigGrad)"/>
+              <path d="M0,40 Q50,70 100,40 T200,40 T300,40 T400,40 T500,40 T600,40 T700,40 T800,40" stroke="rgba(236,72,153,0.5)" style="animation-delay:-1.5s"/>
+            </svg>
+            <p class="muted small mt-2" style="font-style:italic;">Every action has a pattern over time. A movement isn't a set of frames — it's a repeatable signature that can be captured, scored, and compared.</p>
+          </div>
+        </div>
+
+        <!-- problem -->
+        <div class="reveal mb-12">
+          <div class="grid grid-2">
+            <div class="card card-accent" style="border-left-color:#ef4444;">
+              <p class="proj-eyebrow mb-2" style="color:#ef4444;">// THE STATUS QUO</p>
+              <h3 class="card-title mb-3">Pose detection is a wall.</h3>
+              <ul class="x-list">
+                <li><span class="x">&times;</span> Most systems stop at skeleton detection.</li>
+                <li><span class="x">&times;</span> Apps are hardcoded for a few movements.</li>
+                <li><span class="x">&times;</span> New movements require manual logic.</li>
+                <li><span class="x">&times;</span> Motion products are rigid and slow to scale.</li>
+              </ul>
+            </div>
+            <div class="card card-accent" style="border-left-color:#10b981;">
+              <p class="proj-eyebrow mb-2" style="color:var(--live);">// THE GAP</p>
+              <h3 class="card-title mb-3">Task-specific movement understanding.</h3>
+              <p class="muted small">Pose landmarks tell you <em>where</em> the joints are. They don't tell you whether the squat was deep enough, whether the elbow flared on the curl, or whether the rehab patient is making progress.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- novel part 01 -->
+        <div class="reveal mb-12">
+          <p class="proj-eyebrow mb-4" style="color:#ec4899;">NOVEL PART · 01</p>
+          <h3 class="h3 mb-2">The analyzer is generated, not just prewritten.</h3>
+          <p class="muted mb-6" style="max-width:64ch;">A user describes the movement they want tracked. An agent network generates the analyzer. A sandbox validates it. The runtime stays fast and deterministic.</p>
+          <div class="grid grid-4 grid-tight">
+            <div class="card center"><div class="mono tiny mb-2" style="color:#ec4899;">01</div><div class="card-title" style="font-size:1rem;">Intent</div><div class="muted tiny mt-2">"track my front lever progress"</div></div>
+            <div class="card center"><div class="mono tiny mb-2" style="color:var(--accent-2);">02</div><div class="card-title" style="font-size:1rem;">Agent Network</div><div class="muted tiny mt-2">master + specialists generate analyzer</div></div>
+            <div class="card center"><div class="mono tiny mb-2" style="color:var(--accent);">03</div><div class="card-title" style="font-size:1rem;">Validation Sandbox</div><div class="muted tiny mt-2">simulate · test · gate</div></div>
+            <div class="card center"><div class="mono tiny mb-2" style="color:var(--live);">04</div><div class="card-title" style="font-size:1rem;">Execution</div><div class="muted tiny mt-2">live runtime · deterministic</div></div>
+          </div>
+        </div>
+
+        <!-- why it matters -->
+        <div class="reveal">
+          <p class="proj-eyebrow mb-2" style="color:#ec4899;">// WHY IT MATTERS</p>
+          <h3 class="h3 mb-2">One platform · three surfaces.</h3>
+          <p class="muted mb-8">Today it can understand a curl. Tomorrow rehab, sport, skill, and performance.</p>
+          <div class="grid grid-3">
+            <div class="card card-tab" style="border-top-color:#ec4899;"><div class="emoji" aria-hidden="true">🏋️</div><h4 class="card-title mb-2">Coaching</h4><p class="muted small">Fitness coaching, rep quality, real-time form correction.</p></div>
+            <div class="card card-tab" style="border-top-color:#a855f7;"><div class="emoji" aria-hidden="true">🩺</div><h4 class="card-title mb-2">Rehab</h4><p class="muted small">Visit-to-visit guidance, longitudinal progress tracking.</p></div>
+            <div class="card card-tab" style="border-top-color:#06b6d4;"><div class="emoji" aria-hidden="true">📊</div><h4 class="card-title mb-2">Analytics</h4><p class="muted small">Movement consistency, symmetry, ergonomic workflows.</p></div>
+          </div>
+        </div>
+
       </div>
+    </section>
 
-      <!-- Animated signature wave -->
-      <div class="reveal mb-12">
-        <div class="glass-card p-6 md:p-10">
-          <div class="text-xs font-mono text-pink-400 mb-3">// FROM POSE SNAPSHOTS TO ACTION SIGNATURES</div>
-          <svg class="signature-wave" viewBox="0 0 800 80" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="sigGrad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="#ec4899"/>
-                <stop offset="50%" stop-color="#a855f7"/>
-                <stop offset="100%" stop-color="#06b6d4"/>
-              </linearGradient>
-            </defs>
-            <path d="M0,40 Q50,10 100,40 T200,40 T300,40 T400,40 T500,40 T600,40 T700,40 T800,40"
-                  stroke="url(#sigGrad)" stroke-dasharray="1500" />
-            <path d="M0,40 Q50,70 100,40 T200,40 T300,40 T400,40 T500,40 T600,40 T700,40 T800,40"
-                  stroke="rgba(236,72,153,0.5)" stroke-dasharray="1500" style="animation-delay: -1.5s"/>
-          </svg>
-          <p class="text-sm text-white/60 mt-2 italic">Every action has a pattern over time. A movement isn't a set of frames — it's a repeatable signature that can be captured, scored, and compared.</p>
-        </div>
-      </div>
-
-      <!-- The problem -->
-      <div class="reveal mb-12 grid md:grid-cols-2 gap-8">
-        <div class="glass-card p-6 border-l-4" style="border-left-color: #ef4444">
-          <p class="text-xs font-mono text-red-400 mb-2">// THE STATUS QUO</p>
-          <h3 class="text-xl font-bold mb-3">Pose detection is a wall.</h3>
-          <ul class="space-y-2 text-sm text-white/70">
-            <li class="flex gap-2"><span class="text-red-400">×</span> Most systems stop at skeleton detection.</li>
-            <li class="flex gap-2"><span class="text-red-400">×</span> Apps are hardcoded for a few movements.</li>
-            <li class="flex gap-2"><span class="text-red-400">×</span> New movements require manual logic.</li>
-            <li class="flex gap-2"><span class="text-red-400">×</span> Motion products are rigid and slow to scale.</li>
-          </ul>
-        </div>
-        <div class="glass-card p-6 border-l-4" style="border-left-color: #10b981">
-          <p class="text-xs font-mono text-emerald-400 mb-2">// THE GAP</p>
-          <h3 class="text-xl font-bold mb-3">Task-specific movement understanding.</h3>
-          <p class="text-sm text-white/70">
-            Pose landmarks tell you <em>where</em> the joints are. They don't tell you whether the squat was deep enough, whether the elbow flared on the curl, or whether the rehab patient is making progress.
-          </p>
-        </div>
-      </div>
-
-      <!-- Novel Part #1 -->
-      <div class="reveal mb-12">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs text-pink-400">NOVEL PART · 01</span>
-        </div>
-        <h3 class="text-2xl md:text-3xl font-bold mb-2">The analyzer is generated, not just prewritten.</h3>
-        <p class="text-white/60 mb-6">A user describes the movement they want tracked. An agent network generates the analyzer. A sandbox validates it. The runtime stays fast and deterministic.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div class="glass-card p-5 text-center">
-            <div class="text-xs font-mono text-pink-400 mb-2">01</div>
-            <div class="font-bold mb-1">Intent</div>
-            <div class="text-xs text-white/60">"track my front lever progress"</div>
-          </div>
-          <div class="glass-card p-5 text-center">
-            <div class="text-xs font-mono text-purple-400 mb-2">02</div>
-            <div class="font-bold mb-1">Agent Network</div>
-            <div class="text-xs text-white/60">master + specialists generate analyzer</div>
-          </div>
-          <div class="glass-card p-5 text-center">
-            <div class="text-xs font-mono text-cyan-400 mb-2">03</div>
-            <div class="font-bold mb-1">Validation Sandbox</div>
-            <div class="text-xs text-white/60">simulate · test · gate</div>
-          </div>
-          <div class="glass-card p-5 text-center">
-            <div class="text-xs font-mono text-green-400 mb-2">04</div>
-            <div class="font-bold mb-1">Execution</div>
-            <div class="text-xs text-white/60">live runtime · deterministic</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Why it matters -->
-      <div class="reveal mb-8">
-        <p class="text-xs font-mono text-pink-400 mb-2">// WHY IT MATTERS</p>
-        <h3 class="text-2xl md:text-3xl font-bold mb-2">One platform · three surfaces.</h3>
-        <p class="text-white/60 mb-8">Today it can understand a curl. Tomorrow rehab, sport, skill, and performance.</p>
-
-        <div class="grid md:grid-cols-3 gap-5">
-          <div class="glass-card p-6 border-t-4" style="border-top-color: #ec4899">
-            <div class="text-3xl mb-2">🏋️</div>
-            <h4 class="text-lg font-bold mb-2">Coaching</h4>
-            <p class="text-sm text-white/70">Fitness coaching, rep quality, real-time form correction.</p>
-          </div>
-          <div class="glass-card p-6 border-t-4" style="border-top-color: #a855f7">
-            <div class="text-3xl mb-2">🩺</div>
-            <h4 class="text-lg font-bold mb-2">Rehab</h4>
-            <p class="text-sm text-white/70">Visit-to-visit guidance, longitudinal progress tracking.</p>
-          </div>
-          <div class="glass-card p-6 border-t-4" style="border-top-color: #06b6d4">
-            <div class="text-3xl mb-2">📊</div>
-            <h4 class="text-lg font-bold mb-2">Analytics</h4>
-            <p class="text-sm text-white/70">Movement consistency, symmetry, ergonomic workflows.</p>
-          </div>
+    <!-- ===================== CTA ===================== -->
+    <section class="section-sm section-panel">
+      <div class="container center reveal" style="max-width:720px;">
+        <p class="proj-eyebrow mb-3">// COLLABORATE</p>
+        <h2 class="h2 mb-4">Working on something adjacent?</h2>
+        <p class="lead measure mx-auto mb-8">I'm always up to compare notes on agent memory, model routing, or motion analytics. Reach out — happy to share what's working and what's not.</p>
+        <div class="btn-row" style="justify-content:center;">
+          <a class="btn btn-primary" href="contact.html">
+            Get in touch
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </div>
       </div>
+    </section>
 
-    </div>
-  </section>
+  </main>
 
-  <!-- ============================================================ -->
-  <!-- CTA / Get involved -->
-  <!-- ============================================================ -->
-  <section class="py-16 px-4 bg-gradient-to-r from-purple-950 via-gray-950 to-blue-950">
-    <div class="container mx-auto max-w-4xl text-center reveal">
-      <p class="text-xs font-mono text-white/50 mb-3">// COLLABORATE</p>
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">Working on something adjacent?</h2>
-      <p class="text-white/70 mb-8 max-w-2xl mx-auto">
-        I'm always up to compare notes on agent memory, model routing, or motion analytics. Reach out — happy to share what's working and what's not.
-      </p>
-      <a href="contact.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-slate-900 font-semibold rounded-lg hover:scale-105 transform transition duration-300 shadow-2xl">
-        Get in touch
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <footer class="bg-gray-950 text-white/40 py-8 px-4 border-t border-white/5">
-    <div class="container mx-auto text-center text-sm font-mono">
-      <p>// charith.purushotham · building things that remember, decide, and move</p>
+  <!-- ===================== FOOTER (canonical) ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-copy">
+        <span class="mono">© 2026 Charith Purushotham</span> · Built with plain HTML, CSS &amp; JS.
+      </div>
+      <nav class="social-links" aria-label="Social">
+        <a class="social-link" href="https://github.com/charithcherry" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a class="social-link" href="https://www.linkedin.com/in/charith-purushotham-0068281aa/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM8 19H5V8h3v11zM6.5 6.7C5.5 6.7 4.8 6 4.8 5S5.5 3.3 6.5 3.3 8.2 4 8.2 5 7.5 6.7 6.5 6.7zM20 19h-3v-5.6c0-3.4-4-3.1-4 0V19h-3V8h3v1.8c1.4-2.6 7-2.8 7 2.5V19z"/></svg>
+        </a>
+        <a class="social-link" href="mailto:charithcherry1100@gmail.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </a>
+      </nav>
     </div>
   </footer>
 
-  <script>
-    // Theme toggle
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      themeToggleLightIcon.classList.remove('hidden');
-    } else {
-      themeToggleDarkIcon.classList.remove('hidden');
-    }
-    themeToggleBtn.addEventListener('click', () => {
-      themeToggleDarkIcon.classList.toggle('hidden');
-      themeToggleLightIcon.classList.toggle('hidden');
-      if (document.documentElement.classList.contains('dark')) {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('color-theme', 'light');
-      } else {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('color-theme', 'dark');
-      }
-    });
-
-    const menuToggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('menu');
-    if (menuToggle && menu) {
-      menuToggle.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-        menu.classList.toggle('flex');
-        menu.classList.toggle('flex-col');
-        menu.classList.toggle('items-center');
-      });
-    }
-
-    // String Tune scroll-reveals
-    document.addEventListener('DOMContentLoaded', () => {
-      const targets = document.querySelectorAll('.reveal, .reveal-left');
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in');
-            io.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-      targets.forEach(el => io.observe(el));
-    });
-  </script>
+  <script src="assets/js/site.js"></script>
 </body>
 </html>

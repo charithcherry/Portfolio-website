@@ -1,1175 +1,725 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Me - Charith Purushotham</title>
+  <title>About — Charith Purushotham</title>
+  <meta name="description" content="Charith Purushotham — Machine Learning Engineer at Owl AI building real-time computer-vision systems for live sports broadcast. MS Computer Science, CU Boulder (GPA 3.94). Background at Idaho National Laboratory and Phamax.">
+  <meta name="author" content="Charith Purushotham">
+  <meta name="theme-color" content="#050810">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About — Charith Purushotham">
+  <meta property="og:description" content="Machine Learning Engineer at Owl AI building real-time CV systems for live sports broadcast. MS CS, CU Boulder (GPA 3.94).">
+  <meta property="og:url" content="https://charithcherry.github.io/Portfolio-website/about.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://charithcherry.github.io/Portfolio-website/about.html">
+
+  <!-- Inline SVG favicon: node-graph glyph (identical on every page) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050810'/%3E%3Cg stroke='%2322d3ee' stroke-width='1.5' opacity='0.85'%3E%3Cline x1='8' y1='10' x2='16' y2='16'/%3E%3Cline x1='16' y1='16' x2='24' y2='9'/%3E%3Cline x1='16' y1='16' x2='12' y2='24'/%3E%3Cline x1='16' y1='16' x2='23' y2='22'/%3E%3C/g%3E%3Cg fill='%2322d3ee'%3E%3Ccircle cx='8' cy='10' r='2.3'/%3E%3Ccircle cx='24' cy='9' r='2.3'/%3E%3Ccircle cx='12' cy='24' r='2.3'/%3E%3Ccircle cx='23' cy='22' r='2.3'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%238b5cf6'/%3E%3C/svg%3E">
+
+  <!-- FOUC guard -->
   <script>
-    // Dark mode initialization
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    (function () {
+      try {
+        var t = localStorage.getItem('color-theme');
+        if (t === 'dark' || (!t && !window.matchMedia('(prefers-color-scheme: light)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) { document.documentElement.classList.add('dark'); }
+    })();
   </script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config = { darkMode: 'class' }</script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="assets/css/site.css">
 
+  <!-- Page-specific styles -->
   <style>
-    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-    .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
-
-    /* Fade-in animation */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* profile */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: clamp(24px, 5vw, 48px);
+      align-items: center;
     }
-
-    .fade-in {
-      opacity: 0;
-      animation: fadeInUp 0.6s ease-out forwards;
-    }
-
-    /* Float animation */
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(3deg); }
-    }
-
-    /* Progress bar animation */
-    @keyframes progressBar {
-      from { width: 0; }
-      to { width: var(--progress-width); }
-    }
-
-    .progress-bar {
-      animation: progressBar 1.5s ease-out forwards;
-    }
-
-    @media screen and (min-width: 768px) {
-      .portfolio-image {
-        width: 256px;
-        height: 125px;
-      }
-    }
-
-    @media screen and (min-width: 768px) {
-      .flex-card {
-        width: 48%; /* Equal width for each card */
-      }
-    }
-
-    /* ========== 3D PROFILE PIC TILT ========== */
-    .pic-tilt-wrapper {
-      perspective: 1000px;
-      transform-style: preserve-3d;
-    }
-    .pic-tilt {
-      transition: transform 0.15s ease-out;
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-    .pic-glow-ring {
-      position: absolute;
-      inset: -8px;
+    .profile-photo {
+      width: 176px; height: 176px;
       border-radius: 50%;
-      background: conic-gradient(
-        from var(--ring-angle, 0deg),
-        #6366f1, #ec4899, #06b6d4, #6366f1
-      );
-      filter: blur(14px);
-      opacity: 0.65;
-      z-index: -1;
-      animation: ringRotate 8s linear infinite;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0.08), var(--shadow-card);
     }
-    @keyframes ringRotate {
-      from { --ring-angle: 0deg; }
-      to { --ring-angle: 360deg; }
-    }
-    @property --ring-angle {
-      syntax: '<angle>';
-      initial-value: 0deg;
-      inherits: false;
+    .profile-side { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); text-align: center; }
+    .profile-name { font-weight: 700; }
+    .profile-role { font-family: var(--font-mono); font-size: .8rem; color: var(--accent); }
+    .bio-p + .bio-p { margin-top: var(--sp-4); }
+    @media (max-width: 640px) {
+      .profile-grid { grid-template-columns: 1fr; text-align: center; }
+      .profile-grid .bio { text-align: left; }
     }
 
-    /* ========== TERMINAL $ whoami ========== */
+    /* terminal */
     .terminal {
-      background: linear-gradient(180deg, #0d1117 0%, #0a0e15 100%);
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5),
-                  inset 0 1px 0 rgba(255,255,255,0.05);
+      background: #070b16;
+      border-radius: var(--r-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
       overflow: hidden;
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-family: var(--font-mono);
       position: relative;
     }
     .terminal-header {
       background: rgba(255,255,255,0.03);
       padding: 10px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 8px;
     }
-    .terminal-dot {
-      width: 12px; height: 12px; border-radius: 50%;
-    }
+    .terminal-dot { width: 11px; height: 11px; border-radius: 50%; }
+    .terminal-title { margin-left: 6px; font-size: .72rem; color: #6b7488; }
     .terminal-body {
       padding: 18px 22px;
-      color: #c9d1d9;
+      color: #cfd6e6;
       font-size: 13px;
-      line-height: 1.65;
-      min-height: 280px;
+      line-height: 1.7;
+      min-height: 300px;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
-    .terminal-prompt { color: #58a6ff; }
-    .terminal-cmd    { color: #f0f6fc; font-weight: 500; }
-    .terminal-out    { color: #7d8590; }
-    .terminal-key    { color: #d2a8ff; }
-    .terminal-val    { color: #79c0ff; }
-    .terminal-cursor {
-      display: inline-block;
-      width: 8px; height: 14px;
-      background: #58a6ff;
-      vertical-align: text-bottom;
+    .t-prompt { color: var(--accent); }
+    .t-cmd    { color: #f0f4fc; font-weight: 500; }
+    .t-out    { color: #6b7488; }
+    .t-key    { color: #a78bfa; }
+    .t-val    { color: #67e8f9; }
+    .t-cursor {
+      display: inline-block; width: 7px; height: 14px;
+      background: var(--accent); vertical-align: text-bottom;
       animation: termBlink 1.06s steps(2, jump-none) infinite;
     }
     @keyframes termBlink { 50% { opacity: 0; } }
-    .terminal::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(transparent 50%, rgba(0,0,0,0.06) 50%);
-      background-size: 100% 3px;
-      pointer-events: none;
-      mix-blend-mode: overlay;
-    }
 
-    /* ========== CONSTELLATION GRAPH ========== */
+    /* resume banner */
+    .resume-banner {
+      background: linear-gradient(100deg, rgba(var(--accent-rgb),0.14), rgba(var(--accent-2-rgb),0.14));
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: clamp(24px, 4vw, 36px);
+      display: flex; flex-wrap: wrap; gap: var(--sp-6);
+      align-items: center; justify-content: space-between;
+    }
+    .resume-banner .rb-copy { max-width: 42ch; }
+
+    /* education */
+    .edu-head { display: flex; flex-wrap: wrap; gap: 4px var(--sp-4); align-items: baseline; justify-content: space-between; }
+    .edu-degree { font-family: var(--font-mono); font-size: .78rem; color: var(--accent); margin-top: 2px; }
+    .edu-facts { display: flex; flex-direction: column; gap: 6px; margin: var(--sp-4) 0; font-size: .92rem; color: var(--text-muted); }
+    .edu-facts .gpa { color: var(--live); font-weight: 700; font-family: var(--font-mono); }
+    .edu-courses .label { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: var(--sp-2); display: block; }
+
+    /* constellation */
     .constellation-wrapper {
       position: relative;
-      background: radial-gradient(ellipse at center,
-        rgba(15, 23, 42, 0.95) 0%,
-        rgba(2, 6, 23, 1) 100%);
-      border-radius: 20px;
+      background: radial-gradient(ellipse at center, #0a1020 0%, #050810 100%);
+      border-radius: var(--r-xl);
       overflow: hidden;
-      border: 1px solid rgba(99, 102, 241, 0.15);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      border: 1px solid rgba(var(--accent-rgb), 0.18);
+      box-shadow: var(--shadow-card);
     }
-    .constellation-canvas {
-      display: block;
-      width: 100%;
-      height: 540px;
-      cursor: grab;
-    }
-    @media (max-width: 768px) {
-      .constellation-canvas { height: 420px; }
-      .constellation-legend { font-size: 9px; gap: 4px; }
-      .legend-chip { padding: 3px 7px; }
-    }
+    .constellation-canvas { display: block; width: 100%; height: 520px; cursor: grab; }
     .constellation-canvas:active { cursor: grabbing; }
+    @media (max-width: 768px) { .constellation-canvas { height: 400px; } }
     .constellation-legend {
-      position: absolute;
-      top: 16px; left: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 10px;
+      position: absolute; top: 14px; left: 14px;
+      display: flex; flex-wrap: wrap; gap: 6px;
+      font-family: var(--font-mono); font-size: 10px;
     }
     .legend-chip {
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.85);
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      padding: 4px 9px; border-radius: var(--r-pill);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.85); display: flex; align-items: center; gap: 6px;
       backdrop-filter: blur(8px);
     }
-    .legend-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-    }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
     .constellation-info {
-      position: absolute;
-      bottom: 16px; right: 16px;
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 11px;
+      position: absolute; bottom: 14px; right: 14px;
+      font-family: var(--font-mono); font-size: 11px;
       color: rgba(255,255,255,0.5);
-      background: rgba(0,0,0,0.4);
-      padding: 6px 12px;
-      border-radius: 8px;
+      background: rgba(0,0,0,0.4); padding: 6px 12px; border-radius: 8px;
       backdrop-filter: blur(8px);
     }
+    .constellation-fallback { display: none; padding: clamp(20px, 4vw, 32px); }
+    .constellation-fallback .chips { margin-top: var(--sp-4); }
 
-    /* ========== SPARKLINE SKILL CARDS ========== */
-    .skill-spark {
-      background: linear-gradient(135deg,
-        rgba(99,102,241,0.04),
-        rgba(236,72,153,0.04));
-      border: 1px solid rgba(99,102,241,0.12);
-      border-radius: 12px;
-      padding: 14px 16px;
-      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-    }
-    .skill-spark:hover {
-      transform: translateY(-3px);
-      border-color: rgba(99,102,241,0.4);
-      background: linear-gradient(135deg,
-        rgba(99,102,241,0.1),
-        rgba(236,72,153,0.1));
-    }
-    .dark .skill-spark {
-      background: linear-gradient(135deg,
-        rgba(139,92,246,0.06),
-        rgba(236,72,153,0.06));
-      border-color: rgba(139,92,246,0.2);
-    }
-    .spark-svg {
-      width: 100%;
-      height: 28px;
-      margin-top: 6px;
-    }
+    /* github */
+    .gh-panel { display: flex; flex-direction: column; align-items: center; gap: var(--sp-4); }
+    .gh-panel img { width: 100%; max-width: 860px; }
+
+    /* hobbies */
+    .hobby-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--sp-4); }
+    .hobby { text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); }
+    .hobby .emoji { font-size: 1.9rem; line-height: 1; }
+    .hobby .h-name { font-weight: 700; font-size: 1rem; }
+    .hobby .h-desc { color: var(--text-muted); font-size: .84rem; }
   </style>
 </head>
-<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Header -->
-  <header class="sticky top-0 bg-white dark:bg-gray-900 shadow-md z-50 p-4 transition-colors duration-300">
-    <div class="container mx-auto flex items-center justify-between">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Charith Purushotham</h1>
+  <!-- ===================== HEADER (canonical) ===================== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="Charith Purushotham — home">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <g stroke="currentColor" stroke-width="1.6" opacity="0.85">
+            <line x1="8" y1="10" x2="16" y2="16"/><line x1="16" y1="16" x2="24" y2="9"/>
+            <line x1="16" y1="16" x2="12" y2="24"/><line x1="16" y1="16" x2="23" y2="22"/>
+          </g>
+          <g fill="currentColor">
+            <circle cx="8" cy="10" r="2.3"/><circle cx="24" cy="9" r="2.3"/>
+            <circle cx="12" cy="24" r="2.3"/><circle cx="23" cy="22" r="2.3"/>
+          </g>
+          <circle cx="16" cy="16" r="3" fill="#8b5cf6"/>
+        </svg>
+        <span>Charith Purushotham</span>
+      </a>
 
-      <div class="flex items-center gap-4">
-        <!-- Dark Mode Toggle -->
-        <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
-          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-          </svg>
-          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-          </svg>
-        </button>
-
-        <!-- Hamburger Button (Only on Mobile) -->
-        <button id="menu-toggle" class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
-
-      <!-- Navigation Menu -->
-      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white dark:bg-gray-800 shadow sm:shadow-none sm:bg-transparent dark:sm:bg-transparent p-4 sm:p-0 z-50 transition-colors duration-300">
-        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
-          <li><a href="index.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Home</a></li>
-          <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
-          <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
-          <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
-          <li><a href="research.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Research</a></li>
-          <li><a href="building.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Building</a></li>
-          <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
+      <nav aria-label="Primary">
+        <ul class="nav-links" id="nav-links">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="about.html">About</a></li>
+          <li><a class="nav-link" href="experience.html">Experience</a></li>
+          <li><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+          <li><a class="nav-link" href="research.html">Research</a></li>
+          <li><a class="nav-link" href="building.html">Building</a></li>
+          <li><a class="nav-link" href="contact.html">Contact</a></li>
         </ul>
       </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="icon-btn theme-toggle" aria-label="Toggle color theme">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button id="nav-toggle" class="icon-btn nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main class="container mx-auto px-4 py-16 relative overflow-hidden">
-    <!-- Floating background elements -->
-    <div class="absolute top-10 right-10 w-64 h-64 bg-blue-200 dark:bg-purple-900 rounded-full opacity-20 blur-3xl" style="animation: float 6s ease-in-out infinite;"></div>
-    <div class="absolute bottom-20 left-10 w-80 h-80 bg-purple-200 dark:bg-blue-900 rounded-full opacity-20 blur-3xl" style="animation: float 6s ease-in-out infinite; animation-delay: 2s;"></div>
+  <main id="main">
+    <!-- ===================== HERO / PROFILE ===================== -->
+    <section class="page-hero bg-grid" aria-labelledby="about-h">
+      <div class="container">
+        <span class="eyebrow reveal">// about</span>
+        <h1 class="h1 reveal d1" id="about-h">Charith Purushotham</h1>
+        <p class="lead measure reveal d2" style="margin-top:14px;">
+          Machine Learning Engineer at Owl AI, building real-time computer-vision systems that run
+          live on broadcast television.
+        </p>
 
-    <div class="relative z-10">
-      <!-- Hero Section -->
-      <div class="text-center mb-12 fade-in">
-        <h1 class="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-          About Me
-        </h1>
-        <p class="text-lg text-gray-600 dark:text-gray-400">Get to know me better</p>
-      </div>
-
-      <!-- About Me Card -->
-      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 md:p-10 mb-12 border-l-4 border-blue-500 dark:border-purple-500 fade-in">
-        <div class="flex flex-col md:flex-row items-center gap-8">
-          <!-- Profile Picture (3D mouse-tilt + rotating glow ring) -->
-          <div class="flex-shrink-0">
-            <div class="pic-tilt-wrapper" id="pic-tilt-wrapper">
-              <div class="relative pic-tilt" id="pic-tilt">
-                <div class="pic-glow-ring"></div>
-                <img src="portfolio_image.png" alt="Charith Purushotham"
-                     class="relative rounded-full w-40 h-40 md:w-48 md:h-48 object-cover border-4 border-white dark:border-gray-800 shadow-xl">
-              </div>
-            </div>
-            <div class="text-center mt-4">
-              <h3 class="text-xl font-bold dark:text-white">Charith Purushotham</h3>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Data Scientist & ML Engineer</p>
-            </div>
-          </div>
-
-          <!-- About Text -->
-          <div class="flex-1">
-            <div class="space-y-6">
+        <div class="card reveal d3" style="margin-top:var(--sp-10); padding: clamp(24px,4vw,40px);">
+          <div class="profile-grid">
+            <div class="profile-side">
+              <img class="profile-photo" src="portfolio_image.png" alt="Charith Purushotham" loading="lazy">
               <div>
-                <div class="flex items-center mb-3">
-                  <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
-                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
-                    </svg>
-                  </div>
-                  <h4 class="text-lg font-semibold dark:text-white">Academic Focus</h4>
-                </div>
-                <p class="text-sm md:text-base leading-relaxed text-gray-700 dark:text-gray-300">
-                  I am a passionate Machine Learning Engineer and Software Developer currently pursuing my Master of Science in Computer Science at the University of Colorado Boulder (GPA: 3.93/4.00). With expertise in Machine Learning, Deep Learning, and AI Systems, I specialize in building production-ready ML pipelines, real-time inference systems, and scalable data infrastructure. Currently, I'm working at Owl AI on real-time sports analytics using computer vision, temporal modeling, and probabilistic methods, while also serving as a Teaching Assistant for Distributed Systems.
-                </p>
+                <div class="profile-name">Charith Purushotham</div>
+                <div class="profile-role">ML Engineer · Owl AI</div>
               </div>
-
-              <div>
-                <div class="flex items-center mb-3">
-                  <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
-                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"/>
-                      <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/>
-                    </svg>
-                  </div>
-                  <h4 class="text-lg font-semibold dark:text-white">Professional Experience</h4>
-                </div>
-                <p class="text-sm md:text-base leading-relaxed text-gray-700 dark:text-gray-300">
-                  My professional experience includes ML engineering internships at Owl AI (building real-time snowboard analytics with TensorRT and MediaMTX) and Idaho National Laboratory (developing segmentation models for nuclear materials using SAM/SAM2 and HPC infrastructure). Previously at Phamax, I co-architected Ariya, a Microsoft-certified Teams SaaS assistant with RAG capabilities, and optimized data pipelines using Azure Cognitive Search, Databricks, and Spark. Currently, I serve as a Teaching Assistant for Distributed Systems at CU Boulder, supporting Prof. Mark Zhao. I'm also actively involved in hackathons, winning 3rd place in T9-MediHack 2025 and 7th place in AWS Jam, and contribute as a Technical/Data Consultant at Data Buffs and Co-Founder of Layers Club.
-                </p>
-              </div>
+              <span class="status status-live"><span class="dot dot-live"></span> On air</span>
+            </div>
+            <div class="bio">
+              <p class="bio-p muted">
+                I'm a <strong style="color:var(--text)">Machine Learning Engineer at Owl AI</strong> in
+                Boulder, Colorado, building real-time computer-vision systems for live sports broadcast —
+                pickleball line calling for Major League Pickleball (on FOX, PickleballTV and YouTube) and
+                trick tracking for X Games. The systems run on air, so my focus is reliability under
+                real-time constraints: broadcast ingest, GPU inference, and instant on-screen graphics.
+              </p>
+              <p class="bio-p muted">
+                Before Owl AI I built segmentation and property-prediction models for nuclear materials at
+                <strong style="color:var(--text)">Idaho National Laboratory</strong>, and co-architected a
+                Microsoft-certified RAG assistant and data pipelines at <strong style="color:var(--text)">Phamax</strong>.
+                I hold an <strong style="color:var(--text)">MS in Computer Science from CU Boulder</strong>
+                (graduated May 2026, GPA 3.94/4.00), where I was also a Teaching Assistant for Distributed Systems.
+              </p>
             </div>
           </div>
         </div>
       </div>
+    </section>
 
-    <!-- Terminal $ whoami block -->
-    <div class="mb-12 fade-in">
-      <div class="terminal">
-        <div class="terminal-header">
-          <span class="terminal-dot" style="background:#ff5f56"></span>
-          <span class="terminal-dot" style="background:#ffbd2e"></span>
-          <span class="terminal-dot" style="background:#27c93f"></span>
-          <span class="ml-3 text-xs text-gray-400 font-mono">charith@portfolio: ~</span>
-        </div>
-        <div class="terminal-body" id="terminal-body">
-          <span id="terminal-output"></span><span class="terminal-cursor"></span>
+    <!-- ===================== TERMINAL $ whoami ===================== -->
+    <section class="section-sm section-alt" aria-labelledby="whoami-h">
+      <div class="container">
+        <span class="eyebrow reveal">// whoami</span>
+        <h2 class="h2 reveal d1" id="whoami-h" style="margin-bottom:var(--sp-6);">The short version</h2>
+        <div class="terminal reveal d2">
+          <div class="terminal-header">
+            <span class="terminal-dot" style="background:#ff5f56"></span>
+            <span class="terminal-dot" style="background:#ffbd2e"></span>
+            <span class="terminal-dot" style="background:#27c93f"></span>
+            <span class="terminal-title font-mono">charith@owl-ai: ~</span>
+          </div>
+          <div class="terminal-body"><span id="terminal-output"></span><span class="t-cursor" aria-hidden="true"></span></div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Resume Download Section -->
-    <div class="mb-12 fade-in">
-      <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-700 dark:via-purple-700 dark:to-pink-700 rounded-2xl p-8 shadow-2xl">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div class="text-white">
-            <h3 class="text-2xl md:text-3xl font-bold mb-2">Download My Resume</h3>
-            <p class="text-sm md:text-base text-blue-100 opacity-90">Two streams, two formats — pick the one that fits your role.</p>
+    <!-- ===================== RESUME / TRANSCRIPT ===================== -->
+    <section class="section-sm" aria-labelledby="docs-h">
+      <div class="container">
+        <div class="resume-banner reveal">
+          <div class="rb-copy">
+            <span class="eyebrow">// documents</span>
+            <h2 class="h3" id="docs-h">Résumé &amp; transcript</h2>
+            <p class="muted small" style="margin-top:6px;">Two résumé streams — pick the one that fits the role.</p>
           </div>
-          <div class="flex flex-wrap gap-3">
-            <a href="Documents/Resume-Charith Purushotham - AIML.pdf" target="_blank" class="inline-flex items-center px-5 py-3 bg-white text-purple-700 hover:bg-gray-100 font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              AIML Resume
+          <div class="btn-row">
+            <a class="btn btn-primary" href="Documents/Resume-Charith Purushotham - AIML.pdf" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg>
+              Résumé · AIML
             </a>
-            <a href="Documents/Resume-Charith Purushotham - SDE.pdf" target="_blank" class="inline-flex items-center px-5 py-3 bg-gray-900 text-white hover:bg-gray-800 font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 border border-white/20">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              SDE Resume
+            <a class="btn btn-ghost" href="Documents/Resume-Charith Purushotham - SDE.pdf" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg>
+              Résumé · SDE
             </a>
-            <a href="Documents/Transcript_Spring_2026.pdf" target="_blank" class="inline-flex items-center px-5 py-3 bg-white/10 backdrop-blur text-white hover:bg-white/20 font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 border border-white/30">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <a class="btn btn-quiet" href="Documents/Transcript_Spring_2026.pdf" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z"/></svg>
               Transcript
             </a>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Education Section -->
-    <div class="mb-12 fade-in">
-      <div class="flex items-center mb-6">
-        <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
-          </svg>
-        </div>
-        <div>
-          <h3 class="text-3xl font-bold dark:text-white">Academic Qualifications</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Educational background and achievements</p>
+    <!-- ===================== EDUCATION ===================== -->
+    <section class="section" aria-labelledby="edu-h">
+      <div class="container">
+        <span class="eyebrow reveal">// education</span>
+        <h2 class="h2 reveal d1" id="edu-h">Academic background</h2>
+        <div class="grid grid-2" style="margin-top:var(--sp-8);">
+          <!-- CU Boulder -->
+          <article class="card card-hover reveal">
+            <div class="edu-head">
+              <div>
+                <h3 class="card-title">University of Colorado Boulder</h3>
+                <p class="edu-degree">Master of Science · Computer Science</p>
+              </div>
+              <span class="badge">Graduated May 2026</span>
+            </div>
+            <div class="edu-facts">
+              <span>GPA <span class="gpa">3.94 / 4.00</span></span>
+              <span>Aug 2024 – May 2026 · Boulder, CO</span>
+            </div>
+            <div class="edu-courses">
+              <span class="label">Key coursework</span>
+              <div class="chips">
+                <span class="chip">Deep Learning</span><span class="chip">NLP</span>
+                <span class="chip">Systems for ML</span><span class="chip">Computer Vision</span>
+                <span class="chip">Big Data Architecture</span><span class="chip">Data Mining</span>
+                <span class="chip">Algorithms</span>
+              </div>
+            </div>
+            <div class="btn-row" style="margin-top:var(--sp-5);">
+              <a class="btn btn-quiet btn-sm" href="Documents/Transcript_Spring_2026.pdf" target="_blank" rel="noopener">View transcript ↗</a>
+            </div>
+          </article>
+
+          <!-- DSCE -->
+          <article class="card card-hover reveal d1">
+            <div class="edu-head">
+              <div>
+                <h3 class="card-title">Dayananda Sagar College of Engineering</h3>
+                <p class="edu-degree">Bachelor of Engineering · Computer Science</p>
+              </div>
+            </div>
+            <div class="edu-facts">
+              <span>CGPA <span class="gpa">9.68 / 10.0</span></span>
+              <span>Aug 2018 – Jun 2022 · Bengaluru, India</span>
+            </div>
+            <div class="edu-courses">
+              <span class="label">Key coursework</span>
+              <div class="chips">
+                <span class="chip">AI / ML</span><span class="chip">DSA</span>
+                <span class="chip">DBMS</span><span class="chip">OOP</span>
+                <span class="chip">Operating Systems</span><span class="chip">Big Data</span>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
+    </section>
 
-      <div class="grid md:grid-cols-2 gap-6">
-        <!-- CU Boulder Card -->
-        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-l-4 border-blue-500 dark:border-purple-500">
-          <div class="flex items-start mb-4">
-            <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-              <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z"/>
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-xl font-bold text-gray-900 dark:text-white">University of Colorado Boulder</h4>
-              <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">Master of Science</p>
-            </div>
+    <!-- ===================== TECH STACK CONSTELLATION ===================== -->
+    <section class="section section-alt" aria-labelledby="stack-h">
+      <div class="container">
+        <span class="eyebrow reveal">// tech stack</span>
+        <h2 class="h2 reveal d1" id="stack-h">Stack constellation</h2>
+        <p class="muted small reveal d2 font-mono" style="margin:6px 0 var(--sp-8);">// drag a node · hover to highlight neighbors</p>
+
+        <div class="constellation-wrapper reveal d2">
+          <canvas id="constellation" class="constellation-canvas" aria-hidden="true"></canvas>
+          <div class="constellation-legend" aria-hidden="true">
+            <div class="legend-chip"><span class="legend-dot" style="background:#22d3ee"></span>Languages</div>
+            <div class="legend-chip"><span class="legend-dot" style="background:#8b5cf6"></span>ML / CV</div>
+            <div class="legend-chip"><span class="legend-dot" style="background:#34d399"></span>Systems / Streaming</div>
+            <div class="legend-chip"><span class="legend-dot" style="background:#fbbf24"></span>Cloud / MLOps</div>
+            <div class="legend-chip"><span class="legend-dot" style="background:#a78bfa"></span>Data</div>
           </div>
+          <div class="constellation-info" aria-hidden="true">nodes: <span id="node-count">0</span> · edges: <span id="edge-count">0</span></div>
 
-          <div class="space-y-2 mb-4">
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-blue-600 dark:text-purple-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300"><strong>Computer Science</strong></span>
-            </div>
-
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong class="text-green-600 dark:text-green-400">3.93/4.00</strong></span>
-            </div>
-
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300">Aug 2024 – May 2026 (Expected)</span>
-            </div>
-          </div>
-
-          <div class="pt-3 border-t border-blue-200 dark:border-gray-700">
-            <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">COMPLETED COURSES</p>
-            <div class="flex flex-wrap gap-2 mb-3">
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Deep Learning</span>
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">NLP</span>
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Systems for ML</span>
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Computer Vision</span>
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Data Mining</span>
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Algorithms</span>
-              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">Tech Entrepreneurship</span>
-            </div>
-            <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">CURRENTLY (SPRING 2026)</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 rounded-full text-xs font-medium">Big Data Architecture</span>
-              <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 rounded-full text-xs font-medium">Quality Management</span>
-            </div>
-            <div class="mt-4 pt-3 border-t border-blue-200 dark:border-gray-700">
-              <a href="Documents/Transcript_Spring_2026.pdf" target="_blank" class="inline-flex items-center text-xs font-semibold text-blue-600 dark:text-purple-400 hover:underline">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                View Transcript
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bachelor's Card -->
-        <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-l-4 border-purple-500 dark:border-pink-500">
-          <div class="flex items-start mb-4">
-            <div class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-              <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z"/>
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-xl font-bold text-gray-900 dark:text-white">Dayananda Sagar College of Engineering</h4>
-              <p class="text-sm text-purple-600 dark:text-pink-400 font-semibold">Bachelor of Engineering</p>
-            </div>
-          </div>
-
-          <div class="space-y-2 mb-4">
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-purple-600 dark:text-pink-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300"><strong>Computer Science</strong></span>
-            </div>
-
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300">CGPA: <strong class="text-green-600 dark:text-green-400">9.68/10.0</strong></span>
-            </div>
-
-            <div class="flex items-center">
-              <svg class="w-5 h-5 text-purple-600 dark:text-pink-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-sm text-gray-700 dark:text-gray-300">Aug 2018 – Jun 2022</span>
-            </div>
-          </div>
-
-          <div class="pt-3 border-t border-purple-200 dark:border-gray-700">
-            <p class="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">KEY COURSES</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">AI/ML</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">DSA</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">DBMS</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">OOP</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">OS</span>
-              <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">Big Data</span>
+          <!-- Reduced-motion / no-canvas fallback -->
+          <div class="constellation-fallback" id="constellation-fallback">
+            <p class="muted small">Core tools across languages, ML/CV, real-time systems, cloud and data:</p>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip">TypeScript</span><span class="chip">SQL</span><span class="chip">C++</span>
+              <span class="chip">PyTorch</span><span class="chip">OpenCV</span><span class="chip">SAM</span><span class="chip">YOLO</span>
+              <span class="chip">RF-DETR</span><span class="chip">Sapiens</span>
+              <span class="chip">GStreamer</span><span class="chip">TensorRT</span><span class="chip">CUDA</span><span class="chip">Godot</span>
+              <span class="chip">real-time streaming</span><span class="chip">FastAPI</span><span class="chip">Docker</span>
+              <span class="chip">Azure</span><span class="chip">AWS</span><span class="chip">MLflow</span>
+              <span class="chip">Databricks</span><span class="chip">Spark</span><span class="chip">PostgreSQL</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- ========== TECH STACK CONSTELLATION ========== -->
-    <div class="mt-12 fade-in">
-      <div class="flex items-center mb-6">
-        <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="6" cy="6" r="2" stroke-width="2"/>
-            <circle cx="18" cy="6" r="2" stroke-width="2"/>
-            <circle cx="12" cy="14" r="2" stroke-width="2"/>
-            <circle cx="6" cy="20" r="2" stroke-width="2"/>
-            <circle cx="18" cy="20" r="2" stroke-width="2"/>
-            <line x1="6" y1="8" x2="11" y2="12" stroke-width="1.5"/>
-            <line x1="18" y1="8" x2="13" y2="12" stroke-width="1.5"/>
-            <line x1="11" y1="16" x2="7" y2="18" stroke-width="1.5"/>
-            <line x1="13" y1="16" x2="17" y2="18" stroke-width="1.5"/>
-          </svg>
-        </div>
-        <div>
-          <h3 class="text-3xl font-bold dark:text-white">Tech Stack Constellation</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 font-mono">// drag a node, hover to highlight neighbors</p>
-        </div>
-      </div>
+    <!-- ===================== GITHUB ACTIVITY ===================== -->
+    <section class="section" aria-labelledby="gh-h">
+      <div class="container">
+        <span class="eyebrow reveal">// github</span>
+        <h2 class="h2 reveal d1" id="gh-h">Contribution activity</h2>
+        <p class="muted small reveal d2 font-mono" style="margin:6px 0 var(--sp-6);">// @charithcherry</p>
 
-      <div class="constellation-wrapper">
-        <canvas id="constellation" class="constellation-canvas"></canvas>
-        <div class="constellation-legend">
-          <div class="legend-chip"><span class="legend-dot" style="background:#6366f1"></span>Languages</div>
-          <div class="legend-chip"><span class="legend-dot" style="background:#a855f7"></span>ML / DL</div>
-          <div class="legend-chip"><span class="legend-dot" style="background:#06b6d4"></span>Frontend</div>
-          <div class="legend-chip"><span class="legend-dot" style="background:#10b981"></span>Backend</div>
-          <div class="legend-chip"><span class="legend-dot" style="background:#f59e0b"></span>Cloud</div>
-          <div class="legend-chip"><span class="legend-dot" style="background:#ec4899"></span>Data</div>
-          <div class="legend-chip"><span class="legend-dot" style="background:#eab308"></span>LLM / RAG</div>
-        </div>
-        <div class="constellation-info" id="constellation-info">node count: <span id="node-count">0</span> · edges: <span id="edge-count">0</span></div>
-      </div>
-    </div>
-
-    <!-- ========== TOP SKILLS WITH SPARKLINES ========== -->
-    <div class="mt-12 fade-in">
-      <div class="flex items-center mb-6">
-        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-4">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <polyline points="3,17 9,11 13,15 21,7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <polyline points="14,7 21,7 21,14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div>
-          <h3 class="text-3xl font-bold dark:text-white">Top Skills · Usage Intensity</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 font-mono">// last 7 years of commits / projects / shipping</p>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="sparklines-grid">
-        <!-- populated by JS -->
-      </div>
-    </div>
-
-    <!-- ========== GITHUB CONTRIBUTION HEATMAP ========== -->
-    <div class="mt-12 fade-in">
-      <div class="flex items-center mb-6">
-        <div class="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-900 dark:from-gray-600 dark:to-gray-800 rounded-lg flex items-center justify-center mr-4">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-          </svg>
-        </div>
-        <div>
-          <h3 class="text-3xl font-bold dark:text-white">GitHub Activity</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 font-mono">// live contribution graph · @charithcherry</p>
-        </div>
-      </div>
-      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-        <div class="flex justify-center overflow-x-auto">
-          <img src="https://ghchart.rshah.org/8b5cf6/charithcherry"
+        <div class="card gh-panel reveal d2">
+          <img src="https://ghchart.rshah.org/22d3ee/charithcherry"
                alt="charithcherry's GitHub contribution graph"
-               class="w-full max-w-4xl"
                loading="lazy"
                onerror="this.style.display='none'; document.getElementById('gh-fallback').style.display='block';">
-        </div>
-        <p id="gh-fallback" class="text-sm text-gray-500 dark:text-gray-400 text-center mt-2 font-mono" style="display:none;">
-          // GitHub heatmap unavailable — see <a href="https://github.com/charithcherry" target="_blank" class="text-purple-600 dark:text-purple-400 hover:underline">github.com/charithcherry</a>
-        </p>
-        <div class="flex items-center justify-center gap-4 mt-4 text-xs font-mono text-gray-500 dark:text-gray-400">
-          <a href="https://github.com/charithcherry" target="_blank" class="hover:text-purple-600 dark:hover:text-purple-400 transition-colors flex items-center gap-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-            view on github
-          </a>
+          <p id="gh-fallback" class="muted small font-mono" style="display:none;">
+            // heatmap unavailable — see <a href="https://github.com/charithcherry" target="_blank" rel="noopener" style="color:var(--accent)">github.com/charithcherry</a>
+          </p>
+          <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry" target="_blank" rel="noopener">View on GitHub ↗</a>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Hobbies Section -->
-    <div class="mt-12 fade-in">
-      <div class="flex items-center mb-6">
-        <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-orange-600 rounded-lg flex items-center justify-center mr-4">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
-          </svg>
-        </div>
-        <div>
-          <h3 class="text-3xl font-bold dark:text-white">Hobbies & Interests</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">What I love to do in my free time</p>
-        </div>
-      </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Gym Card -->
-        <div class="bg-gradient-to-br from-red-50 to-orange-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-red-500 dark:border-red-400">
-          <div class="flex flex-col items-center text-center">
-            <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zM13 3a1 1 0 00-1 1v3a1 1 0 001 1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3zm1 2v1h1V5h-1z" clip-rule="evenodd"/>
-                <path d="M11 4a1 1 0 10-2 0v1a1 1 0 002 0V4zM10 7a1 1 0 011 1v1h2a1 1 0 110 2h-3a1 1 0 01-1-1V8a1 1 0 011-1zM16 9a1 1 0 100 2 1 1 0 000-2zM9 13a1 1 0 011-1h1a1 1 0 110 2v2a1 1 0 11-2 0v-3zM7 11a1 1 0 100-2H4a1 1 0 100 2h3zM17 13a1 1 0 01-1 1h-2a1 1 0 110-2h2a1 1 0 011 1zM16 17a1 1 0 100-2h-3a1 1 0 100 2h3z"/>
-              </svg>
-            </div>
-            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Gym</h4>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Staying fit and building strength</p>
-          </div>
-        </div>
-
-        <!-- Football Card -->
-        <div class="bg-gradient-to-br from-green-50 to-teal-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-green-500 dark:border-green-400">
-          <div class="flex flex-col items-center text-center">
-            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"/>
-              </svg>
-            </div>
-            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Football</h4>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Team spirit and strategy</p>
-          </div>
-        </div>
-
-        <!-- Cricket Card -->
-        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-blue-500 dark:border-blue-400">
-          <div class="flex flex-col items-center text-center">
-            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
-              </svg>
-            </div>
-            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Cricket</h4>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Passion for the gentleman's game</p>
-          </div>
-        </div>
-
-        <!-- Biking Card -->
-        <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-t-4 border-purple-500 dark:border-purple-400">
-          <div class="flex flex-col items-center text-center">
-            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
-                <path d="M3 4a1 1 0 00-1 1v2.5a.5.5 0 001 0V5a1 1 0 011-1h2.586l-1.293 1.293a1 1 0 101.414 1.414L8.414 5H12a1 1 0 01.707.293l2.586 2.586a1 1 0 11-1.414 1.414L12.586 8H11a1 1 0 00-.707.293L9 9.586a1 1 0 11-1.414-1.414L8.879 7H4a1 1 0 01-1-1z"/>
-              </svg>
-            </div>
-            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Biking</h4>
-            <p class="text-sm text-gray-600 dark:text-gray-400">Exploring and adventure</p>
+    <!-- ===================== HOBBIES ===================== -->
+    <section class="section section-alt" aria-labelledby="hob-h">
+      <div class="container">
+        <span class="eyebrow reveal">// off the clock</span>
+        <h2 class="h2 reveal d1" id="hob-h">Hobbies &amp; interests</h2>
+        <div class="grid reveal d2" style="margin-top:var(--sp-8);">
+          <div class="hobby-grid">
+            <div class="card hobby"><span class="emoji" aria-hidden="true">🏋️</span><span class="h-name">Gym</span><span class="h-desc">Strength &amp; discipline</span></div>
+            <div class="card hobby"><span class="emoji" aria-hidden="true">⚽</span><span class="h-name">Football</span><span class="h-desc">Team play &amp; strategy</span></div>
+            <div class="card hobby"><span class="emoji" aria-hidden="true">🏏</span><span class="h-name">Cricket</span><span class="h-desc">The long game</span></div>
+            <div class="card hobby"><span class="emoji" aria-hidden="true">🚴</span><span class="h-name">Biking</span><span class="h-desc">Exploring &amp; endurance</span></div>
+            <div class="card hobby"><span class="emoji" aria-hidden="true">🥒</span><span class="h-name">Pickleball</span><span class="h-desc">Also my day job</span></div>
+            <div class="card hobby"><span class="emoji" aria-hidden="true">🛹</span><span class="h-name">Skateboarding</span><span class="h-desc">On and off the console</span></div>
+            <div class="card hobby"><span class="emoji" aria-hidden="true">🏂</span><span class="h-name">Snowboarding</span><span class="h-desc">Colorado winters</span></div>
           </div>
         </div>
       </div>
-
-      <div class="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl border-l-4 border-blue-500 dark:border-purple-500">
-        <p class="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-          <span class="font-semibold text-blue-600 dark:text-blue-400">Staying Active:</span> These activities help me maintain a healthy work-life balance, keep my mind sharp, and build discipline that translates into my professional work. Whether it's the strategic thinking in cricket, the teamwork in football, or the endurance in gym and biking, each hobby contributes to my personal growth.
-        </p>
-      </div>
-    </div>
-    </div>
+    </section>
   </main>
 
-  <style>
-    /* String Tune-style reveals */
-    .reveal {
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-    .reveal.in {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+  <!-- ===================== FOOTER (canonical) ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-copy">
+        <span class="mono">© 2026 Charith Purushotham</span> · Built with plain HTML, CSS &amp; JS.
+      </div>
+      <nav class="social-links" aria-label="Social">
+        <a class="social-link" href="https://github.com/charithcherry" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a class="social-link" href="https://www.linkedin.com/in/charith-purushotham-0068281aa/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM8 19H5V8h3v11zM6.5 6.7C5.5 6.7 4.8 6 4.8 5S5.5 3.3 6.5 3.3 8.2 4 8.2 5 7.5 6.7 6.5 6.7zM20 19h-3v-5.6c0-3.4-4-3.1-4 0V19h-3V8h3v1.8c1.4-2.6 7-2.8 7 2.5V19z"/></svg>
+        </a>
+        <a class="social-link" href="mailto:charithcherry1100@gmail.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="assets/js/site.js"></script>
+
+  <!-- ========== TERMINAL $ whoami TYPEWRITER (plain JS, reduced-motion safe) ========== -->
   <script>
-    // Scroll-reveal: stagger fade-up as elements enter viewport
-    document.addEventListener('DOMContentLoaded', () => {
-      const targets = document.querySelectorAll(
-        '.bg-white.dark\\:bg-gray-800, .bg-gradient-to-br, .bg-gradient-to-r'
-      );
-      targets.forEach(el => el.classList.add('reveal'));
-
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry, idx) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => entry.target.classList.add('in'), idx * 60);
-            io.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
-
-      targets.forEach(el => io.observe(el));
-    });
-  </script>
-
-  <!-- ========== 3D PROFILE PIC TILT ========== -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const wrapper = document.getElementById('pic-tilt-wrapper');
-      const tilt = document.getElementById('pic-tilt');
-      if (!wrapper || !tilt) return;
-      wrapper.addEventListener('pointermove', (e) => {
-        const r = wrapper.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        tilt.style.transform = `rotateY(${x * 18}deg) rotateX(${-y * 18}deg) translateZ(20px)`;
-      });
-      wrapper.addEventListener('pointerleave', () => {
-        tilt.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0)';
-      });
-    });
-  </script>
-
-  <!-- ========== TERMINAL $ whoami TYPEWRITER ========== -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const out = document.getElementById('terminal-output');
+    document.addEventListener('DOMContentLoaded', function () {
+      var out = document.getElementById('terminal-output');
       if (!out) return;
 
-      // Each token: {t: text, c: class, p: pause-after-ms}
-      const script = [
-        { t: '$ ', c: 'terminal-prompt' }, { t: 'whoami\n', c: 'terminal-cmd', p: 80 },
-        { t: '> charith.purushotham\n\n', c: 'terminal-out', p: 120 },
+      var script = [
+        { t: '$ ', c: 't-prompt' }, { t: 'whoami\n', c: 't-cmd', p: 80 },
+        { t: '> charith.purushotham\n\n', c: 't-out', p: 120 },
 
-        { t: '$ ', c: 'terminal-prompt' }, { t: 'pwd\n', c: 'terminal-cmd', p: 60 },
-        { t: '> /usr/owl-ai/ml/realtime-snowboard\n\n', c: 'terminal-out', p: 120 },
+        { t: '$ ', c: 't-prompt' }, { t: 'pwd\n', c: 't-cmd', p: 60 },
+        { t: '> /owl-ai/ml/live-sports-cv\n\n', c: 't-out', p: 120 },
 
-        { t: '$ ', c: 'terminal-prompt' }, { t: 'cat ~/.profile\n', c: 'terminal-cmd', p: 80 },
-        { t: '> location:    ', c: 'terminal-key' }, { t: 'Boulder, Colorado\n', c: 'terminal-val' },
-        { t: '> education:   ', c: 'terminal-key' }, { t: 'MS Computer Science · CU Boulder · 2024-2026\n', c: 'terminal-val' },
-        { t: '> gpa:         ', c: 'terminal-key' }, { t: '3.93 / 4.00\n', c: 'terminal-val' },
-        { t: '> currently:   ', c: 'terminal-key' }, { t: 'Owl AI · ML Engineer Intern\n', c: 'terminal-val' },
-        { t: '> teaching:    ', c: 'terminal-key' }, { t: 'TA Distributed Systems · Prof. Mark Zhao\n', c: 'terminal-val' },
-        { t: '> stack:       ', c: 'terminal-key' }, { t: 'PyTorch · TensorRT · CUDA · FastAPI · React\n\n', c: 'terminal-val', p: 120 },
+        { t: '$ ', c: 't-prompt' }, { t: 'cat ~/.profile\n', c: 't-cmd', p: 80 },
+        { t: '> role:       ', c: 't-key' }, { t: 'Machine Learning Engineer · Owl AI\n', c: 't-val' },
+        { t: '> location:   ', c: 't-key' }, { t: 'Boulder, Colorado\n', c: 't-val' },
+        { t: '> education:  ', c: 't-key' }, { t: 'MS Computer Science · CU Boulder · 2024-2026\n', c: 't-val' },
+        { t: '> gpa:        ', c: 't-key' }, { t: '3.94 / 4.00\n', c: 't-val' },
+        { t: '> shipping:   ', c: 't-key' }, { t: 'MLP pickleball line calling (live on FOX)\n', c: 't-val' },
+        { t: '> stack:      ', c: 't-key' }, { t: 'PyTorch · TensorRT · GStreamer · CUDA · Godot\n\n', c: 't-val', p: 120 },
 
-        { t: '$ ', c: 'terminal-prompt' }, { t: 'ls ~/now\n', c: 'terminal-cmd', p: 60 },
-        { t: '> shipping:    ', c: 'terminal-key' }, { t: 'real-time snowboard ML pipeline (X Games)\n', c: 'terminal-val' },
-        { t: '> studying:    ', c: 'terminal-key' }, { t: 'CSCI 5214 Big Data Architecture\n', c: 'terminal-val' },
-        { t: '> reading:     ', c: 'terminal-key' }, { t: 'systems-for-ml paper reviews (22)\n', c: 'terminal-val' },
+        { t: '$ ', c: 't-prompt' }, { t: 'ls ~/now\n', c: 't-cmd', p: 60 },
+        { t: '> on air:     ', c: 't-key' }, { t: 'X Games skateboarding trick tracking\n', c: 't-val' },
+        { t: '> building:   ', c: 't-key' }, { t: 'live basketball dunk metrics\n', c: 't-val' },
+        { t: '> sports:     ', c: 't-key' }, { t: 'pickleball · skate · snowboard · tennis · hoops\n', c: 't-val' }
       ];
 
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const charDelay = reduced ? 0 : 5;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      let i = 0; // token index
-      let j = 0; // char index within token
+      function renderAll() {
+        var frag = document.createDocumentFragment();
+        script.forEach(function (tok) {
+          var span = document.createElement('span');
+          span.className = tok.c || '';
+          span.textContent = tok.t;
+          frag.appendChild(span);
+        });
+        out.appendChild(frag);
+      }
+
+      if (reduced) { renderAll(); return; }
+
+      var charDelay = 5;
+      var i = 0, j = 0, current = null;
 
       function step() {
         if (i >= script.length) return;
-        const tok = script[i];
+        var tok = script[i];
         if (j === 0) {
-          // append a span for this token
-          const span = document.createElement('span');
-          span.className = tok.c || '';
-          span.dataset.idx = i;
-          out.appendChild(span);
+          current = document.createElement('span');
+          current.className = tok.c || '';
+          out.appendChild(current);
         }
-        const span = out.querySelector(`[data-idx="${i}"]`);
-        span.textContent += tok.t[j];
+        current.textContent += tok.t[j];
         j++;
         if (j >= tok.t.length) {
-          const pauseAfter = tok.p || 0;
-          i++;
-          j = 0;
-          setTimeout(step, charDelay + pauseAfter);
+          var pause = tok.p || 0;
+          i++; j = 0;
+          setTimeout(step, charDelay + pause);
         } else {
           setTimeout(step, charDelay);
         }
       }
-      // Start when in viewport
-      const term = document.querySelector('.terminal-body');
-      if (!term) return;
-      const io = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          step();
-          io.disconnect();
-        }
+
+      var body = document.querySelector('.terminal-body');
+      if (!body || !('IntersectionObserver' in window)) { step(); return; }
+      var io = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { step(); io.disconnect(); }
       });
-      io.observe(term);
+      io.observe(body);
     });
   </script>
 
   <!-- ========== TECH STACK CONSTELLATION (force-directed) ========== -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const canvas = document.getElementById('constellation');
+    document.addEventListener('DOMContentLoaded', function () {
+      var canvas = document.getElementById('constellation');
+      var fallback = document.getElementById('constellation-fallback');
       if (!canvas) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const ctx = canvas.getContext('2d');
 
-      const palette = {
-        lang:    '#6366f1', // indigo
-        ml:      '#a855f7', // purple
-        front:   '#06b6d4', // cyan
-        back:    '#10b981', // emerald
-        cloud:   '#f59e0b', // amber
-        data:    '#ec4899', // pink
-        llm:     '#eab308', // yellow
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced || !canvas.getContext) {
+        canvas.style.display = 'none';
+        var legend = document.querySelector('.constellation-legend');
+        var info = document.querySelector('.constellation-info');
+        if (legend) legend.style.display = 'none';
+        if (info) info.style.display = 'none';
+        if (fallback) fallback.style.display = 'block';
+        return;
+      }
+
+      var ctx = canvas.getContext('2d');
+
+      var palette = {
+        lang:  '#22d3ee', // cyan
+        ml:    '#8b5cf6', // violet
+        sys:   '#34d399', // green
+        cloud: '#fbbf24', // amber
+        data:  '#a78bfa'  // light violet
       };
 
-      const nodes = [
-        { id: 'Python',    g: 'lang',  m: 2.4 },
-        { id: 'Java',      g: 'lang',  m: 1.4 },
-        { id: 'TypeScript',g: 'lang',  m: 1.5 },
-        { id: 'SQL',       g: 'lang',  m: 1.2 },
+      var nodes = [
+        { id: 'Python',      g: 'lang',  m: 2.4 },
+        { id: 'C++',         g: 'lang',  m: 1.4 },
+        { id: 'TypeScript',  g: 'lang',  m: 1.4 },
+        { id: 'SQL',         g: 'lang',  m: 1.2 },
 
-        { id: 'PyTorch',   g: 'ml',    m: 2.2 },
-        { id: 'TensorFlow',g: 'ml',    m: 1.6 },
-        { id: 'Scikit-learn', g: 'ml', m: 1.4 },
-        { id: 'XGBoost',   g: 'ml',    m: 1.2 },
-        { id: 'OpenCV',    g: 'ml',    m: 1.6 },
-        { id: 'TensorRT',  g: 'ml',    m: 1.4 },
-        { id: 'HuggingFace', g: 'ml',  m: 1.5 },
+        { id: 'PyTorch',     g: 'ml',    m: 2.2 },
+        { id: 'OpenCV',      g: 'ml',    m: 1.7 },
+        { id: 'SAM',         g: 'ml',    m: 1.6 },
+        { id: 'YOLO',        g: 'ml',    m: 1.6 },
+        { id: 'RF-DETR',     g: 'ml',    m: 1.4 },
+        { id: 'Sapiens',     g: 'ml',    m: 1.3 },
+        { id: 'HuggingFace', g: 'ml',    m: 1.4 },
 
-        { id: 'React',     g: 'front', m: 1.6 },
-        { id: 'Next.js',   g: 'front', m: 1.4 },
-        { id: 'Tailwind',  g: 'front', m: 1.3 },
+        { id: 'GStreamer',   g: 'sys',   m: 1.9 },
+        { id: 'TensorRT',    g: 'sys',   m: 1.8 },
+        { id: 'CUDA',        g: 'sys',   m: 1.7 },
+        { id: 'Godot',       g: 'sys',   m: 1.4 },
+        { id: 'real-time streaming', g: 'sys', m: 1.6 },
+        { id: 'FastAPI',     g: 'sys',   m: 1.4 },
 
-        { id: 'FastAPI',   g: 'back',  m: 1.5 },
-        { id: 'Flask',     g: 'back',  m: 1.4 },
-        { id: 'Node.js',   g: 'back',  m: 1.3 },
+        { id: 'Docker',      g: 'cloud', m: 1.6 },
+        { id: 'Azure',       g: 'cloud', m: 1.6 },
+        { id: 'AWS',         g: 'cloud', m: 1.5 },
+        { id: 'MLflow',      g: 'cloud', m: 1.4 },
 
-        { id: 'Azure',     g: 'cloud', m: 1.7 },
-        { id: 'AWS',       g: 'cloud', m: 1.6 },
-        { id: 'GCP',       g: 'cloud', m: 1.2 },
-        { id: 'Docker',    g: 'cloud', m: 1.6 },
-        { id: 'MLflow',    g: 'cloud', m: 1.4 },
-
-        { id: 'Databricks', g: 'data', m: 1.5 },
-        { id: 'Spark',     g: 'data',  m: 1.4 },
-        { id: 'Kafka',     g: 'data',  m: 1.2 },
-        { id: 'PostgreSQL',g: 'data',  m: 1.3 },
-        { id: 'MongoDB',   g: 'data',  m: 1.2 },
-
-        { id: 'LlamaIndex',g: 'llm',   m: 1.3 },
-        { id: 'RAG',       g: 'llm',   m: 1.5 },
-        { id: 'Az. Cognitive Search', g: 'llm', m: 1.3 },
+        { id: 'Databricks',  g: 'data',  m: 1.5 },
+        { id: 'Spark',       g: 'data',  m: 1.4 },
+        { id: 'PostgreSQL',  g: 'data',  m: 1.3 },
+        { id: 'MongoDB',     g: 'data',  m: 1.2 }
       ];
-      const edgeList = [
-        ['Python','PyTorch'], ['Python','TensorFlow'], ['Python','Scikit-learn'],
-        ['Python','XGBoost'], ['Python','OpenCV'], ['Python','FastAPI'],
-        ['Python','Flask'], ['Python','MLflow'], ['Python','Spark'],
+
+      var edgeList = [
+        ['Python','PyTorch'], ['Python','OpenCV'], ['Python','FastAPI'],
+        ['Python','CUDA'], ['Python','Spark'], ['Python','MLflow'],
         ['PyTorch','TensorRT'], ['PyTorch','HuggingFace'], ['PyTorch','OpenCV'],
-        ['TypeScript','React'], ['React','Next.js'], ['React','Tailwind'],
-        ['Next.js','Node.js'], ['Node.js','MongoDB'],
-        ['FastAPI','PostgreSQL'], ['Flask','PostgreSQL'],
-        ['Docker','Azure'], ['Docker','AWS'], ['Docker','GCP'],
+        ['PyTorch','SAM'], ['SAM','YOLO'], ['YOLO','RF-DETR'], ['OpenCV','Sapiens'],
+        ['TensorRT','CUDA'], ['CUDA','GStreamer'], ['GStreamer','real-time streaming'],
+        ['real-time streaming','FastAPI'], ['GStreamer','Godot'],
+        ['TypeScript','FastAPI'],
+        ['Docker','Azure'], ['Docker','AWS'], ['Docker','MLflow'],
         ['Azure','Databricks'], ['Databricks','Spark'],
-        ['Spark','Kafka'], ['SQL','PostgreSQL'], ['SQL','MongoDB'],
-        ['HuggingFace','RAG'], ['LlamaIndex','RAG'],
-        ['Az. Cognitive Search','RAG'], ['Azure','Az. Cognitive Search'],
-        ['MLflow','PyTorch'], ['MLflow','TensorFlow'],
-        ['Java','SQL'],
+        ['SQL','PostgreSQL'], ['SQL','MongoDB'],
+        ['MLflow','PyTorch'], ['TensorRT','real-time streaming']
       ];
-      const idx = new Map(nodes.map((n,i) => [n.id, i]));
-      const edges = edgeList
-        .filter(([a,b]) => idx.has(a) && idx.has(b))
-        .map(([a,b]) => ({ s: idx.get(a), t: idx.get(b) }));
 
-      // Init random positions
-      let W = 1, H = 1;
+      var idx = new Map(nodes.map(function (n, i) { return [n.id, i]; }));
+      var edges = edgeList.filter(function (e) { return idx.has(e[0]) && idx.has(e[1]); })
+        .map(function (e) { return { s: idx.get(e[0]), t: idx.get(e[1]) }; });
+
+      var W = 1, H = 1;
       function resize() {
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const w = canvas.clientWidth;
-        const h = canvas.clientHeight;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var w = canvas.clientWidth, h = canvas.clientHeight;
         if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
-          canvas.width = w * dpr;
-          canvas.height = h * dpr;
+          canvas.width = w * dpr; canvas.height = h * dpr;
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
         W = w; H = h;
       }
       resize();
 
-      nodes.forEach(n => {
+      nodes.forEach(function (n) {
         n.x = W * 0.5 + (Math.random() - 0.5) * W * 0.7;
         n.y = H * 0.5 + (Math.random() - 0.5) * H * 0.7;
         n.vx = 0; n.vy = 0;
       });
 
-      document.getElementById('node-count').textContent = nodes.length;
-      document.getElementById('edge-count').textContent = edges.length;
+      var nc = document.getElementById('node-count');
+      var ec = document.getElementById('edge-count');
+      if (nc) nc.textContent = nodes.length;
+      if (ec) ec.textContent = edges.length;
 
-      // Build neighbor map
-      const neighbors = nodes.map(() => new Set());
-      edges.forEach(e => {
-        neighbors[e.s].add(e.t);
-        neighbors[e.t].add(e.s);
-      });
+      var neighbors = nodes.map(function () { return new Set(); });
+      edges.forEach(function (e) { neighbors[e.s].add(e.t); neighbors[e.t].add(e.s); });
 
-      // Mouse / drag state
-      let hoverIdx = -1;
-      let dragIdx = -1;
-      let mouse = { x: -1000, y: -1000 };
-      canvas.addEventListener('pointermove', (e) => {
-        const r = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - r.left;
-        mouse.y = e.clientY - r.top;
-        let h = -1, hd = 30 * 30;
-        for (let i = 0; i < nodes.length; i++) {
-          const dx = nodes[i].x - mouse.x;
-          const dy = nodes[i].y - mouse.y;
-          const d2 = dx * dx + dy * dy;
+      var hoverIdx = -1, dragIdx = -1, mouse = { x: -1000, y: -1000 };
+      canvas.addEventListener('pointermove', function (e) {
+        var r = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+        var h = -1, hd = 30 * 30;
+        for (var i = 0; i < nodes.length; i++) {
+          var dx = nodes[i].x - mouse.x, dy = nodes[i].y - mouse.y;
+          var d2 = dx * dx + dy * dy;
           if (d2 < hd) { hd = d2; h = i; }
         }
         hoverIdx = h;
-        if (dragIdx >= 0) {
-          nodes[dragIdx].x = mouse.x;
-          nodes[dragIdx].y = mouse.y;
-          nodes[dragIdx].vx = nodes[dragIdx].vy = 0;
-        }
+        if (dragIdx >= 0) { nodes[dragIdx].x = mouse.x; nodes[dragIdx].y = mouse.y; nodes[dragIdx].vx = nodes[dragIdx].vy = 0; }
       });
-      canvas.addEventListener('pointerdown', () => { if (hoverIdx >= 0) dragIdx = hoverIdx; });
-      window.addEventListener('pointerup', () => { dragIdx = -1; });
-      canvas.addEventListener('pointerleave', () => {
-        mouse.x = mouse.y = -1000;
-        hoverIdx = -1;
-      });
+      canvas.addEventListener('pointerdown', function () { if (hoverIdx >= 0) dragIdx = hoverIdx; });
+      window.addEventListener('pointerup', function () { dragIdx = -1; });
+      canvas.addEventListener('pointerleave', function () { mouse.x = mouse.y = -1000; hoverIdx = -1; });
 
-      // Force simulation
-      const REPEL = 1800;
-      const SPRING = 0.035;
-      const SPRING_LEN = 80;
-      const CENTER = 0.012;
-      const DAMP = 0.86;
+      var REPEL = 1800, SPRING = 0.035, SPRING_LEN = 82, CENTER = 0.012, DAMP = 0.86;
 
-      function step() {
-        // Repulsion
-        for (let i = 0; i < nodes.length; i++) {
-          const a = nodes[i];
-          for (let j = i + 1; j < nodes.length; j++) {
-            const b = nodes[j];
-            const dx = a.x - b.x;
-            const dy = a.y - b.y;
-            let d2 = dx * dx + dy * dy;
-            if (d2 < 1) d2 = 1;
-            const force = REPEL / d2;
-            const inv = 1 / Math.sqrt(d2);
-            const fx = dx * inv * force;
-            const fy = dy * inv * force;
-            a.vx += fx / a.m;
-            a.vy += fy / a.m;
-            b.vx -= fx / b.m;
-            b.vy -= fy / b.m;
+      function sim() {
+        for (var i = 0; i < nodes.length; i++) {
+          var a = nodes[i];
+          for (var j = i + 1; j < nodes.length; j++) {
+            var b = nodes[j];
+            var dx = a.x - b.x, dy = a.y - b.y;
+            var d2 = dx * dx + dy * dy; if (d2 < 1) d2 = 1;
+            var force = REPEL / d2, inv = 1 / Math.sqrt(d2);
+            var fx = dx * inv * force, fy = dy * inv * force;
+            a.vx += fx / a.m; a.vy += fy / a.m;
+            b.vx -= fx / b.m; b.vy -= fy / b.m;
           }
         }
-        // Spring (edges)
-        for (const e of edges) {
-          const a = nodes[e.s];
-          const b = nodes[e.t];
-          const dx = b.x - a.x;
-          const dy = b.y - a.y;
-          const d = Math.sqrt(dx * dx + dy * dy) || 1;
-          const force = (d - SPRING_LEN) * SPRING;
-          const fx = (dx / d) * force;
-          const fy = (dy / d) * force;
-          a.vx += fx / a.m;
-          a.vy += fy / a.m;
-          b.vx -= fx / b.m;
-          b.vy -= fy / b.m;
+        for (var k = 0; k < edges.length; k++) {
+          var e = edges[k], p = nodes[e.s], q = nodes[e.t];
+          var ex = q.x - p.x, ey = q.y - p.y;
+          var d = Math.sqrt(ex * ex + ey * ey) || 1;
+          var f = (d - SPRING_LEN) * SPRING;
+          var gx = (ex / d) * f, gy = (ey / d) * f;
+          p.vx += gx / p.m; p.vy += gy / p.m;
+          q.vx -= gx / q.m; q.vy -= gy / q.m;
         }
-        // Center pull + bounds
-        const cx = W / 2, cy = H / 2;
-        for (const n of nodes) {
-          n.vx += (cx - n.x) * CENTER;
-          n.vy += (cy - n.y) * CENTER;
-          n.vx *= DAMP;
-          n.vy *= DAMP;
-          if (n !== nodes[dragIdx]) {
-            n.x += n.vx;
-            n.y += n.vy;
-          }
-          // soft bounds
-          const pad = 30;
-          if (n.x < pad) n.x = pad;
-          if (n.x > W - pad) n.x = W - pad;
-          if (n.y < pad) n.y = pad;
-          if (n.y > H - pad) n.y = H - pad;
+        var cx = W / 2, cy = H / 2;
+        for (var n2 = 0; n2 < nodes.length; n2++) {
+          var n = nodes[n2];
+          n.vx += (cx - n.x) * CENTER; n.vy += (cy - n.y) * CENTER;
+          n.vx *= DAMP; n.vy *= DAMP;
+          if (n2 !== dragIdx) { n.x += n.vx; n.y += n.vy; }
+          var pad = 34;
+          if (n.x < pad) n.x = pad; if (n.x > W - pad) n.x = W - pad;
+          if (n.y < pad) n.y = pad; if (n.y > H - pad) n.y = H - pad;
         }
       }
 
       function render() {
         resize();
         ctx.clearRect(0, 0, W, H);
-
-        // Draw edges
-        for (const e of edges) {
-          const a = nodes[e.s], b = nodes[e.t];
-          const isHover = hoverIdx >= 0 && (e.s === hoverIdx || e.t === hoverIdx);
-          ctx.strokeStyle = isHover
-            ? 'rgba(255, 255, 255, 0.55)'
-            : 'rgba(255, 255, 255, 0.08)';
+        for (var k = 0; k < edges.length; k++) {
+          var e = edges[k], a = nodes[e.s], b = nodes[e.t];
+          var isHover = hoverIdx >= 0 && (e.s === hoverIdx || e.t === hoverIdx);
+          ctx.strokeStyle = isHover ? 'rgba(34,211,238,0.55)' : 'rgba(255,255,255,0.08)';
           ctx.lineWidth = isHover ? 1.5 : 0.7;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
         }
-
-        // Draw nodes
-        for (let i = 0; i < nodes.length; i++) {
-          const n = nodes[i];
-          const color = palette[n.g];
-          const isHover = i === hoverIdx;
-          const isNeighbor = hoverIdx >= 0 && neighbors[hoverIdx].has(i);
-          const dim = hoverIdx >= 0 && !isHover && !isNeighbor;
-
-          const r = 4 + n.m * 2.4;
-
-          // Soft glow
+        for (var i = 0; i < nodes.length; i++) {
+          var n = nodes[i], color = palette[n.g];
+          var isHover = i === hoverIdx;
+          var isNeighbor = hoverIdx >= 0 && neighbors[hoverIdx].has(i);
+          var dim = hoverIdx >= 0 && !isHover && !isNeighbor;
+          var r = 4 + n.m * 2.4;
           if (isHover || isNeighbor) {
-            const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 4);
-            grad.addColorStop(0, color + 'cc');
-            grad.addColorStop(1, color + '00');
+            var grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 4);
+            grad.addColorStop(0, color + 'cc'); grad.addColorStop(1, color + '00');
             ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(n.x, n.y, r * 4, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(n.x, n.y, r * 4, 0, Math.PI * 2); ctx.fill();
           }
-
-          // Body
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
-          ctx.fillStyle = dim ? color + '55' : color;
-          ctx.fill();
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-          ctx.lineWidth = 1;
-          ctx.stroke();
-
-          // Label
-          ctx.font = `${isHover ? '700 ' : '500 '}11px JetBrains Mono, ui-monospace, monospace`;
+          ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+          ctx.fillStyle = dim ? color + '55' : color; ctx.fill();
+          ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 1; ctx.stroke();
+          ctx.font = (isHover ? '700 ' : '500 ') + '11px JetBrains Mono, ui-monospace, monospace';
           ctx.fillStyle = dim ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.9)';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'top';
+          ctx.textAlign = 'center'; ctx.textBaseline = 'top';
           ctx.fillText(n.id, n.x, n.y + r + 4);
         }
       }
 
-      function loop() {
-        step();
-        render();
-        requestAnimationFrame(loop);
-      }
+      var raf = null;
+      function loop() { sim(); render(); raf = requestAnimationFrame(loop); }
       loop();
-    });
-  </script>
-
-  <!-- ========== SPARKLINES ========== -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const grid = document.getElementById('sparklines-grid');
-      if (!grid) return;
-
-      // Skill, since-year, monthly intensity (0-1) for last 12 quarters
-      const topSkills = [
-        { name: 'Python',     since: 2018, color: '#6366f1', s: [0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95, 0.98, 1.0, 0.95, 0.95] },
-        { name: 'PyTorch',    since: 2022, color: '#a855f7', s: [0.0, 0.0, 0.1, 0.2, 0.4, 0.55, 0.7, 0.85, 0.95, 1.0, 0.95, 0.95] },
-        { name: 'React.js',   since: 2021, color: '#06b6d4', s: [0.0, 0.2, 0.4, 0.6, 0.7, 0.65, 0.6, 0.5, 0.55, 0.6, 0.55, 0.55] },
-        { name: 'TensorRT',   since: 2025, color: '#f59e0b', s: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.85, 0.95, 1.0] },
-        { name: 'Azure',      since: 2022, color: '#0ea5e9', s: [0.0, 0.0, 0.2, 0.5, 0.7, 0.85, 0.85, 0.7, 0.5, 0.4, 0.3, 0.3] },
-        { name: 'Databricks', since: 2023, color: '#ec4899', s: [0.0, 0.0, 0.0, 0.0, 0.3, 0.6, 0.85, 0.9, 0.7, 0.4, 0.3, 0.25] },
-        { name: 'Docker',     since: 2022, color: '#10b981', s: [0.0, 0.1, 0.3, 0.5, 0.6, 0.7, 0.75, 0.7, 0.7, 0.75, 0.7, 0.7] },
-        { name: 'FastAPI',    since: 2024, color: '#22d3ee', s: [0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.4, 0.6, 0.75, 0.85, 0.85, 0.9] },
-      ];
-
-      grid.innerHTML = topSkills.map(skill => {
-        const yrs = 2026 - skill.since;
-        const pts = skill.s;
-        const W = 100, H = 28;
-        const max = Math.max(...pts) || 1;
-        const path = pts.map((v, i) => {
-          const x = (i / (pts.length - 1)) * W;
-          const y = H - (v / max) * H;
-          return (i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1);
-        }).join(' ');
-        const areaPath = path + ` L${W},${H} L0,${H} Z`;
-        const id = 'g_' + skill.name.replace(/[^\w]/g, '');
-        return `
-          <div class="skill-spark">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-sm font-semibold dark:text-white">${skill.name}</span>
-              <span class="text-xs font-mono text-gray-500 dark:text-gray-400">${yrs}y</span>
-            </div>
-            <svg class="spark-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="${id}" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stop-color="${skill.color}" stop-opacity="0.55"/>
-                  <stop offset="100%" stop-color="${skill.color}" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <path d="${areaPath}" fill="url(#${id})"/>
-              <path d="${path}" fill="none" stroke="${skill.color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        `;
-      }).join('');
-    });
-  </script>
-
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-
-    // Show correct icon on page load
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      themeToggleLightIcon.classList.remove('hidden');
-    } else {
-      themeToggleDarkIcon.classList.remove('hidden');
-    }
-
-    themeToggleBtn.addEventListener('click', function() {
-      // Toggle icons
-      themeToggleDarkIcon.classList.toggle('hidden');
-      themeToggleLightIcon.classList.toggle('hidden');
-
-      // Toggle dark mode
-      if (document.documentElement.classList.contains('dark')) {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('color-theme', 'light');
-      } else {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('color-theme', 'dark');
-      }
-    });
-
-    // Menu toggle functionality
-    const menuToggle = document.getElementById("menu-toggle");
-    const menu = document.getElementById("menu");
-
-    if (menuToggle && menu) {
-      menuToggle.addEventListener("click", function () {
-        menu.classList.toggle("hidden");
-        menu.classList.toggle("flex");
-        menu.classList.toggle("flex-col");
-        menu.classList.toggle("items-center");
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) { cancelAnimationFrame(raf); }
+        else { raf = requestAnimationFrame(loop); }
       });
-    }
+    });
   </script>
-
 </body>
 </html>

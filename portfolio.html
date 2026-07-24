@@ -1,688 +1,472 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio - Charith Purushotham</title>
+  <title>Projects — Charith Purushotham</title>
+  <meta name="description" content="Selected projects by Charith Purushotham across deep learning & computer vision, machine learning & data, and full-stack software — plus achievements and peer-reviewed publications.">
+  <meta name="author" content="Charith Purushotham">
+  <meta name="theme-color" content="#050810">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Projects — Charith Purushotham">
+  <meta property="og:description" content="Deep learning & computer vision, machine learning & data, and full-stack software projects, achievements, and publications.">
+  <meta property="og:url" content="https://charithcherry.github.io/Portfolio-website/portfolio.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://charithcherry.github.io/Portfolio-website/portfolio.html">
+
+  <!-- Inline SVG favicon: node-graph glyph (identical on every page) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050810'/%3E%3Cg stroke='%2322d3ee' stroke-width='1.5' opacity='0.85'%3E%3Cline x1='8' y1='10' x2='16' y2='16'/%3E%3Cline x1='16' y1='16' x2='24' y2='9'/%3E%3Cline x1='16' y1='16' x2='12' y2='24'/%3E%3Cline x1='16' y1='16' x2='23' y2='22'/%3E%3C/g%3E%3Cg fill='%2322d3ee'%3E%3Ccircle cx='8' cy='10' r='2.3'/%3E%3Ccircle cx='24' cy='9' r='2.3'/%3E%3Ccircle cx='12' cy='24' r='2.3'/%3E%3Ccircle cx='23' cy='22' r='2.3'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%238b5cf6'/%3E%3C/svg%3E">
+
+  <!-- FOUC guard: dark is the default aesthetic; respects an explicit light choice / system preference -->
   <script>
-    // Dark mode initialization
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    (function () {
+      try {
+        var t = localStorage.getItem('color-theme');
+        if (t === 'dark' || (!t && !window.matchMedia('(prefers-color-scheme: light)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) { document.documentElement.classList.add('dark'); }
+    })();
   </script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config = { darkMode: 'class' }</script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="assets/css/site.css">
+
+  <!-- Optional per-page styles -->
   <style>
-    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-    .font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    /* ---- portfolio-only styles ---- */
+    /* jump nav — CSS-only sticky anchor pills */
+    .jump-nav {
+      position: sticky; top: 64px; z-index: 20;
+      margin: 0 0 var(--sp-8);
+      padding: var(--sp-3) 0;
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .jump-nav .container { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+    .jump-pill {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      letter-spacing: .02em;
+      padding: 6px 12px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text-muted);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .jump-pill:hover { color: var(--accent); border-color: rgba(var(--accent-rgb), 0.5); }
 
-    /* Card animations — Smoothie fluid hover */
-    .card {
-      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
-                  box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      isolation: isolate;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      background: conic-gradient(from var(--angle, 0deg),
-        rgba(99, 102, 241, 0) 0deg,
-        rgba(99, 102, 241, 0.6) 90deg,
-        rgba(236, 72, 153, 0.6) 180deg,
-        rgba(6, 182, 212, 0.6) 270deg,
-        rgba(99, 102, 241, 0) 360deg);
-      filter: blur(10px);
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      z-index: -1;
-      animation: rotateGlow 6s linear infinite;
-    }
-    .card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
-        rgba(139, 92, 246, 0.15) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
-      z-index: -1;
-    }
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
-    }
-    .card:hover::before { opacity: 0.7; }
-    .card:hover::after { opacity: 1; }
-    .dark .card:hover {
-      box-shadow: 0 20px 50px rgba(139, 92, 246, 0.25);
-    }
-    @keyframes rotateGlow {
-      from { --angle: 0deg; }
-      to { --angle: 360deg; }
-    }
-    @property --angle {
-      syntax: '<angle>';
-      initial-value: 0deg;
-      inherits: false;
-    }
+    /* section head with mono index label */
+    .sec-head { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-6); }
+    .sec-head .h2 { margin: 0; }
+    .sec-head .count { font-family: var(--font-mono); font-size: .8rem; color: var(--text-faint); }
 
-    /* Tech badges */
-    .tech-button {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 0.375rem 0.875rem;
-      margin-right: 0.5rem;
-      margin-top: 0.5rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      display: inline-block;
-      transition: all 0.3s ease;
-    }
-    .tech-button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-    }
-    .dark .tech-button {
-      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-    }
+    /* project cards: pin links to the bottom */
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--sp-5); }
+    .proj-card { display: flex; flex-direction: column; }
+    .proj-card .card-title { margin: 0 0 var(--sp-3); }
+    .proj-card p { color: var(--text-muted); font-size: .93rem; margin: 0; }
+    .proj-card .chips { margin-top: var(--sp-4); }
+    .proj-links { margin-top: auto; padding-top: var(--sp-4); display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 
-    /* Floating animation */
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(3deg); }
-    }
-    .floating {
-      animation: float 6s ease-in-out infinite;
-    }
+    /* achievements / publications / extracurricular list cards */
+    .list-card .card-title { margin: 0 0 6px; }
+    .list-card .card-meta { margin-bottom: 8px; }
+    .list-card p { color: var(--text-muted); font-size: .93rem; margin: 0; }
+    .pub-badge { margin-bottom: 10px; }
 
-    /* Fade in animation */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .fade-in {
-      animation: fadeInUp 0.6s ease-out forwards;
-    }
-
-    /* Section headers */
-    .section-header {
-      position: relative;
-      display: inline-block;
-    }
-    .section-header::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 0;
-      width: 60%;
-      height: 4px;
-      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-      border-radius: 2px;
-    }
-    .dark .section-header::after {
-      background: linear-gradient(90deg, #8b5cf6 0%, #6366f1 100%);
-    }
-
-    /* Project card icon */
-    .project-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    .dark .project-icon {
-      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-    }
-
-    /* Button styling */
-    .button-container {
-      margin-top: auto;
-      padding-top: 1rem;
-    }
-    .project-heading {
-      font-weight: 600;
-      font-size: 1.125rem;
-      margin-bottom: 0.5rem;
+    @media (max-width: 600px) {
+      .proj-grid { grid-template-columns: 1fr; }
+      .jump-nav { top: 58px; }
     }
   </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-  <!-- Header -->
-  <header class="sticky top-0 bg-white dark:bg-gray-900 shadow-md z-50 p-4 transition-colors duration-300">
-    <div class="container mx-auto flex items-center justify-between">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Charith Purushotham</h1>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-      <div class="flex items-center gap-4">
-        <!-- Dark Mode Toggle -->
-        <button id="theme-toggle" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
-          <svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-          </svg>
-          <svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-          </svg>
-        </button>
+  <!-- ===================== HEADER (canonical) ===================== -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="Charith Purushotham — home">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <g stroke="currentColor" stroke-width="1.6" opacity="0.85">
+            <line x1="8" y1="10" x2="16" y2="16"/><line x1="16" y1="16" x2="24" y2="9"/>
+            <line x1="16" y1="16" x2="12" y2="24"/><line x1="16" y1="16" x2="23" y2="22"/>
+          </g>
+          <g fill="currentColor">
+            <circle cx="8" cy="10" r="2.3"/><circle cx="24" cy="9" r="2.3"/>
+            <circle cx="12" cy="24" r="2.3"/><circle cx="23" cy="22" r="2.3"/>
+          </g>
+          <circle cx="16" cy="16" r="3" fill="#8b5cf6"/>
+        </svg>
+        <span>Charith Purushotham</span>
+      </a>
 
-        <!-- Hamburger Button (Only on Mobile) -->
-        <button id="menu-toggle" class="sm:hidden text-gray-700 dark:text-gray-300 focus:outline-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
-
-      <!-- Navigation Menu -->
-      <nav id="menu" class="hidden sm:flex flex-col sm:flex-row absolute sm:relative top-16 sm:top-0 left-0 w-full sm:w-auto bg-white dark:bg-gray-800 shadow sm:shadow-none sm:bg-transparent dark:sm:bg-transparent p-4 sm:p-0 z-50 transition-colors duration-300">
-        <ul class="space-y-4 sm:space-y-0 sm:flex sm:space-x-4">
-          <li><a href="index.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Home</a></li>
-          <li><a href="about.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">About Me</a></li>
-          <li><a href="portfolio.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Portfolio</a></li>
-          <li><a href="experience.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Experience</a></li>
-          <li><a href="research.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Research</a></li>
-          <li><a href="building.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Building</a></li>
-          <li><a href="contact.html" class="block p-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">Contact</a></li>
+      <nav aria-label="Primary">
+        <ul class="nav-links" id="nav-links">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="about.html">About</a></li>
+          <li><a class="nav-link" href="experience.html">Experience</a></li>
+          <li><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+          <li><a class="nav-link" href="research.html">Research</a></li>
+          <li><a class="nav-link" href="building.html">Building</a></li>
+          <li><a class="nav-link" href="contact.html">Contact</a></li>
         </ul>
       </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="icon-btn theme-toggle" aria-label="Toggle color theme">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button id="nav-toggle" class="icon-btn nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main class="relative overflow-hidden">
-    <!-- Floating background elements -->
-    <div class="absolute top-20 right-20 w-72 h-72 bg-blue-200 dark:bg-purple-900 rounded-full opacity-20 floating blur-3xl"></div>
-    <div class="absolute bottom-40 left-20 w-96 h-96 bg-purple-200 dark:bg-blue-900 rounded-full opacity-20 floating blur-3xl" style="animation-delay: 2s;"></div>
-
-    <div class="container mx-auto px-4 py-16 relative z-10">
-      <!-- Hero Section -->
-      <div class="text-center mb-16 fade-in">
-        <h2 class="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-          My Portfolio
-        </h2>
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto">
-          Showcasing innovative projects in Machine Learning, Deep Learning, and Software Development
-        </p>
-
-        <!-- Stats -->
-        <div class="flex flex-wrap justify-center gap-8 mt-8">
-          <div class="text-center">
-            <div class="text-4xl font-bold text-blue-600 dark:text-blue-400">13+</div>
-            <div class="text-sm text-gray-600 dark:text-gray-400">Projects</div>
-          </div>
-          <div class="text-center">
-            <div class="text-4xl font-bold text-purple-600 dark:text-purple-400">4+</div>
-            <div class="text-sm text-gray-600 dark:text-gray-400">Achievements</div>
-          </div>
-          <div class="text-center">
-            <div class="text-4xl font-bold text-pink-600 dark:text-pink-400">5+</div>
-            <div class="text-sm text-gray-600 dark:text-gray-400">Tech Stacks</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project Categories Section -->
-      <section class="mb-12">
-     
-      <div x-data="{ open: false }" class="relative">
-        <!-- Desktop Version (visible on medium and larger screens) -->
-        <div class="hidden md:flex justify-center items-center space-x-6">
-          <button onclick="scrollToSection('deep-learning-section')" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Deep Learning & OpenCV Projects</button>
-          <button onclick="scrollToSection('ml-eda-section')" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Machine Learning & EDA Projects</button>
-          <button onclick="scrollToSection('software-dev-section')" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Software Development Projects</button>
-          <button onclick="scrollToSection('Achievements')" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Achievements</button>
-          <button onclick="scrollToSection('Extracurricular')" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Extracurricular Activities</button>
+  <main id="main">
+    <!-- ===================== PAGE HERO ===================== -->
+    <section class="page-hero bg-grid">
+      <div class="container">
+        <div class="reveal">
+          <span class="eyebrow">// projects</span>
+          <h1 class="h1" style="margin:10px 0 14px;">Things I've built</h1>
+          <p class="lead measure">
+            Deep-learning and computer-vision systems, machine-learning &amp; data pipelines,
+            and full-stack software — plus awards and peer-reviewed publications.
+          </p>
         </div>
 
-        <!-- Mobile Version (visible on small screens) -->
-        <div class="md:hidden">
-          <button @click="open = !open" class="bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700 w-full text-center">
-            Portfolio Sections
-          </button>
-          <div x-show="open" @click.away="open = false" x-transition class="absolute left-0 mt-2 w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg z-10">
-            <button onclick="scrollToSection('deep-learning-section')" class="block w-full text-left px-4 py-2 text-blue-600 dark:text-purple-400 hover:bg-blue-100 dark:hover:bg-gray-700">Deep Learning & OpenCV Projects</button>
-            <button onclick="scrollToSection('ml-eda-section')" class="block w-full text-left px-4 py-2 text-blue-600 dark:text-purple-400 hover:bg-blue-100 dark:hover:bg-gray-700">Machine Learning & EDA Projects</button>
-            <button onclick="scrollToSection('software-dev-section')" class="block w-full text-left px-4 py-2 text-blue-600 dark:text-purple-400 hover:bg-blue-100 dark:hover:bg-gray-700">Software Development Projects</button>
-            <button onclick="scrollToSection('Achievements')" class="block w-full text-left px-4 py-2 text-blue-600 dark:text-purple-400 hover:bg-blue-100 dark:hover:bg-gray-700">Achievements</button>
-            <button onclick="scrollToSection('Extracurricular')" class="block w-full text-left px-4 py-2 text-blue-600 dark:text-purple-400 hover:bg-blue-100 dark:hover:bg-gray-700">Extracurricular Activities</button>
+        <div class="tl-grid reveal d1" style="margin-top:32px;">
+          <div class="tl-stat">
+            <span class="tl-num"><span data-countup="13">13</span></span>
+            <span class="tl-label">projects</span>
           </div>
-        </div>
-      </div>
-        
-    </section>
-
-    <!-- Deep Learning & OpenCV Projects Section -->
-    <section id="deep-learning-section" class="mb-16 fade-in">
-      <div class="flex items-center mb-8">
-        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z"/>
-          </svg>
-        </div>
-        <div>
-          <h3 class="text-3xl font-bold section-header dark:text-white">Deep Learning & OpenCV Projects</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">5 deep learning & computer vision projects</p>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Reinforcement Learning Dialogue Summarization -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>Reinforcement Learning-Based Dialogue Summarization</h4>
-            <div class="mt-2 text-sm">Developed a lightweight LSTM-based attention model for dialogue summarization on the SAMSum dataset, integrating a modular RL wrapper (SCST, PPO) that improved BLEU by +5.42% over baseline without pretrained transformers.</div>
+          <div class="tl-stat">
+            <span class="tl-num"><span data-countup="2">2</span></span>
+            <span class="tl-label">peer-reviewed publications</span>
           </div>
-          <div class="mt-4">
-            <span class="tech-button">PyTorch</span>
-            <span class="tech-button">RL (SCST, PPO)</span>
-            <span class="tech-button">LSTM</span>
-            <span class="tech-button">NLP</span>
-          </div>
-          <div class="button-container">
-            <a href="research/Reinforcement Learning-Enhanced Abstractive Summarization Optimizing Seq2Seq Models Beyond Supervised Learning Constraints.pdf" target="_blank" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View Paper</a>
-            <a href="https://github.com/charithcherry/RL-Training-Text-Summarization" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 ml-4">View GitHub</a>
-          </div>
-        </div>
-
-        <!-- Multimodal Zero-Shot Learning -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>Multimodal Zero-Shot Learning for Unseen Concepts</h4>
-            <div class="mt-2 text-sm">Built a zero-shot image classifier using CLIP image/text embeddings and a knowledge-graph R-GCN with edge-attention and a prototype-refinement loss before an MLP head. <strong class="text-blue-700 dark:text-purple-300">Improved over the CLIP baseline by +23% Top-1 accuracy (59% vs. 36%) and +13% F1 on AWA2.</strong></div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">PyTorch</span>
-            <span class="tech-button">CLIP</span>
-            <span class="tech-button">GCN</span>
-            <span class="tech-button">Knowledge Graphs</span>
-          </div>
-          <div class="button-container">
-            <a href="research/Enhancing Zero-Shot Learning Integrating.pdf" target="_blank" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View Paper</a>
-            <a href="https://github.com/charithcherry/CLIP-KG-ZSL" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 ml-4">View GitHub</a>
-          </div>
-        </div>
-
-        <!-- Human Pose Estimation Project -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>Human Pose Estimation in Fitness Tracking and Guidance</h4>
-            <div class="mt-2 text-sm">AI-based tool for real-time exercise monitoring using BlazePose, Yoga pose classification, and automated data reporting.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">OpenCV</span>
-            <span class="tech-button">Deep Learning</span>
-            <span class="tech-button">MediaPipe</span>
-            <span class="tech-button">Node.js</span>
-            <span class="tech-button">HTML</span>
-            <span class="tech-button">CSS</span>
-          </div>
-          <div class="button-container">
-            <a href="https://www.ijfmr.com/research-paper.php?id=9614" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Research Paper</a>
-            <a href="https://github.com/charithcherry/Physical-Aptitude-Monitor" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 ml-4">View Project</a>
-          </div>
-        </div>
-
-        <!-- Contour Tracking and Detection of Heart Chamber -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>Contour Tracking and Detection of Heart Chamber</h4>
-            <div class="mt-2 text-sm">Developed methods for detecting blood chambers in echo video frames using U-Net segmentation technique in a hackathon.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">OpenCV</span>
-            <span class="tech-button">Deep Learning (DeepGaze)</span>
-            <span class="tech-button">PyDICOM</span>
-            <span class="tech-button">Python</span>
-          </div>
-          <div class="button-container">
-            <a href="https://www.irjmets.com/uploadedfiles/paper//issue_7_july_2023/43370/final/fin_irjmets1690189183.pdf" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">Research Paper</a>
-            <a href="https://github.com/charithcherry/AI-Guided-Automatic-Tracking-and-Detection-Contouring-of-Chambers-of-the-Heart-in-Echocardiogram-Vid/tree/Unet" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 ml-4">View Project</a>
-          </div>
-        </div>
-
-        <!-- RePostureAI -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>RePostureAI</h4>
-            <div class="mt-2 text-sm">An AI-powered app that corrects posture in real-time, tracks reps, and ensures safe, effective workouts for injury-free fitness.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">Python</span>
-            <span class="tech-button">OpenCV</span>
-            <span class="tech-button">Mediapipe</span>
-            <span class="tech-button">Streamlit</span>
-            <span class="tech-button">Gemini AI</span>
-          </div>
-          <div class="button-container">
-            <a href="https://github.com/srurora/RepostureAI" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
+          <div class="tl-stat">
+            <span class="tl-num"><span data-countup="3">3</span></span>
+            <span class="tl-label">hackathon &amp; project awards</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Machine Learning & EDA Projects Section -->
-    <section id="ml-eda-section" class="mb-16 fade-in">
-      <div class="flex items-center mb-8">
-        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center mr-4">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
-          </svg>
-        </div>
-        <div>
-          <h3 class="text-3xl font-bold section-header dark:text-white">Machine Learning & EDA Projects</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">4 data & recommendation projects</p>
-        </div>
+    <!-- ===================== JUMP NAV ===================== -->
+    <nav class="jump-nav" aria-label="Sections">
+      <div class="container">
+        <a class="jump-pill" href="#deep-learning">Deep Learning &amp; CV</a>
+        <a class="jump-pill" href="#ml-eda">ML &amp; Data</a>
+        <a class="jump-pill" href="#software-dev">Software</a>
+        <a class="jump-pill" href="#achievements">Achievements &amp; Publications</a>
+        <a class="jump-pill" href="#extracurricular">Extracurricular</a>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- LinkedIn Job Market Analysis -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>LinkedIn Job Market Analysis and Recommendation System</h4>
-            <div class="mt-2 text-sm">Developed a forecasting tool using LinkedIn data and ML models (ARIMA, clustering) to uncover job trends and salary insights.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">Python</span>
-            <span class="tech-button">Machine Learning</span>
-            <span class="tech-button">Scikit-learn</span>
-            <span class="tech-button">Matplotlib</span>
-            <span class="tech-button">Seaborn</span>
-          </div>
-          <div class="button-container">
-            <a href="https://github.com/charithcherry/Linkedin-Job-Market-Analysis-using-ML" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
-          </div>
+    </nav>
+
+    <!-- ===================== DEEP LEARNING & CV ===================== -->
+    <section class="section-sm" id="deep-learning">
+      <div class="container">
+        <div class="sec-head reveal">
+          <span class="syslabel"><span class="accent">01</span></span>
+          <h2 class="h2">Deep Learning &amp; Computer Vision</h2>
+          <span class="count">5 projects</span>
         </div>
 
-        <!-- Document Classification System -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>Document Classification System in Apache Spark for Big Data</h4>
-            <div class="mt-2 text-sm">Developed a document classification system using PySpark to handle big data and optimize document processing for multi-class classification.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">PySpark</span>
-            <span class="tech-button">Article API</span>
-            <span class="tech-button">Machine Learning</span>
-          </div>
-          <div class="button-container">
-            <a href="https://github.com/charithcherry/Spark-Programs-Projects/tree/master/Document-Classification-System-in-Apache-Spark-for-Big-Data" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
-          </div>
-        </div>
+        <div class="proj-grid">
+          <article class="card card-hover proj-card reveal">
+            <h3 class="card-title">Reinforcement Learning-Based Dialogue Summarization</h3>
+            <p>Lightweight LSTM attention model for dialogue summarization on the SAMSum dataset, with a modular RL wrapper (SCST, PPO) that improved BLEU by +5.42% over baseline without pretrained transformers.</p>
+            <div class="chips">
+              <span class="chip">PyTorch</span><span class="chip">RL (SCST, PPO)</span><span class="chip">LSTM</span><span class="chip">NLP</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="research/Reinforcement Learning-Enhanced Abstractive Summarization Optimizing Seq2Seq Models Beyond Supervised Learning Constraints.pdf" target="_blank" rel="noopener">Paper</a>
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/RL-Training-Text-Summarization" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
 
-        <!-- Hybrid Recommender System -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>Hybrid Recommender System (Fashion)</h4>
-            <div class="mt-2 text-sm">Two-stage recommendation pipeline combining collaborative filtering and content-based search over <strong>44,072 fashion products</strong>, with FAISS + CLIP embeddings for ~10ms vector retrieval and a neural re-ranker. Full-stack React 18 + FastAPI app with 11 REST endpoints; sub-100ms end-to-end latency, 95.4% recommendation diversity, 1-interaction cold-start.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">FastAPI</span>
-            <span class="tech-button">React 18</span>
-            <span class="tech-button">FAISS</span>
-            <span class="tech-button">CLIP Embeddings</span>
-            <span class="tech-button">Collaborative Filtering</span>
-            <span class="tech-button">Matrix Factorization</span>
-          </div>
-          <div class="button-container">
-            <a href="https://github.com/charithcherry/Hybrid-Recommender-System" target="_blank" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
-          </div>
-        </div>
+          <article class="card card-hover proj-card reveal d1">
+            <h3 class="card-title">Multimodal Zero-Shot Learning for Unseen Concepts</h3>
+            <p>Zero-shot image classifier using CLIP image/text embeddings and a knowledge-graph R-GCN with edge-attention and a prototype-refinement loss before an MLP head. Improved over the CLIP baseline by +23% Top-1 accuracy (59% vs. 36%) and +13% F1 on AWA2.</p>
+            <div class="chips">
+              <span class="chip">PyTorch</span><span class="chip">CLIP</span><span class="chip">GCN</span><span class="chip">Knowledge Graphs</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="research/Enhancing Zero-Shot Learning Integrating.pdf" target="_blank" rel="noopener">Paper</a>
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/CLIP-KG-ZSL" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
 
-        <!-- Format Matters -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>Format Matters: An Empirical Study of Data Storage Format Impact on ML Training Pipelines</h4>
-            <div class="mt-2 text-sm">Benchmarked data formats across CIFAR-10 image training and 1M-row tabular ML workloads, quantifying impact on I/O throughput, load time, and storage efficiency while showing training accuracy remained format-neutral.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">Python</span>
-            <span class="tech-button">PyTorch</span>
-            <span class="tech-button">Systems for ML</span>
-            <span class="tech-button">I/O Optimization</span>
-            <span class="tech-button">Benchmarking</span>
-          </div>
-          <div class="button-container">
-            <a href="research/Format_Matters__An_Empirical_Study_of_Data_Storage_Format_Impact_on_Deep_Learning_Training_Pipelines Final.pdf" target="_blank" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View Paper</a>
-            <a href="https://github.com/charithcherry/Format-Matters" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 ml-4">View GitHub</a>
-          </div>
+          <article class="card card-hover proj-card reveal d2">
+            <h3 class="card-title">Human Pose Estimation in Fitness Tracking &amp; Guidance</h3>
+            <p>AI-based tool for real-time exercise monitoring using BlazePose, yoga-pose classification, and automated data reporting.</p>
+            <div class="chips">
+              <span class="chip">OpenCV</span><span class="chip">Deep Learning</span><span class="chip">MediaPipe</span><span class="chip">Node.js</span><span class="chip">HTML</span><span class="chip">CSS</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://www.ijfmr.com/research-paper.php?id=9614" target="_blank" rel="noopener">Research Paper</a>
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/Physical-Aptitude-Monitor" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
+
+          <article class="card card-hover proj-card reveal d3">
+            <h3 class="card-title">Contour Tracking &amp; Detection of Heart Chamber</h3>
+            <p>Detects blood chambers in echocardiogram video frames using a U-Net segmentation approach, built during a hackathon.</p>
+            <div class="chips">
+              <span class="chip">OpenCV</span><span class="chip">Deep Learning (DeepGaze)</span><span class="chip">PyDICOM</span><span class="chip">Python</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://www.irjmets.com/uploadedfiles/paper//issue_7_july_2023/43370/final/fin_irjmets1690189183.pdf" target="_blank" rel="noopener">Research Paper</a>
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/AI-Guided-Automatic-Tracking-and-Detection-Contouring-of-Chambers-of-the-Heart-in-Echocardiogram-Vid/tree/Unet" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
+
+          <article class="card card-hover proj-card reveal d4">
+            <h3 class="card-title">RePostureAI</h3>
+            <p>AI-powered app that corrects posture in real time, tracks reps, and helps deliver safe, effective, injury-free workouts.</p>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip">OpenCV</span><span class="chip">MediaPipe</span><span class="chip">Streamlit</span><span class="chip">Gemini AI</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://github.com/srurora/RepostureAI" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- Software Development Projects Section -->
-    <section id="software-dev-section" class="mb-16 fade-in">
-      <div class="flex items-center mb-8">
-        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center mr-4">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
-          </svg>
-        </div>
-        <div>
-          <h3 class="text-3xl font-bold section-header dark:text-white">Software Development Projects</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">4 full-stack & desktop applications</p>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Chat Application -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>Chat Application</h4>
-            <div class="mt-2 text-sm">A simple chat application using React Chat Engine with real-time messaging and authentication features.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">React.js</span>
-            <span class="tech-button">React Chat Engine</span>
-          </div>
-          <div class="button-container">
-            <a href="https://github.com/charithcherry/Chat-App" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View Project</a>
-          </div>
+    <!-- ===================== ML & DATA ===================== -->
+    <section class="section-sm section-alt" id="ml-eda">
+      <div class="container">
+        <div class="sec-head reveal">
+          <span class="syslabel"><span class="accent">02</span></span>
+          <h2 class="h2">Machine Learning &amp; Data</h2>
+          <span class="count">4 projects</span>
         </div>
 
-        <!-- WhatNow Multi-App Wellness Platform -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>WhatNow — Multi-App Wellness Platform</h4>
-            <div class="mt-2 text-sm">A platform integrating <strong>six independent Next.js services</strong> (fitness coaching, nutrition planning, skin analysis, restaurant discovery, fitness analytics, community) under a unified opaque-token auth system on ports 3000–3006. MongoDB-backed, Google Gemini for AI features, MediaPipe-pose exercise tracking with rep counting and form feedback. Each service ships with its own Dockerfile.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">Next.js</span>
-            <span class="tech-button">TypeScript</span>
-            <span class="tech-button">MongoDB</span>
-            <span class="tech-button">Google Gemini</span>
-            <span class="tech-button">MediaPipe</span>
-            <span class="tech-button">Docker</span>
-          </div>
-          <div class="button-container">
-            <a href="https://github.com/charithcherry/What_Now" target="_blank" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
-          </div>
-        </div>
+        <div class="proj-grid">
+          <article class="card card-hover proj-card reveal">
+            <h3 class="card-title">LinkedIn Job-Market Analysis &amp; Recommendation System</h3>
+            <p>Forecasting tool using LinkedIn data and ML models (ARIMA, clustering) to uncover job trends and salary insights.</p>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip">Machine Learning</span><span class="chip">Scikit-learn</span><span class="chip">Matplotlib</span><span class="chip">Seaborn</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/Linkedin-Job-Market-Analysis-using-ML" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
 
-        <!-- Smart Expense Calculator -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>Smart Expense Calculator</h4>
-            <div class="mt-2 text-sm">Privacy-first personal-finance desktop app for Windows. Auto-categorizes transactions from bank-statement Excel exports, monitors budgets with real-time alerts, surfaces spending patterns and recurring subscriptions, and renders interactive analytics — all data stays local, no cloud sync. Built with Streamlit, Pandas, and Plotly on Python 3.11.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">Python</span>
-            <span class="tech-button">Streamlit</span>
-            <span class="tech-button">Pandas</span>
-            <span class="tech-button">Plotly</span>
-          </div>
-          <div class="button-container">
-            <a href="https://github.com/charithcherry/Finance-App" target="_blank" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View GitHub</a>
-          </div>
-        </div>
+          <article class="card card-hover proj-card reveal d1">
+            <h3 class="card-title">Document Classification in Apache Spark</h3>
+            <p>Document classification system built with PySpark to handle big-data volumes and optimize multi-class document processing.</p>
+            <div class="chips">
+              <span class="chip">PySpark</span><span class="chip">Article API</span><span class="chip">Machine Learning</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/Spark-Programs-Projects/tree/master/Document-Classification-System-in-Apache-Spark-for-Big-Data" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
 
-        <!-- Full-Stack E-Commerce Application -->
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col dark:text-gray-100">
-          <div class="project-heading">
-            <h4>E-Commerce Website</h4>
-            <div class="mt-2 text-sm">A full-featured e-commerce platform with customer features (browse, cart, secure checkout with Stripe, order history) and admin dashboard (sales analytics, product/order/user management). Built with Next.js 15, TypeScript, Prisma, and NextAuth.js authentication.</div>
-          </div>
-          <div class="mt-4">
-            <span class="tech-button">Next.js 15</span>
-            <span class="tech-button">TypeScript</span>
-            <span class="tech-button">Prisma ORM</span>
-            <span class="tech-button">NextAuth.js</span>
-            <span class="tech-button">Stripe</span>
-            <span class="tech-button">Tailwind CSS</span>
-            <span class="tech-button">shadcn/ui</span>
-            <span class="tech-button">SQLite</span>
-          </div>
-          <div class="button-container">
-            <a href="https://github.com/charithcherry/nextjs-ecommerce-platform" class="inline-block bg-blue-600 dark:bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-purple-700">View Project</a>
-          </div>
+          <article class="card card-hover proj-card reveal d2">
+            <h3 class="card-title">Hybrid Recommender System (Fashion)</h3>
+            <p>Two-stage recommendation pipeline combining collaborative filtering and content-based search over 44,072 fashion products, with FAISS + CLIP embeddings for ~10ms vector retrieval and a neural re-ranker. Full-stack React 18 + FastAPI app with 11 REST endpoints; sub-100ms end-to-end latency, 95.4% recommendation diversity, 1-interaction cold-start.</p>
+            <div class="chips">
+              <span class="chip">FastAPI</span><span class="chip">React 18</span><span class="chip">FAISS</span><span class="chip">CLIP Embeddings</span><span class="chip">Collaborative Filtering</span><span class="chip">Matrix Factorization</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/Hybrid-Recommender-System" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
+
+          <article class="card card-hover proj-card reveal d3">
+            <h3 class="card-title">Format Matters: Data Storage Format Impact on ML Training</h3>
+            <p>Benchmarked data formats across CIFAR-10 image training and 1M-row tabular ML workloads, quantifying impact on I/O throughput, load time, and storage efficiency while showing training accuracy stayed format-neutral.</p>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip">PyTorch</span><span class="chip">Systems for ML</span><span class="chip">I/O Optimization</span><span class="chip">Benchmarking</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="research/Format_Matters__An_Empirical_Study_of_Data_Storage_Format_Impact_on_Deep_Learning_Training_Pipelines Final.pdf" target="_blank" rel="noopener">Paper</a>
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/Format-Matters" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- Achievements Section -->
-    <section class="mb-16 fade-in" id="Achievements">
-      <div class="flex items-center mb-8">
-        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center mr-4">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
+    <!-- ===================== SOFTWARE ===================== -->
+    <section class="section-sm" id="software-dev">
+      <div class="container">
+        <div class="sec-head reveal">
+          <span class="syslabel"><span class="accent">03</span></span>
+          <h2 class="h2">Software Development</h2>
+          <span class="count">4 projects</span>
         </div>
-        <div>
-          <h3 class="text-3xl font-bold section-header dark:text-white">Achievements & Publications</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Recognition and awards</p>
+
+        <div class="proj-grid">
+          <article class="card card-hover proj-card reveal">
+            <h3 class="card-title">Chat Application</h3>
+            <p>Simple chat application using React Chat Engine with real-time messaging and authentication.</p>
+            <div class="chips">
+              <span class="chip">React.js</span><span class="chip">React Chat Engine</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/Chat-App" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
+
+          <article class="card card-hover proj-card reveal d1">
+            <h3 class="card-title">WhatNow — Multi-App Wellness Platform</h3>
+            <p>Platform integrating six independent Next.js services (fitness coaching, nutrition planning, skin analysis, restaurant discovery, fitness analytics, community) under a unified opaque-token auth system on ports 3000–3006. MongoDB-backed, Google Gemini for AI features, MediaPipe-pose exercise tracking with rep counting and form feedback. Each service ships its own Dockerfile.</p>
+            <div class="chips">
+              <span class="chip">Next.js</span><span class="chip">TypeScript</span><span class="chip">MongoDB</span><span class="chip">Google Gemini</span><span class="chip">MediaPipe</span><span class="chip">Docker</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/What_Now" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
+
+          <article class="card card-hover proj-card reveal d2">
+            <h3 class="card-title">Smart Expense Calculator</h3>
+            <p>Privacy-first personal-finance desktop app for Windows. Auto-categorizes transactions from bank-statement Excel exports, monitors budgets with real-time alerts, surfaces spending patterns and recurring subscriptions, and renders interactive analytics — all data stays local, no cloud sync. Built with Streamlit, Pandas, and Plotly on Python 3.11.</p>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip">Streamlit</span><span class="chip">Pandas</span><span class="chip">Plotly</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/Finance-App" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
+
+          <article class="card card-hover proj-card reveal d3">
+            <h3 class="card-title">E-Commerce Website</h3>
+            <p>Full-featured e-commerce platform with customer features (browse, cart, secure Stripe checkout, order history) and an admin dashboard (sales analytics, product/order/user management). Built with Next.js 15, TypeScript, Prisma, and NextAuth.js.</p>
+            <div class="chips">
+              <span class="chip">Next.js 15</span><span class="chip">TypeScript</span><span class="chip">Prisma ORM</span><span class="chip">NextAuth.js</span><span class="chip">Stripe</span><span class="chip">Tailwind CSS</span><span class="chip">shadcn/ui</span><span class="chip">SQLite</span>
+            </div>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://github.com/charithcherry/nextjs-ecommerce-platform" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </article>
         </div>
       </div>
-      <div class="space-y-4">
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
-          <h4 class="text-lg font-semibold dark:text-white">Research Publication: Nuclear Fuel Characterization Using Machine Learning</h4>
-          <p class="mt-2 text-sm">Co-authored "Bridging Multimodal Microscopy for Advanced Characterization on Nuclear Fuel Using Machine Learning", published in <strong>Frontiers in Mechanical Engineering – Digital Manufacturing, Vol. 11, 2025</strong>. Demonstrated a transfer-learning deep-learning framework outperforming four state-of-the-art models for cross-scale defect segmentation in nuclear materials.</p>
+    </section>
+
+    <!-- ===================== ACHIEVEMENTS & PUBLICATIONS ===================== -->
+    <section class="section-sm section-alt" id="achievements">
+      <div class="container">
+        <div class="sec-head reveal">
+          <span class="syslabel"><span class="accent">04</span></span>
+          <h2 class="h2">Achievements &amp; Publications</h2>
+          <span class="count">recognition &amp; peer-reviewed work</span>
         </div>
 
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
-          <h4 class="text-lg font-semibold dark:text-white">3rd Place, T9-MediHack 2025 (24hr Hackathon)</h4>
-          <p class="mt-2 text-sm">Awarded for "RePosture AI" project in the AI track. A tool for posture correction using computer vision and real-time feedback.</p>
-        </div>
+        <div class="flow" style="display:grid; gap:var(--sp-4);">
+          <!-- NEW publication (2026) -->
+          <article class="card card-hover list-card reveal">
+            <span class="badge pub-badge">Publication · 2026</span>
+            <h3 class="card-title">Predicting Tensile Properties of Sub-Sized Nuclear Materials Using Data Augmentation Strategies on Imbalanced and Sparse Datasets</h3>
+            <p class="card-meta font-mono">Frontiers in Manufacturing Technology · Vol. 6, 2026 · DOI 10.3389/fmtec.2026.1811951</p>
+            <p>ML framework for predicting tensile properties (yield strength, elongation) of miniaturized SS-316 nuclear specimens from sparse, imbalanced data. GAN + SMOGN data augmentation; Random Forest / XGBoost reached Pearson r &gt; 0.98, establishing guidance for matching augmentation strategy to target property. Co-author, with INL collaborators.</p>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://www.frontiersin.org/journals/manufacturing-technology/articles/10.3389/fmtec.2026.1811951/full" target="_blank" rel="noopener">View Publication</a>
+            </div>
+          </article>
 
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
-          <h4 class="text-lg font-semibold dark:text-white">7th Place, AWS Jam Hackathon - CU Boulder</h4>
-          <p class="mt-2 text-sm">Placed 7th out of 20 teams, solving 9/13 security challenges using AWS services, including Lambda, CloudTrail, DynamoDB, S3, VPC, IAM, and SageMaker.</p>
-        </div>
+          <!-- Existing publication (2025) -->
+          <article class="card card-hover list-card reveal d1">
+            <span class="badge pub-badge">Publication · 2025</span>
+            <h3 class="card-title">Bridging Multimodal Microscopy for Advanced Characterization of Nuclear Fuel Using Machine Learning</h3>
+            <p class="card-meta font-mono">Frontiers in Mechanical Engineering – Digital Manufacturing · Vol. 11, 2025</p>
+            <p>Co-authored work demonstrating a transfer-learning deep-learning framework that outperformed four state-of-the-art models for cross-scale defect segmentation in nuclear materials.</p>
+            <div class="proj-links">
+              <a class="btn btn-quiet btn-sm" href="https://www.frontiersin.org/journals/mechanical-engineering/articles/10.3389/fmech.2025.1619834/abstract" target="_blank" rel="noopener">View Publication</a>
+            </div>
+          </article>
 
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
-          <h4 class="text-lg font-semibold dark:text-white">Best Project of the Year (Computer Science Category)</h4>
-          <p class="mt-2 text-sm">Awarded for the project "Human pose estimation in fitness tracking and guidance" at VTU, Belagavi, August 2022, supported by KSCST.</p>
+          <!-- Awards -->
+          <article class="card card-hover list-card reveal d2">
+            <span class="badge pub-badge">Award</span>
+            <h3 class="card-title">3rd Place — T9-MediHack 2025 (24-hour Hackathon)</h3>
+            <p>Awarded in the AI track for "RePosture AI", a computer-vision tool for posture correction with real-time feedback.</p>
+          </article>
+
+          <article class="card card-hover list-card reveal d3">
+            <span class="badge pub-badge">Award</span>
+            <h3 class="card-title">7th Place — AWS Jam Hackathon, CU Boulder</h3>
+            <p>Placed 7th of 20 teams, solving 9/13 security challenges using AWS services including Lambda, CloudTrail, DynamoDB, S3, VPC, IAM, and SageMaker.</p>
+          </article>
+
+          <article class="card card-hover list-card reveal d4">
+            <span class="badge pub-badge">Award</span>
+            <h3 class="card-title">Best Project of the Year — Computer Science</h3>
+            <p>Awarded for "Human pose estimation in fitness tracking and guidance" at VTU, Belagavi, August 2022, supported by KSCST.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- Extracurricular Section -->
-    <section class="mb-16 fade-in" id="Extracurricular">
-      <div class="flex items-center mb-8">
-        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
-          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
-          </svg>
-        </div>
-        <div>
-          <h3 class="text-3xl font-bold section-header dark:text-white">Extracurricular Activities</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Leadership and community involvement</p>
-        </div>
-      </div>
-      <div class="space-y-4">
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
-          <h4 class="text-lg font-semibold dark:text-white">Teaching Assistant, Distributed Systems - CU Boulder</h4>
-          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Jan 2026 - Present</p>
-          <p class="mt-2 text-sm">Support Prof. Mark Zhao in running the course by holding office hours, assisting with assignment/project design, grading, and helping students debug distributed systems concepts and implementations.</p>
+    <!-- ===================== EXTRACURRICULAR ===================== -->
+    <section class="section-sm" id="extracurricular">
+      <div class="container">
+        <div class="sec-head reveal">
+          <span class="syslabel"><span class="accent">05</span></span>
+          <h2 class="h2">Extracurricular</h2>
+          <span class="count">leadership &amp; community</span>
         </div>
 
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
-          <h4 class="text-lg font-semibold dark:text-white">Technical/Data Consultant, Data Buffs</h4>
-          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Jan 2025 - Present</p>
-          <p class="mt-2 text-sm">Working on data extraction, backend development, and statistical analysis to provide data-driven insights.</p>
-        </div>
+        <div class="grid grid-3">
+          <article class="card card-hover list-card reveal">
+            <h3 class="card-title">Teaching Assistant, Distributed Systems — CU Boulder</h3>
+            <p class="card-meta font-mono">Jan – May 2026</p>
+            <p>Supported Prof. Mark Zhao by holding office hours, assisting with assignment/project design, grading, and helping students debug distributed-systems concepts and implementations.</p>
+          </article>
 
-        <div class="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg dark:text-gray-100">
-          <h4 class="text-lg font-semibold dark:text-white">Co-Founder, Data Science and AI-ML Student Club (Layers)</h4>
-          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Dec 2021 - Present</p>
-          <p class="mt-2 text-sm">Lead Layers Club to promote knowledge sharing, networking, and skill development in Data Science and AI-ML.</p>
+          <article class="card card-hover list-card reveal d1">
+            <h3 class="card-title">Technical / Data Consultant, Data Buffs</h3>
+            <p class="card-meta font-mono">Jan 2025 – Present</p>
+            <p>Data extraction, backend development, and statistical analysis to deliver data-driven insights.</p>
+          </article>
+
+          <article class="card card-hover list-card reveal d2">
+            <h3 class="card-title">Co-Founder, Data Science &amp; AI-ML Student Club (Layers)</h3>
+            <p class="card-meta font-mono">Dec 2021 – Present</p>
+            <p>Lead the Layers Club to promote knowledge sharing, networking, and skill development in data science and AI-ML.</p>
+          </article>
         </div>
       </div>
     </section>
-    </div>
   </main>
 
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+  <!-- ===================== FOOTER (canonical) ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-copy">
+        <span class="mono">© 2026 Charith Purushotham</span> · Built with plain HTML, CSS &amp; JS.
+      </div>
+      <nav class="social-links" aria-label="Social">
+        <a class="social-link" href="https://github.com/charithcherry" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a class="social-link" href="https://www.linkedin.com/in/charith-purushotham-0068281aa/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM8 19H5V8h3v11zM6.5 6.7C5.5 6.7 4.8 6 4.8 5S5.5 3.3 6.5 3.3 8.2 4 8.2 5 7.5 6.7 6.5 6.7zM20 19h-3v-5.6c0-3.4-4-3.1-4 0V19h-3V8h3v1.8c1.4-2.6 7-2.8 7 2.5V19z"/></svg>
+        </a>
+        <a class="social-link" href="mailto:charithcherry1100@gmail.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </a>
+      </nav>
+    </div>
+  </footer>
 
-    // Show correct icon on page load
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      themeToggleLightIcon.classList.remove('hidden');
-    } else {
-      themeToggleDarkIcon.classList.remove('hidden');
-    }
-
-    themeToggleBtn.addEventListener('click', function() {
-      // Toggle icons
-      themeToggleDarkIcon.classList.toggle('hidden');
-      themeToggleLightIcon.classList.toggle('hidden');
-
-      // Toggle dark mode
-      if (document.documentElement.classList.contains('dark')) {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('color-theme', 'light');
-      } else {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('color-theme', 'dark');
-      }
-    });
-
-    // Menu toggle functionality
-    const menuToggle = document.getElementById("menu-toggle");
-    const menu = document.getElementById("menu");
-
-    if (menuToggle && menu) {
-      menuToggle.addEventListener("click", function () {
-        menu.classList.toggle("hidden");
-        menu.classList.toggle("flex");
-        menu.classList.toggle("flex-col");
-        menu.classList.toggle("items-center");
-      });
-    }
-
-    // Smooth scroll function
-    function scrollToSection(sectionId) {
-      const section = document.getElementById(sectionId);
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    // Smoothie hover spotlight — track mouse position per card
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('pointermove', (e) => {
-          const r = card.getBoundingClientRect();
-          card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-          card.style.setProperty('--my', `${e.clientY - r.top}px`);
-        });
-      });
-    });
-  </script>
-
+  <script src="assets/js/site.js"></script>
 </body>
 </html>
