@@ -6,7 +6,7 @@
   <title>Research — Charith Purushotham</title>
   <meta name="description" content="Peer-reviewed publications and in-depth reviews of 22 systems-for-ML papers — distributed training, ML infrastructure, inference serving, and emerging AI systems.">
   <meta name="author" content="Charith Purushotham">
-  <meta name="theme-color" content="#050810">
+  <meta name="theme-color" content="#060a12">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -17,7 +17,7 @@
   <link rel="canonical" href="https://charithcherry.github.io/Portfolio-website/research.html">
 
   <!-- Inline SVG favicon: node-graph glyph (identical on every page) -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050810'/%3E%3Cg stroke='%2322d3ee' stroke-width='1.5' opacity='0.85'%3E%3Cline x1='8' y1='10' x2='16' y2='16'/%3E%3Cline x1='16' y1='16' x2='24' y2='9'/%3E%3Cline x1='16' y1='16' x2='12' y2='24'/%3E%3Cline x1='16' y1='16' x2='23' y2='22'/%3E%3C/g%3E%3Cg fill='%2322d3ee'%3E%3Ccircle cx='8' cy='10' r='2.3'/%3E%3Ccircle cx='24' cy='9' r='2.3'/%3E%3Ccircle cx='12' cy='24' r='2.3'/%3E%3Ccircle cx='23' cy='22' r='2.3'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%238b5cf6'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23060a12'/%3E%3Cg stroke='%232ee6a6' stroke-width='1.5' opacity='0.85'%3E%3Cline x1='8' y1='10' x2='16' y2='16'/%3E%3Cline x1='16' y1='16' x2='24' y2='9'/%3E%3Cline x1='16' y1='16' x2='12' y2='24'/%3E%3Cline x1='16' y1='16' x2='23' y2='22'/%3E%3C/g%3E%3Cg fill='%232ee6a6'%3E%3Ccircle cx='8' cy='10' r='2.3'/%3E%3Ccircle cx='24' cy='9' r='2.3'/%3E%3Ccircle cx='12' cy='24' r='2.3'/%3E%3Ccircle cx='23' cy='22' r='2.3'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%2338c6e6'/%3E%3C/svg%3E">
 
   <!-- FOUC guard: dark is the default aesthetic; respects an explicit light choice / system preference -->
   <script>
@@ -127,13 +127,21 @@
           </p>
         </div>
 
+        <div class="modalities reveal d1" style="margin-top:26px; justify-content:flex-start;">
+          <span class="mod-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/></svg>vision</span>
+          <span class="mod-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 5v14M16 5v14"/></svg>video</span>
+          <span class="mod-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4M8 6v12M12 9v6M16 4v16M20 10v4"/></svg>audio</span>
+          <span class="mod-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>language</span>
+          <span class="mod-cap" style="text-align:left;">Production ML across every modality</span>
+        </div>
+
         <div class="tl-grid reveal d1" style="margin-top:32px;">
           <div class="tl-stat">
             <span class="tl-num"><span data-countup="4">4</span></span>
             <span class="tl-label">peer-reviewed publications</span>
           </div>
           <div class="tl-stat">
-            <span class="tl-num"><span data-countup="9">9</span></span>
+            <span class="tl-num"><span data-countup="12">12</span></span>
             <span class="tl-label">production models tuned &amp; optimized</span>
           </div>
           <div class="tl-stat">
@@ -236,6 +244,15 @@
 
           <article class="card card-hover opt-card reveal d2">
             <div class="oc-head">
+              <h3>TrackNetV5</h3>
+              <span class="oc-metric">F1 95.1 → 99.1</span>
+            </div>
+            <p class="oc-role">ball tracking · pickleball line calling</p>
+            <p class="oc-body">Fine-tuned TrackNetV5 for broadcast ball tracking — F1 climbed from 95.1% to 99.1% — and served it under TensorRT at 120 FPS live, keeping ball detection reliable enough to stand behind on-air in/out calls.</p>
+          </article>
+
+          <article class="card card-hover opt-card reveal d3">
+            <div class="oc-head">
               <h3>SAM 3</h3>
               <span class="oc-metric">FP16</span>
             </div>
@@ -249,7 +266,7 @@
               <span class="oc-metric">60 FPS · 2× RTX 6000</span>
             </div>
             <p class="oc-role">video object tracking</p>
-            <p class="oc-body">Ran the SAM 3 video tracker at 60 FPS across a 2× RTX 6000 setup, keeping temporal tracking real-time on broadcast footage.</p>
+            <p class="oc-body">Ran the SAM 3 video tracker at 60 FPS across a 2× RTX 6000 setup — a 3× throughput gain — keeping temporal tracking real-time on broadcast footage.</p>
           </article>
 
           <article class="card card-hover opt-card reveal">
@@ -268,6 +285,15 @@
             </div>
             <p class="oc-role">pose estimation</p>
             <p class="oc-body">Pose estimation inside the real-time tracking stacks, supplying keypoints that drive trick and metric computation.</p>
+          </article>
+
+          <article class="card card-hover opt-card reveal d2">
+            <div class="oc-head">
+              <h3>ViTPose</h3>
+              <span class="oc-metric">pose · model zoo</span>
+            </div>
+            <p class="oc-role">transformer pose estimation</p>
+            <p class="oc-body">Transformer-based pose estimation in the Triton-hosted broadcast model zoo, feeding athlete keypoints to the trick- and metric-computation stacks alongside the detection and segmentation models.</p>
           </article>
 
           <article class="card card-hover opt-card reveal d1">
@@ -297,13 +323,22 @@
             <p class="oc-body">The detection-and-segmentation backbone of the live pickleball line-calling stack — ball tracking and bounce localization behind the near-perfect on-air in/out calls.</p>
           </article>
 
+          <article class="card card-hover opt-card reveal">
+            <div class="oc-head">
+              <h3>Audio &amp; speech</h3>
+              <span class="oc-metric">crowd-pulse</span>
+            </div>
+            <p class="oc-role">Whisper · SAM Audio · Qwen TTS · VibeVoice</p>
+            <p class="oc-body">Speech and audio models reading venue sound at live events to gauge audience pulse — crowd reaction and excitement signals — from the arena's own soundtrack.</p>
+          </article>
+
           <article class="card card-hover opt-card span-full reveal">
             <div class="oc-head">
               <h3>Distributed GPU data-curation pipeline</h3>
-              <span class="oc-metric">Qwen-3VL · Cosmos · SAM</span>
+              <span class="oc-metric">−90% annotation</span>
             </div>
             <p class="oc-role">applied-ML infrastructure · multi-GPU</p>
-            <p class="oc-body">Orchestrates multimodal models — Qwen-3VL, NVIDIA Cosmos and SAM — across multi-GPU systems with chunked, round-robin inference scheduling, turning raw broadcast footage into training-ready structured signals. It is the data engine feeding every model above.</p>
+            <p class="oc-body">Orchestrates multimodal models — Qwen-3VL, NVIDIA Cosmos, SAM and SAM Audio, plus VLMs that detect and segment action sequences into ground-truth clip datasets — across multi-GPU systems with chunked, round-robin inference scheduling. Auto-labeling cut manual annotation time 90%+, turning raw broadcast footage into training-ready signals for every model above.</p>
             <div class="proj-links">
               <a class="btn btn-quiet btn-sm" href="experience.html">See it in context — Owl AI ↗</a>
             </div>

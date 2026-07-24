@@ -6,7 +6,7 @@
   <title>Experience — Charith Purushotham</title>
   <meta name="description" content="Machine Learning Engineer at Owl AI shipping real-time computer-vision systems to live sports broadcast — MLP pickleball line calling, X Games trick tracking — plus research at Idaho National Laboratory and prior ML/data roles.">
   <meta name="author" content="Charith Purushotham">
-  <meta name="theme-color" content="#050810">
+  <meta name="theme-color" content="#060a12">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -17,7 +17,7 @@
   <link rel="canonical" href="https://charithcherry.github.io/Portfolio-website/experience.html">
 
   <!-- Inline SVG favicon: node-graph glyph (identical on every page) -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050810'/%3E%3Cg stroke='%2322d3ee' stroke-width='1.5' opacity='0.85'%3E%3Cline x1='8' y1='10' x2='16' y2='16'/%3E%3Cline x1='16' y1='16' x2='24' y2='9'/%3E%3Cline x1='16' y1='16' x2='12' y2='24'/%3E%3Cline x1='16' y1='16' x2='23' y2='22'/%3E%3C/g%3E%3Cg fill='%2322d3ee'%3E%3Ccircle cx='8' cy='10' r='2.3'/%3E%3Ccircle cx='24' cy='9' r='2.3'/%3E%3Ccircle cx='12' cy='24' r='2.3'/%3E%3Ccircle cx='23' cy='22' r='2.3'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%238b5cf6'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23060a12'/%3E%3Cg stroke='%232ee6a6' stroke-width='1.5' opacity='0.85'%3E%3Cline x1='8' y1='10' x2='16' y2='16'/%3E%3Cline x1='16' y1='16' x2='24' y2='9'/%3E%3Cline x1='16' y1='16' x2='12' y2='24'/%3E%3Cline x1='16' y1='16' x2='23' y2='22'/%3E%3C/g%3E%3Cg fill='%232ee6a6'%3E%3Ccircle cx='8' cy='10' r='2.3'/%3E%3Ccircle cx='24' cy='9' r='2.3'/%3E%3Ccircle cx='12' cy='24' r='2.3'/%3E%3Ccircle cx='23' cy='22' r='2.3'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%2338c6e6'/%3E%3C/svg%3E">
 
   <!-- FOUC guard -->
   <script>
@@ -209,6 +209,7 @@
           <div class="cs-head">
             <div>
               <span class="badge">Machine Learning Engineer</span>
+              <span class="badge" style="margin-left:8px;">Third engineer · founding team</span>
               <h2 class="cs-role" id="owl-h">Owl AI</h2>
               <p class="card-meta">Boulder, CO · Sep 2025 – Present</p>
             </div>
@@ -218,6 +219,9 @@
           <p class="lead measure" style="margin-top:var(--sp-5);">
             Real-time computer-vision systems for live sports broadcasts. A wrong call goes out
             to a national audience in seconds — so reliability engineering is the whole job.
+            We run the platform as GCP microservices on Cloud Run backed by dedicated GPU
+            infrastructure for Fox Sports broadcast, with a Triton-hosted model zoo — RF-DETR,
+            ViTPose, SAM 3.1 and TrackNetV5 — feeding a 7-camera, 240 FPS SRT inference pipeline.
           </p>
 
           <div class="cs-pipe-wrap">
@@ -239,7 +243,18 @@
                 <h3 class="card-title">Pickleball · line calling</h3>
                 <span class="status status-live"><span class="dot dot-live"></span> Live</span>
               </div>
-              <p class="card-meta">Major League Pickleball · PickleballTV · FOX · YouTube</p>
+              <span class="org-badge">Major League Pickleball · MLP</span>
+              <p class="card-meta">PickleballTV · FOX · YouTube</p>
+              <svg class="sportviz sv-pickle" viewBox="0 0 300 128" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+                <rect class="vz-frame" x="20" y="26" width="260" height="76" rx="3"/>
+                <line class="vz-frame" x1="150" y1="26" x2="150" y2="102"/>
+                <line class="vz-frame" x1="20" y1="82" x2="280" y2="82" stroke-dasharray="4 4"/>
+                <path class="sv-arc sv-anim sv-fade" d="M46 92 Q150 6 236 80"/>
+                <rect class="sv-box sv-anim sv-pop" x="222" y="66" width="28" height="28" rx="2"/>
+                <circle class="sv-ball sv-anim sv-pop" cx="236" cy="80" r="4"/>
+                <path class="sv-check sv-anim sv-fade" d="M260 42 l6 7 l12 -16"/>
+                <text class="sv-in sv-anim sv-fade" x="252" y="34">IN</text>
+              </svg>
               <div class="tl-grid">
                 <div class="tl-stat">
                   <span class="tl-num"><span data-countup="240">240</span><span class="unit">FPS</span></span>
@@ -257,6 +272,10 @@
                   <span class="tl-num">10→2<span class="unit">s</span></span>
                   <span class="tl-label">Godot graphic render</span>
                 </div>
+                <div class="tl-stat">
+                  <span class="tl-num">95.1→99.1<span class="unit">F1</span></span>
+                  <span class="tl-label">TrackNetV5 fine-tune · 120 FPS TensorRT</span>
+                </div>
               </div>
               <p class="sc-desc">
                 Live match line calling for Major League Pickleball, aired on PickleballTV, FOX and
@@ -264,10 +283,14 @@
                 GPU-optimized reads; the system returns a definitive in/out call within 5–10 seconds —
                 including how close the bounce was to the line — with the on-air graphic rendered in Godot,
                 where I rebuilt the render path to cut MP4 latency from 10 s to 2 s so replays hit the
-                broadcast almost the moment the call is made. Near-perfect measured line-call accuracy to date.
+                broadcast almost the moment the call is made. I fine-tuned TrackNetV5 for ball tracking —
+                lifting F1 from 95.1% to 99.1% and serving it under TensorRT at 120 FPS live — and trained
+                a 2D monocular trajectory model on 1M+ Godot-generated synthetic samples that resolves ball
+                position to under 4 px of error. Near-perfect measured line-call accuracy to date.
               </p>
               <div class="chips">
-                <span class="chip">GStreamer</span><span class="chip">SAM</span>
+                <span class="chip">GStreamer</span><span class="chip">TrackNetV5</span>
+                <span class="chip">TensorRT</span><span class="chip">SAM</span>
                 <span class="chip">RF-DETR</span><span class="chip">YOLO</span>
                 <span class="chip">Sapiens</span><span class="chip">Godot</span>
               </div>
@@ -279,7 +302,15 @@
                 <h3 class="card-title">Skateboarding · trick tracking</h3>
                 <span class="status status-live"><span class="dot dot-live"></span> Live</span>
               </div>
-              <p class="card-meta">X Games · Sacramento · Chiba · New Orleans</p>
+              <span class="org-badge">X Games</span>
+              <p class="card-meta">Sacramento · Chiba · New Orleans</p>
+              <svg class="sportviz sv-skate" viewBox="0 0 300 128" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+                <line class="vz-frame" x1="16" y1="72" x2="284" y2="72"/>
+                <path class="sv-arc sv-anim sv-draw" d="M42 72 Q150 -6 258 72"/>
+                <circle class="sv-ball sv-anim sv-pop" cx="150" cy="24" r="4.5"/>
+                <path class="sv-prob sv-anim sv-fade" d="M42 122 C112 122 122 92 150 92 C178 92 188 122 258 122"/>
+                <text class="sv-lbl sv-anim sv-fade" x="42" y="18">airtime probability</text>
+              </svg>
               <div class="tl-grid">
                 <div class="tl-stat">
                   <span class="tl-num"><span data-countup="98">98</span><span class="unit">%</span></span>
@@ -311,7 +342,14 @@
                 <h3 class="card-title">Snowboarding · trick metrics</h3>
                 <span class="status status-live"><span class="dot dot-live"></span> Live</span>
               </div>
-              <p class="card-meta">X Games Aspen 2026</p>
+              <span class="org-badge">X Games</span>
+              <p class="card-meta">Aspen 2026</p>
+              <svg class="sportviz sv-snow" viewBox="0 0 300 128" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+                <circle class="sv-ringbg" cx="150" cy="62" r="42"/>
+                <circle class="sv-ring sv-anim" cx="150" cy="62" r="42" transform="rotate(-90 150 62)"/>
+                <text class="sv-num sv-anim sv-fade" x="150" y="68" text-anchor="middle" style="font-size:21px">1080°</text>
+                <text class="sv-lbl sv-anim sv-fade" x="150" y="122" text-anchor="middle">total rotation</text>
+              </svg>
               <div class="tl-grid">
                 <div class="tl-stat">
                   <span class="tl-num">45→68<span class="unit">FPS</span></span>
@@ -320,6 +358,10 @@
                 <div class="tl-stat">
                   <span class="tl-num">360°<span class="unit">+</span></span>
                   <span class="tl-label">total-rotation stats</span>
+                </div>
+                <div class="tl-stat">
+                  <span class="tl-num">2.5<span class="unit">pt MAE</span></span>
+                  <span class="tl-label">run-scoring MoE model</span>
                 </div>
               </div>
               <p class="sc-desc">
@@ -330,15 +372,23 @@
                 that the rider is airborne, which cleanly delimits trick start and end; I optimized it from
                 45 to 68 FPS, keeping tricks real-time on the same judging console as skateboarding, where
                 they appear the instant they finish. Training and evaluation on large-scale X Games video is
-                tracked in MLflow for reproducible, regression-safe iteration, and Bayesian/MCMC models
-                estimate event scores and podium probability from trick metrics and athlete form — turning
-                raw numbers into commentator-facing talking points. LLM agents automate labeling and data QA
+                tracked in MLflow for reproducible, regression-safe iteration. On top of the trick metrics we
+                ship a live broadcast ML trio — Run Difficulty, Podium Probability and Run Scoring — where a
+                Monte Carlo simulation and a run-scoring mixture-of-experts model (2.5-point MAE) turn raw
+                numbers into commentator-facing talking points. LLM agents automate labeling and data QA
                 to keep the dataset flowing.
               </p>
+              <div class="media-panel">
+                <video data-ambient muted loop playsinline preload="metadata" poster="assets/media/aspen-snowboard-poster.jpg">
+                  <source src="assets/media/aspen-snowboard.mp4" type="video/mp4">
+                </video>
+                <div class="media-cap">X Games Aspen 2026 — competition footage</div>
+              </div>
               <div class="chips">
                 <span class="chip">custom temporal model</span><span class="chip">MediaMTX/SRT</span>
-                <span class="chip">MLflow</span><span class="chip">Bayesian/MCMC</span>
-                <span class="chip">LLM agents</span><span class="chip">judging console</span>
+                <span class="chip">MLflow</span><span class="chip">Monte Carlo</span>
+                <span class="chip">run-scoring MoE</span><span class="chip">LLM agents</span>
+                <span class="chip">judging console</span>
               </div>
             </article>
 
@@ -348,7 +398,18 @@
                 <h3 class="card-title">Tennis · rally segmentation</h3>
                 <span class="status"><span class="dot dot-cyan"></span> Shipped</span>
               </div>
-              <p class="card-meta">Coaching tool</p>
+              <span class="org-badge">ATP</span>
+              <p class="card-meta">Coaching workflow</p>
+              <svg class="sportviz sv-tennis" viewBox="0 0 300 128" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+                <line class="vz-frame" x1="20" y1="64" x2="280" y2="64"/>
+                <rect class="sv-seg sv-anim sv-fade" x="24" y="54" width="30" height="20" rx="3"/>
+                <rect class="sv-seg on sv-anim sv-pop" x="60" y="48" width="46" height="32" rx="3"/>
+                <rect class="sv-seg sv-anim sv-fade" x="112" y="54" width="22" height="20" rx="3"/>
+                <rect class="sv-seg on sv-anim sv-pop" x="140" y="48" width="54" height="32" rx="3"/>
+                <rect class="sv-seg sv-anim sv-fade" x="200" y="54" width="18" height="20" rx="3"/>
+                <rect class="sv-seg on sv-anim sv-pop" x="224" y="48" width="52" height="32" rx="3"/>
+                <text class="sv-lbl sv-anim sv-fade" x="20" y="100">hours of practice → rallies isolated</text>
+              </svg>
               <div class="tl-grid">
                 <div class="tl-stat">
                   <span class="tl-num"><span data-countup="90">90</span><span class="unit">min</span></span>
@@ -377,7 +438,27 @@
                 <h3 class="card-title">Basketball · live dunk-show metrics</h3>
                 <span class="status status-wip"><span class="dot dot-amber"></span> In progress</span>
               </div>
-              <p class="card-meta">Live dunk-contest production</p>
+              <span class="org-badge">Dunk Man</span>
+              <p class="card-meta">Live dunk-show production</p>
+              <svg class="sportviz sv-hoop" viewBox="0 0 300 128" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+                <!-- ground -->
+                <line class="vz-frame" x1="18" y1="106" x2="282" y2="106"/>
+                <!-- backboard + rim (right) -->
+                <line class="vz-frame" x1="256" y1="26" x2="256" y2="78" style="stroke:var(--text-faint)"/>
+                <path class="vz-frame" d="M222 58 h34" style="stroke:var(--text-faint);stroke-width:2"/>
+                <path class="vz-frame" d="M228 58 l3 11 M240 58 v11 M252 58 l-3 11" style="stroke:var(--text-faint);opacity:.5"/>
+                <!-- dunker trajectory arc rising to the rim -->
+                <path class="sv-arc sv-anim sv-draw" d="M46 106 Q126 -6 232 56"/>
+                <!-- peak-height marker -->
+                <line class="sv-anim sv-fade" x1="46" y1="34" x2="132" y2="34" style="stroke:var(--accent);stroke-dasharray:3 4;stroke-width:1.4"/>
+                <circle class="sv-ball sv-anim sv-pop" cx="132" cy="34" r="4.5"/>
+                <text class="sv-lbl sv-anim sv-fade" x="46" y="26">peak height</text>
+                <!-- power pulse ring on impact at the rim -->
+                <circle class="sv-ringpulse sv-anim sv-pop" cx="239" cy="58" r="10"/>
+                <circle class="sv-ringpulse sv-anim sv-pulse" cx="239" cy="58" r="10"/>
+                <circle class="sv-dot sv-anim sv-pop" cx="239" cy="58" r="3"/>
+                <text class="sv-lbl sv-anim sv-fade" x="212" y="92">dunk power</text>
+              </svg>
               <div class="tl-grid">
                 <div class="tl-stat">
                   <span class="tl-num"><span data-countup="61">61</span><span class="unit">FPS</span></span>
@@ -419,6 +500,10 @@
                   <span class="tl-label">orchestrated models</span>
                 </div>
                 <div class="tl-stat">
+                  <span class="tl-num">−90<span class="unit">%</span></span>
+                  <span class="tl-label">manual annotation time</span>
+                </div>
+                <div class="tl-stat">
                   <span class="tl-num">multi-GPU</span>
                   <span class="tl-label">round-robin scheduling</span>
                 </div>
@@ -426,21 +511,25 @@
               <p class="sc-desc">
                 Built the distributed GPU data-curation pipeline that turns raw broadcast footage into the
                 training-ready signals every model above learns from. It orchestrates multimodal models —
-                Qwen-3VL, NVIDIA Cosmos and SAM — to detect events, segment scenes and extract structured
-                labels, using chunked, round-robin inference scheduling to keep multi-GPU systems saturated.
-                Without it, none of the sport models would have data to train on — it is the engine behind
-                the whole broadcast stack.
+                Qwen-3VL, NVIDIA Cosmos, SAM and SAM Audio, plus VLMs that detect and segment action
+                sequences into ground-truth clip datasets — using chunked, round-robin inference scheduling
+                to keep multi-GPU systems saturated. Auto-labeling cut manual annotation time by 90%+, so the
+                team stopped hand-scrubbing footage and the models never run short of training data —
+                the engine behind the whole broadcast stack. On the audio side, speech and sound models
+                (Whisper, SAM Audio, Qwen TTS, VibeVoice) mine venue sound to read the crowd's pulse —
+                reaction and excitement signals straight from the arena.
               </p>
               <div class="chips">
                 <span class="chip">Qwen-3VL</span><span class="chip">NVIDIA Cosmos</span>
-                <span class="chip">SAM</span><span class="chip">multi-GPU</span>
-                <span class="chip">data curation</span>
+                <span class="chip">SAM</span><span class="chip">SAM Audio</span>
+                <span class="chip">Whisper</span><span class="chip">VibeVoice</span>
+                <span class="chip">VLM auto-labeling</span><span class="chip">multi-GPU</span>
               </div>
             </article>
 
             <!-- Diving -->
             <div class="diving-line">
-              <span class="dot dot-amber"></span>
+              <span class="org-badge">World Aquatics</span>
               <span><span class="card-title">Diving</span> — measuring dive distance from the springboard/platform. Early work.</span>
             </div>
           </div>

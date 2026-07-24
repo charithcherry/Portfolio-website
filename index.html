@@ -6,7 +6,7 @@
   <title>Charith Purushotham — Machine Learning Engineer @ Owl AI</title>
   <meta name="description" content="Machine Learning Engineer at Owl AI building real-time computer-vision systems that run live on broadcast TV — pickleball line calling for MLP, X Games trick tracking, and more.">
   <meta name="author" content="Charith Purushotham">
-  <meta name="theme-color" content="#050810">
+  <meta name="theme-color" content="#060a12">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -17,7 +17,7 @@
   <link rel="canonical" href="https://charithcherry.github.io/Portfolio-website/index.html">
 
   <!-- Inline SVG favicon: node-graph glyph -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050810'/%3E%3Cg stroke='%2322d3ee' stroke-width='1.5' opacity='0.85'%3E%3Cline x1='8' y1='10' x2='16' y2='16'/%3E%3Cline x1='16' y1='16' x2='24' y2='9'/%3E%3Cline x1='16' y1='16' x2='12' y2='24'/%3E%3Cline x1='16' y1='16' x2='23' y2='22'/%3E%3C/g%3E%3Cg fill='%2322d3ee'%3E%3Ccircle cx='8' cy='10' r='2.3'/%3E%3Ccircle cx='24' cy='9' r='2.3'/%3E%3Ccircle cx='12' cy='24' r='2.3'/%3E%3Ccircle cx='23' cy='22' r='2.3'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%238b5cf6'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23060a12'/%3E%3Cg stroke='%232ee6a6' stroke-width='1.5' opacity='0.85'%3E%3Cline x1='8' y1='10' x2='16' y2='16'/%3E%3Cline x1='16' y1='16' x2='24' y2='9'/%3E%3Cline x1='16' y1='16' x2='12' y2='24'/%3E%3Cline x1='16' y1='16' x2='23' y2='22'/%3E%3C/g%3E%3Cg fill='%232ee6a6'%3E%3Ccircle cx='8' cy='10' r='2.3'/%3E%3Ccircle cx='24' cy='9' r='2.3'/%3E%3Ccircle cx='12' cy='24' r='2.3'/%3E%3Ccircle cx='23' cy='22' r='2.3'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='3' fill='%2338c6e6'/%3E%3C/svg%3E">
 
   <!-- FOUC guard: dark is the default aesthetic; respects an explicit light choice / system preference -->
   <script>
@@ -127,6 +127,9 @@
           ball tracking, trick metrics, and instant officiating delivered to national audiences
           in seconds.
         </p>
+        <p class="small muted font-mono reveal d3" style="max-width:64ch; margin:-14px 0 28px;">
+          Third engineer on the founding team at Owl AI — live on X Games broadcasts and Fox Sports MLP pickleball coverage (PickleballTV, FOX &amp; YouTube).
+        </p>
         <div class="btn-row reveal d4">
           <a class="btn btn-primary" href="experience.html">
             View Experience
@@ -144,6 +147,19 @@
       </div>
     </section>
 
+    <!-- ===================== MODALITIES ===================== -->
+    <section class="section-sm" aria-label="Modalities shipped to production">
+      <div class="container">
+        <div class="modalities reveal">
+          <span class="mod-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/></svg>vision</span>
+          <span class="mod-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 5v14M16 5v14"/></svg>video</span>
+          <span class="mod-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4M8 6v12M12 9v6M16 4v16M20 10v4"/></svg>audio</span>
+          <span class="mod-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>language</span>
+          <span class="mod-cap">Production ML across every modality</span>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== LIVE SYSTEMS ===================== -->
     <section class="section section-alt" aria-labelledby="live-h">
       <div class="container">
@@ -156,17 +172,54 @@
           </p>
         </div>
 
-        <!-- pipeline motif -->
-        <div class="pipe reveal d1" style="margin:28px 0 36px;" aria-label="Pipeline: broadcast camera to GStreamer to GPU inference to Godot graphic to live TV">
-          <span class="pipe-node"><span class="dot"></span>broadcast camera</span>
-          <span class="pipe-conn" aria-hidden="true"></span>
-          <span class="pipe-node"><span class="dot"></span>GStreamer</span>
-          <span class="pipe-conn" aria-hidden="true"></span>
-          <span class="pipe-node"><span class="dot"></span>GPU inference</span>
-          <span class="pipe-conn" aria-hidden="true"></span>
-          <span class="pipe-node"><span class="dot"></span>Godot graphic</span>
-          <span class="pipe-conn" aria-hidden="true"></span>
-          <span class="pipe-node"><span class="dot"></span>live TV</span>
+        <!-- scroll-driven pipeline story -->
+        <div class="scrollstory" id="scrollstory" aria-label="From broadcast camera to live TV: how a line call reaches air in seconds">
+          <div class="ss-sticky">
+            <div class="ss-inner">
+              <div class="ss-topline">
+                <span class="ss-kicker font-mono">// the path to air</span>
+                <span class="ss-counter font-mono"><span class="ss-idx">01</span> / 05</span>
+              </div>
+              <div class="ss-rail" aria-hidden="true">
+                <div class="ss-line"><span class="ss-line-fill"></span></div>
+                <span class="ss-packet"></span>
+                <div class="ss-stages">
+                  <div class="ss-stage is-active" data-i="0">
+                    <span class="ss-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg></span>
+                    <span class="ss-name">broadcast camera</span>
+                    <span class="ss-micro">240 FPS · 7 cameras</span>
+                  </div>
+                  <div class="ss-stage" data-i="1">
+                    <span class="ss-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3l2-7 4 14 2-7h4"/><path d="M18 8l3 3-3 3"/></svg></span>
+                    <span class="ss-name">GStreamer ingest</span>
+                    <span class="ss-micro">SRT · GPU reads</span>
+                  </div>
+                  <div class="ss-stage" data-i="2">
+                    <span class="ss-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="10" y="10" width="4" height="4"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></span>
+                    <span class="ss-name">GPU inference</span>
+                    <span class="ss-micro">Triton model zoo</span>
+                  </div>
+                  <div class="ss-stage" data-i="3">
+                    <span class="ss-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+                    <span class="ss-name">Godot graphic</span>
+                    <span class="ss-micro">in/out + proximity to line</span>
+                  </div>
+                  <div class="ss-stage" data-i="4">
+                    <span class="ss-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 3l4 4 4-4"/></svg></span>
+                    <span class="ss-name">live TV</span>
+                    <span class="ss-micro">5–10 s to air</span>
+                  </div>
+                </div>
+              </div>
+              <div class="ss-caption-wrap">
+                <p class="ss-caption is-active" data-i="0">Seven broadcast cameras feed the system at <b>240 frames per second</b> over an SRT link.</p>
+                <p class="ss-caption" data-i="1"><b>GStreamer</b> ingests every stream with GPU-optimized reads — nothing dropped on the way in.</p>
+                <p class="ss-caption" data-i="2">A Triton-hosted <b>model zoo</b> — RF-DETR, TrackNetV5, SAM — tracks the ball and pinpoints the bounce.</p>
+                <p class="ss-caption" data-i="3">The verdict — <b>in or out, and how close to the line</b> — is rendered as a broadcast graphic in Godot.</p>
+                <p class="ss-caption" data-i="4">The call hits the national broadcast <b>within 5–10 seconds</b> of the bounce.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="live-strip">
@@ -176,6 +229,7 @@
               <h3 class="card-title">Pickleball · line calling</h3>
               <span class="status status-live"><span class="dot dot-live"></span> Live</span>
             </div>
+            <span class="org-badge">Major League Pickleball · MLP</span>
             <div class="tl-stat lc-stat">
               <span class="tl-num"><span data-countup="100" data-prefix="~" data-suffix="">~100</span><span class="unit">%</span></span>
               <span class="tl-label">measured line-call accuracy</span>
@@ -183,7 +237,8 @@
             <p class="lc-desc">Definitive in/out calls for Major League Pickleball on PickleballTV, FOX &amp; YouTube — delivered within 5–10 seconds of the bounce.</p>
             <div class="chips">
               <span class="chip">GStreamer</span><span class="chip">240 FPS</span>
-              <span class="chip">SAM</span><span class="chip">RF-DETR</span><span class="chip">Godot</span>
+              <span class="chip">TrackNetV5</span><span class="chip">SAM</span>
+              <span class="chip">RF-DETR</span><span class="chip">Godot</span>
             </div>
           </article>
 
@@ -193,6 +248,7 @@
               <h3 class="card-title">Skateboarding · trick tracking</h3>
               <span class="status status-live"><span class="dot dot-live"></span> Live</span>
             </div>
+            <span class="org-badge">X Games</span>
             <div class="tl-stat lc-stat">
               <span class="tl-num"><span data-countup="98">98</span><span class="unit">%</span></span>
               <span class="tl-label">trick-tracking accuracy · X Games</span>
@@ -210,6 +266,7 @@
               <h3 class="card-title">Snowboarding · trick metrics</h3>
               <span class="status status-live"><span class="dot dot-live"></span> Live</span>
             </div>
+            <span class="org-badge">X Games</span>
             <div class="tl-stat lc-stat">
               <span class="tl-num">Aspen <span class="unit">'26</span></span>
               <span class="tl-label">X Games · total-rotation stats</span>
@@ -226,6 +283,7 @@
               <h3 class="card-title">Basketball · dunk metrics</h3>
               <span class="status status-wip"><span class="dot dot-amber"></span> In progress</span>
             </div>
+            <span class="org-badge">Dunk Man</span>
             <div class="tl-stat lc-stat">
               <span class="tl-num"><span data-countup="61">61</span><span class="unit">FPS</span></span>
               <span class="tl-label">optimized from 45 FPS · accuracy held</span>
@@ -242,6 +300,7 @@
               <h3 class="card-title">Tennis · rally segmentation</h3>
               <span class="status"><span class="dot dot-cyan"></span> Shipped</span>
             </div>
+            <span class="org-badge">ATP</span>
             <div class="tl-stat lc-stat">
               <span class="tl-num"><span data-countup="90">90</span><span class="unit">min</span></span>
               <span class="tl-label">from 10-hour practice sessions</span>
@@ -320,11 +379,13 @@
 
       function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
       function palette() {
+        // Theme-aware: aurora green/teal nodes on deep space, ink/vermillion on paper.
+        // Re-read every frame so a live theme toggle recolors instantly.
         var dark = document.documentElement.classList.contains('dark');
         return {
-          node: dark ? 'rgba(34,211,238,0.9)' : 'rgba(8,145,178,0.75)',
-          line: dark ? 'rgba(120,140,180,' : 'rgba(30,60,90,',
-          violet: dark ? 'rgba(139,92,246,0.9)' : 'rgba(124,58,237,0.8)'
+          node:   dark ? 'rgba(46,230,166,0.9)'  : 'rgba(217,45,63,0.7)',   // --accent
+          line:   dark ? 'rgba(110,225,195,'     : 'rgba(28,25,20,',        // faint links
+          violet: dark ? 'rgba(56,198,230,0.9)'  : 'rgba(160,24,36,0.85)'   // hub: teal / deep red
         };
       }
 

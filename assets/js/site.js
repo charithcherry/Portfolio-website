@@ -126,3 +126,130 @@
     boot();
   }
 })();
+
+/* =========================================================================
+   site.js — visual-experience additions (redesign-v2).
+   Scroll-story pipeline, sport-illustration reveals, ambient video,
+   hero parallax. Separate IIFE, additive, all no-op safe.
+   ========================================================================= */
+(function () {
+  'use strict';
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Scroll-story pipeline (index) ------------------------------ */
+  function initScrollStory() {
+    var sec = document.getElementById('scrollstory');
+    if (!sec) return;
+    var stages = [].slice.call(sec.querySelectorAll('.ss-stage'));
+    var caps = [].slice.call(sec.querySelectorAll('.ss-caption'));
+    var packet = sec.querySelector('.ss-packet');
+    var fill = sec.querySelector('.ss-line-fill');
+    var idxEl = sec.querySelector('.ss-idx');
+    if (!stages.length) return;
+    var n = stages.length;
+
+    if (reduceMotion) {
+      stages.forEach(function (s) { s.classList.add('is-active'); });
+      caps.forEach(function (c) { c.classList.add('is-active'); });
+      return;
+    }
+
+    var vertMQ = window.matchMedia('(max-width: 680px)');
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var rect = sec.getBoundingClientRect();
+      var total = rect.height - window.innerHeight;
+      var p = total > 0 ? (-rect.top) / total : 0;
+      p = Math.max(0, Math.min(1, p));
+      var active = Math.round(p * (n - 1));
+      if (active < 0) active = 0; if (active > n - 1) active = n - 1;
+      stages.forEach(function (s, i) {
+        s.classList.toggle('is-active', i === active);
+        s.classList.toggle('is-done', i < active);
+      });
+      caps.forEach(function (c, i) { c.classList.toggle('is-active', i === active); });
+      if (idxEl) idxEl.textContent = ('0' + (active + 1)).slice(-2);
+      var pct = 10 + p * 80;
+      if (vertMQ.matches) {
+        packet.style.left = ''; packet.style.top = pct + '%';
+        fill.style.width = ''; fill.style.height = (pct - 10) + '%';
+      } else {
+        packet.style.top = ''; packet.style.left = pct + '%';
+        fill.style.height = ''; fill.style.width = (pct - 10) + '%';
+      }
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+  }
+
+  /* ---------- Sport illustration reveals (experience) -------------------- */
+  function initSportViz() {
+    var vizzes = [].slice.call(document.querySelectorAll('.sportviz'));
+    if (!vizzes.length) return;
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      vizzes.forEach(function (v) { v.classList.add('viz-in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('viz-in');
+        obs.unobserve(e.target);
+      });
+    }, { threshold: 0.35 });
+    vizzes.forEach(function (v) { io.observe(v); });
+  }
+
+  /* ---------- Ambient video (pause off-screen, respect save-data) -------- */
+  function initAmbientVideo() {
+    var vids = [].slice.call(document.querySelectorAll('video[data-ambient]'));
+    if (!vids.length) return;
+    var conn = navigator.connection || navigator.webkitConnection;
+    var saveData = !!(conn && conn.saveData);
+    vids.forEach(function (v) {
+      if (reduceMotion || saveData) { v.pause(); return; } // poster only
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); }
+            else { v.pause(); }
+          });
+        }, { threshold: 0.25 });
+        io.observe(v);
+      } else {
+        var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+      }
+    });
+  }
+
+  /* ---------- Hero background parallax (<=20px translate) ---------------- */
+  function initParallax() {
+    if (reduceMotion) return;
+    var heroes = [].slice.call(document.querySelectorAll('.page-hero, .home-hero'));
+    if (!heroes.length) return;
+    var ticking = false;
+    function upd() {
+      ticking = false;
+      var y = window.scrollY || window.pageYOffset || 0;
+      var py = Math.max(-20, Math.min(20, y * 0.08));
+      heroes.forEach(function (h) { h.style.setProperty('--par', py.toFixed(1) + 'px'); });
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
+    upd();
+  }
+
+  function boot() {
+    initScrollStory();
+    initSportViz();
+    initAmbientVideo();
+    initParallax();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
