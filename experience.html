@@ -134,6 +134,11 @@
 
     .pub-links { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-4); }
 
+    /* collapsible media: reuse xp-more summary styling, tuck the panel in */
+    details.media-details { border-top: none; padding-top: 0; margin-top: var(--sp-3); }
+    details.media-details .media-panel { margin-top: var(--sp-3); }
+    details.media-details[open] > summary .more-label::after { content: ' — hide'; }
+
     @media (max-width: 520px) {
       .sport-grid { grid-template-columns: 1fr; }
     }
@@ -288,11 +293,14 @@
                 a 2D monocular trajectory model on 1M+ Godot-generated synthetic samples that resolves ball
                 position to under 4 px of error. Near-perfect measured line-call accuracy to date.
               </p>
-              <div class="media-panel">
-                <img src="assets/media/pickleball.jpg" loading="lazy" width="1136" height="938"
-                     alt="MLP broadcast line call: a rally frame captioned 'Out. Right?', the zoomed view that 'Looks out.', and Owl's 3D court reconstruction showing the ball caught the line — 'Blink. OWL won't.'">
-                <div class="media-cap">Major League Pickleball — a line call the eye gets wrong, resolved by Owl's 3D reconstruction</div>
-              </div>
+              <details class="xp-more media-details">
+                <summary><span class="more-label">See the line call — "Out. Right?"</span></summary>
+                <div class="media-panel">
+                  <img src="assets/media/pickleball.jpg" loading="lazy" width="1136" height="938"
+                       alt="MLP broadcast line call: a rally frame captioned 'Out. Right?', the zoomed view that 'Looks out.', and Owl's 3D court reconstruction showing the ball caught the line — 'Blink. OWL won't.'">
+                  <div class="media-cap">Major League Pickleball — a line call the eye gets wrong, resolved by Owl's 3D reconstruction</div>
+                </div>
+              </details>
               <div class="chips">
                 <span class="chip">GStreamer</span><span class="chip">TrackNetV5</span>
                 <span class="chip">TensorRT</span><span class="chip">SAM</span>
@@ -383,12 +391,15 @@
                 numbers into commentator-facing talking points. LLM agents automate labeling and data QA
                 to keep the dataset flowing.
               </p>
-              <div class="media-panel">
-                <video data-ambient muted loop playsinline preload="metadata" poster="assets/media/aspen-snowboard-poster.jpg">
-                  <source src="assets/media/aspen-snowboard.mp4" type="video/mp4">
-                </video>
-                <div class="media-cap">X Games Aspen 2026 — competition footage</div>
-              </div>
+              <details class="xp-more media-details">
+                <summary><span class="more-label">Watch — X Games Aspen 2026 footage</span></summary>
+                <div class="media-panel">
+                  <video data-ambient muted loop playsinline preload="metadata" poster="assets/media/aspen-snowboard-poster.jpg">
+                    <source src="assets/media/aspen-snowboard.mp4" type="video/mp4">
+                  </video>
+                  <div class="media-cap">X Games Aspen 2026 — competition footage</div>
+                </div>
+              </details>
               <div class="chips">
                 <span class="chip">custom temporal model</span><span class="chip">MediaMTX/SRT</span>
                 <span class="chip">MLflow</span><span class="chip">Monte Carlo</span>
